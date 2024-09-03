@@ -1,0 +1,83 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title> __MSG_extName__ </title>
+<link href="Q.js/ui.css" rel="stylesheet" type="text/css"/>
+<link href="tagname.css" rel="stylesheet" type="text/css"/>
+<link href="wayixia.css" rel="stylesheet" type="text/css"/>
+<link href="album_player/album_player.css" rel="stylesheet" type="text/css"/>
+<script src="Q.js/Q.debug.js"></script>
+<script src="Q.js/src/imagesbox.js"></script>
+<script src="tracker.js"></script>
+<script src="i18n.js"></script>
+<script src="ui.js"></script>
+<script src="urls_filter.js"></script>
+<script src="album_player/album_player.js"></script>
+<script src="display.js"></script>
+</head>
+<body style="-moz-user-select:none;-webkit-user-select: none;">
+<div id="wayixia-title-bar">
+  __MSG_extShortName__     
+  <font style="color: #999;font-size: 16px;"> 
+    __MSG_extDescription__ 
+  </font>
+  <div id="wayixia-user-menu">
+    <button id="wayixia-close"> 
+      __MSG_extCloseWindow__
+    </button>
+    <button id="wayixia-donate">__MSG_btnDonate__</button>
+    <button id="wayixia-help">
+      __MSG_extHelp__
+    </button>
+    <button id="wayixia-bugs">
+      &nbsp;<span id="wayixia-bugs-num"></span>
+    </button>
+  </div>
+</div>
+<div id="wayixia-toolbar">
+  <div id="wayixia-view">
+    <select id="wayixia-select-view" style="width: 300px; height: 30px;display: none;">
+    <!--option value="size_1">__MSG_viewTypeSize1__(100x100)</option-->
+    <option value="size_2">__MSG_viewTypeSize2__(200x200)</option>
+    <option value="size_3">__MSG_viewTypeSize3__(500x300)</option>
+    </select>
+  </div>
+  <button id="wayixia-local-download" class="wayixia-toolbar-button download ext"> &nbsp; <em class="dropdown" id="wayixia-local-download-menu" src="images/dropmenu.png"></em></button>
+  <button id="wayixia-tocloud" class="wayixia-toolbar-button tocloud">&nbsp;<!--em class="dropdown" id="wayixia-toclold-menu" src="images/dropmenu.png"--></em><imgs class="split"/></button>
+  <button id="wayixia-select-all" class="wayixia-toolbar-button selectall ">&nbsp;</button>
+  <button id="wayixia-add-block"  class="wayixia-toolbar-button block"> &nbsp; </button>
+  <button id="wayixia-show-block" class="wayixia-toolbar-button showblock checked"> &nbsp;<img class="split"/> </button>
+  <button id="wayixia-filter-icon" class="wayixia-toolbar-button filter">&nbsp;</button>
+  
+</div>
+
+
+
+<div id="wayixia-filter-wnd" style="display:none;">
+  <div style="padding:0 10px; line-height: 35px;">
+    <label>__MSG_filterWidth__</label>( <span id="wayixia-min-width">0px</span> )
+    <div id="x-ctrl-mini-width" class="q-slider x" style="width: 180px; height:10px;">
+      <div class="q-thumb" style="height:16px; width: 16px;margin:-3px 0;"></div> 
+    </div>
+    <label>__MSG_filterHeight__</label>( <span id="wayixia-min-height">0px</span> )
+    <div id="x-ctrl-mini-height" class="q-slider x" style="width: 180px; height: 10px;">
+      <div class="q-thumb" style="height:16px; width: 16px;margin:-3px 0;"></div> 
+    </div>
+    
+  </div>
+</div>
+
+<div id="wayixia-container">
+  <div id="wayixia-list">
+  </div>
+  <div id="dummy-div" style="height: 0px;"></div>
+</div>
+
+<div id="wayixia-gotop">
+
+</div>
+
+
+</body>
+</html>
+

@@ -1,0 +1,13 @@
+
+/** \brief wayixia style css
+ *
+ */
+
+body {
+  padding:0; 
+  margin:0;
+  -moz-user-select:none;
+  -webkit-user-select: none;
+  font-family: 'Segoe UI', Arial, 'Microsoft Yahei', Simsun, sans-serif; 
+}
+

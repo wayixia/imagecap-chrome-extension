@@ -1,0 +1,86 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title> __MSG_extName__ </title>
+<link href="Q.js/ui.css" rel="stylesheet" type="text/css"/>
+<link href="tagname.css" rel="stylesheet" type="text/css"/>
+<link href="wayixia.css" rel="stylesheet" type="text/css"/>
+<script src="Q.js/Q.debug.js"></script>
+<script src="tracker.js"></script>
+<script src="i18n.js"></script>
+<script src="ui.js"></script>
+<script src="screenshot.js"></script>
+</head>
+<body style="-moz-user-select:none;-webkit-user-select: none;">
+<div id="wayixia-overlay">
+  <div id="wayixia-title-bar">
+     __MSG_extShortName__     
+     <font style="color: #999;font-size: 16px;"> 
+       __MSG_extDescription__ 
+     </font>
+     <div id="wayixia-user-menu">
+        <button id="wayixia-close"> 
+          __MSG_extCloseWindow__
+        </button>
+        <button id="wayixia-donate">__MSG_btnDonate__</button>
+        <button id="wayixia-help">
+          __MSG_extHelp__
+        </button>
+        <button id="wayixia-bugs">
+          &nbsp;<span id="wayixia-bugs-num"></span>
+        </button>
+    </div>
+  </div>
+  <div id="wayixia-toolbar">
+    <button id="wayixia-screenshot-download" class="wayixia-toolbar-button download ext">&nbsp; <em class="dropdown" id="wayixia-screenshot-download-menu" src="images/dropmenu.png"></em></button>
+    <button id="wayixia-screenshot-tocloud" class="wayixia-toolbar-button tocloud" style="display:none;">&nbsp;<img class="split"/></button>
+    <button id="wayixia-screenshot-undo" class="wayixia-toolbar-button undo"> &nbsp; </button>
+    <button id="wayixia-screenshot-redo" class="wayixia-toolbar-button redo"> &nbsp; <img class="split"/></button>
+    <button id="wayixia-screenshot-text" class="wayixia-toolbar-button text">&nbsp;</button>
+    <button id="wayixia-screenshot-arrow" class="wayixia-toolbar-button arrow">&nbsp;</button>
+    <button id="wayixia-screenshot-rect" class="wayixia-toolbar-button rect">&nbsp;</button>
+    <button id="wayixia-screenshot-eclipse" class="wayixia-toolbar-button eclipse">&nbsp;</button>
+    <button id="wayixia-screenshot-line" class="wayixia-toolbar-button line">&nbsp;</button>
+    <button id="wayixia-screenshot-brush" class="wayixia-toolbar-button brush">&nbsp;</button>
+    <button id="wayixia-screenshot-eraser" class="wayixia-toolbar-button eraser">&nbsp;<img class="split"></button>
+    <button id="wayixia-screenshot-zoom100" class="wayixia-toolbar-button restore" style="display:none;">&nbsp;</button>
+    <button id="wayixia-screenshot-zoom" class="wayixia-toolbar-button zoom" style="display:none;">&nbsp;</button>
+    <button id="wayixia-screenshot-color" class="wayixia-toolbar-button color">&nbsp;
+      <div id="wayixia-screenshot-color-view" style="border: 1px solid #EEE; left: 6px; top:6px;width: 28px; height:23px;position: absolute;background: #FF0033;">&nbsp;</div>  
+    </button>
+    <button id="wayixia-screenshot-size" class="wayixia-toolbar-button size">
+      <hr id="wayixia-screenshot-line-width" style="padding:0;margin:0;top:20px;position: absolute; left:5px; width:25px; border-width:0px;height:1px;background-color: #000;" />
+      <span id="wayixia-screenshot-line-text" style="position: absolute; left: 20px; top:4px; padding:0; margin:0;">1px</span>&nbsp;
+    </button>
+    <button id="wayixia-screenshot-fontsize" class="wayixia-toolbar-button size" style="display: none;">
+      1px
+    </button>
+    <!--a style="font-weight: bold; margin-left: 10px;">__MSG_captureZoom__</a-->
+    <!--a style="font-weight: bold; margin-left: 10px;">__MSG_captureZoom__</a-->
+    <a style="display:none;">
+      <div id="x-ctrl-screenshot-zoom" class="q-slider x" style="width: 150px; margin-top: 8px;">
+        <div class="q-thumb" style="height:16px; width: 16px;margin:7px 0;"></div> 
+      </div>
+    </a>
+    <a id="wayixia-screenshot-zoomtext" style="display:none;">100%</a>
+  </div>
+  <div id="wayixia-container">
+    <div id="wayixia-list">
+      <canvas id="wayixia-canvas" style="background: #555;margin: 15px;-webkit-box-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.225);box-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.225);">this browser not support canvas</canvas>
+    </div>
+    <div id="wayixia-progress">
+      <h4> __MSG_stringLoading__ </h4>
+      <div id="wayixia-progress-bar">
+        <div id="wayixia-progress-bar-thumb"></div>
+      </div>
+      <div id="x-ctrl-loadding" class="q-slider x" style="display:none;width: 100px; margin-top: 10px;">
+        <div class="q-thumb" style="height:16px; width: 16px;margin:7px 0;"></div> 
+      </div>
+    </div>
+    <div id="dummy-div" style="height: 0px;"></div>
+  </div>
+</div>
+
+</body>
+</html>
+

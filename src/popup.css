@@ -1,0 +1,84 @@
+
+html { margin: 0px; padding: 0px; border:none; }
+
+
+body {
+  margin:0;border:0;padding:0;width:__MSG_menuPopupWidth__px;height:160px;visibility:hidden;
+}
+
+.wayixia-menu {
+	height:160px;
+	width:__MSG_menuPopupWidth__px; 
+	border:0;
+  padding: 0px;
+}
+
+.wayixia-menu li {
+  background-color: transparent;
+	width:__MSG_menuPopupWidth__px; 
+	white-space: nowrap; 
+	height: 30px; 
+	padding: 0px; 
+	margin: 0px; 
+	display: block; 
+	cursor: default;
+ 	border: 0px solid blue;
+}
+
+.wayixia-menu li:hover, .wayixia-menu li:hover td {
+  background-color: #EEE; 
+  color: #000;
+}
+
+.wayixia-menu li:hover.seperator {
+  background-color:transparent
+}
+
+.wayixia-menu li.seperator {
+  height: 10px;
+}
+
+.wayixia-menu li td.menu-text {
+  width: 100px; height: 30px; font-size: 14px;text-indent:0px; 
+}
+
+.wayixia-menu li td.menu-icon-users {
+  background: transparent url(images/icon-users-black-small.png) center center no-repeat;
+}
+
+.wayixia-menu li td.menu-icon-options {
+  background: transparent url(images/icon-options-small.png) center top no-repeat;
+}
+
+#wayixia-screen-capture {
+  position: absolute;
+  left:0;
+  top: 0;
+  width: 280px;
+  height: 120px;
+  visibility: hidden;
+  font-size: 14px;
+  background: rgb(248, 248, 248);
+}
+
+#wayixia-screen-capture div {
+  margin: 10px 10px 0 10px; 
+}
+
+div#wayixia-capture-progress {
+  line-height: 30px;
+  margin-top: 5px;
+}
+
+div#wayixia-progress-bar {
+  background: url(images/capturing.gif) repeat-x left top;
+  height: 13px;
+  margin:0;
+}
+
+#wayixia-capture-warn {
+  background: #FD0;
+  color: #000;
+  padding: 5px;
+}
+

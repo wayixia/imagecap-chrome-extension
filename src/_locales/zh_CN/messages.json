@@ -1,0 +1,584 @@
+{
+  "extName" : {
+    "message" : "ImageCap - 图片批量下载和截图助手",
+    "description": ""
+  },
+  
+  "extShortName" : {
+    "message" : "ImageCap",
+    "description": ""
+  },
+
+  "extDescription": {
+    "message": "图片批量下载 | 网页截屏",
+    "description": ""
+  },
+  
+  "extShortDescription": {
+    "message": "图片批量下载 | 网页截屏",
+    "description": ""
+  },
+
+  "extLogin": {
+    "message": "登 录",
+    "description": ""
+  },
+
+  "extAbout": {
+    "message": "关于插件",
+    "description": ""
+  },
+  
+  "extContact": {
+    "message": "联系我们",
+    "description": ""
+  },
+
+  "extVersion" : {
+    "message": "版本",
+    "description": ""
+  },
+
+  "menuDigImages": {
+    "message": "挖一下",
+    "description": ""
+  },
+
+
+  "menuScreenshot": {
+    "message": "当前区域截图",
+    "description": ""
+  },
+
+
+  "menuFullPageScreenshot": {
+    "message": "完整网页截图",
+    "description": ""
+  },
+  
+  "menuPopupWidth": {
+    "message": "150",
+    "description": ""
+  },
+
+  "menuWarnScreenshot": {
+    "message": "PS: 在全屏截屏操作结束之前，请不要做任何操作。",
+    "description": ""
+  },
+  
+  "menuScreencapturing": {
+    "message": "正在截屏中...",
+    "description": ""
+  },
+  
+  "menuSaveToNewAlbum": {
+    "message": "新建挖一下云画板并保存图片",
+    "description": ""
+  },
+ 
+  
+  "menuSaveToSiteFolder": {
+    "message": "新建网站文件夹并保存图片",
+    "description": ""
+  },
+  
+  "menuManageSiteFolder": {
+    "message": "管理网站文件夹",
+    "description": ""
+  },
+
+  "filterWidth": {
+    "message": "宽度",
+    "description": ""
+  },
+  
+  "filterHeight": {
+    "message": "高度",
+    "description": ""
+  },
+  
+  "selectAll": {
+    "message": "全选",
+    "description": ""
+  },
+
+  "haveBlocked": {
+    "message": "显示/隐藏已屏蔽图片",
+    "description": ""
+  },
+
+  "addBlock": {
+    "message": "屏蔽图片",
+    "description": ""
+  },
+  
+  "download": {
+    "message": "下载图片",
+    "description": ""
+  },
+  
+  "captureZoom": {
+    "message": "截图缩放",
+    "description": ""
+  },
+  
+  "orignalSize": {
+    "message": "原始大小",
+    "description": ""
+  },
+  
+  "saveCapture": {
+    "message": "保存截图",
+    "description": ""
+  },
+
+  "infoAddBlock": {
+    "message": "屏蔽的图片将不再显示在采集结果页，确定屏蔽这些图片吗?",
+    "description": ""
+  },
+ 
+  "savePath":  {
+    "message" : "图片保存文件夹",
+    "description": ""
+  },
+
+  "savePathAttention" : {
+    "message": "相对于浏览器下载目录",
+    "description": ""
+  },
+
+  "saveWithDateFolder" : {
+    "message": "按日期归类",
+    "description": ""
+  },
+  
+  "saveLastConfig" : {
+    "message": "自动保存图片过滤条件",
+    "description": ""
+  },
+  
+
+
+  "blockImageManage" : {
+    "message": "屏蔽图片管理",
+    "description": ""
+  },
+
+  "setting" : {
+    "message": "设置",
+    "description": ""
+  },
+
+  "shortcut" : {
+    "message": "快捷键",
+    "description": ""
+  },
+
+
+  "digImage" : {
+    "message": "采集网页图片",
+    "description": ""
+  },
+
+  "closeExtensionWindow" : {
+    "message": "关闭插件窗口",
+    "description": ""
+  },
+
+  "developer" : {
+    "message": "开发人员",
+    "description": ""
+  },
+  
+  
+  "extOptions" : {
+    "message": "插件选项",
+    "description": ""
+  },
+
+  "extHelp": {
+    "message" : "帮助",
+    "description": ""
+  },
+
+  "extHelpFAQ": {
+    "message" : "常见问题",
+    "description" : ""
+  },
+
+  "extReportABug": {
+    "message" : "报告一个错误",
+    "description" : ""
+  },
+
+  "saveOptions" : {
+    "message": "设置保存成功!",
+    "description": ""
+  },
+
+  "viewTypeSize1" : {
+    "message": "小视图",
+    "description": ""
+  },
+  
+  "viewTypeSize2" : {
+    "message": "中视图",
+    "description": ""
+  },
+
+  "viewTypeSize3" : {
+    "message": "大视图",
+    "description": ""
+  },
+
+  "btnSave" : {
+    "message": "保存",
+    "description": ""
+  },
+
+
+  "btnOK" : {
+    "message": "确定",
+    "description": ""
+  },
+  
+  "btnUnblock" : {
+    "message": "解除屏蔽",
+    "description": ""
+  },
+  
+  "btnClose" : {
+    "message": "关闭",
+    "description": ""
+  },
+
+  "btnDonate" : {
+    "message": "捐赠",
+    "description": ""
+  },
+
+  "qYes" : {
+    "message": " 是 ",
+    "description": ""
+  },
+
+  "qSubmit" : {
+    "message": "提交",
+    "description": ""
+  },
+
+  "qNo" : {
+    "message": " 否 ",
+    "description": ""
+  },
+
+
+  "qCancel" : {
+    "message": " 取消 ",
+    "description": ""
+  },
+
+  "stringLoading" : {
+    "message": " 正在加载中... ", 
+    "description": ""
+  },
+  
+  "stringChooseAnBugType" : {
+    "message": " 请选择一种错误类型... ", 
+    "description": ""
+  },
+  
+  "stringInvalidEmailFormat" : {
+    "message": " 无效的EMail格式 ", 
+    "description": ""
+  },
+
+  "stringErrorType" : {
+    "message": " 类型 ", 
+    "description": ""
+  },
+
+  "stringErrorDescription" : {
+    "message": " 描述 ", 
+    "description": ""
+  },
+
+  "stringEMail" : {
+    "message": " 电子邮件 ", 
+    "description": ""
+  },
+
+  "stringGetNoneImage" : {
+    "message": "没有采集到任何图片", 
+    "description": ""
+  },
+
+  "stringGetUnwantedImage" : {
+    "message": "采集不到我想要的图片", 
+    "description": ""
+  },
+  
+  "stringDownloadImageFailed" : {
+    "message": "下载图片失败", 
+    "description": ""
+  },
+  
+  "stringScreenshotFailed" : {
+    "message": "截屏失败", 
+    "description": ""
+  },
+  
+  "stringErrorOther" : {
+    "message": "其它...", 
+    "description": ""
+  },
+  
+  "stringDownloadError" : {
+    "message": "下载错误", 
+    "description": ""
+  },
+  
+  "stringSelectNone": { 
+    "message": "请选择图片", 
+    "description": ""
+  },
+  
+  "stringTitle" : { 
+    "message" : "标题", 
+    "description": "" 
+  },
+  
+  "stringAddress" : { 
+    "message" : "地址", 
+    "description": ""
+  },
+  
+  "stringSize" : { 
+    "message" : "大小", 
+    "description": "" 
+  },
+  
+  "stringRemove" : {
+    "message" : "删除", 
+    "description": "" 
+  },
+
+  "stringName" : { 
+    "message" : "名称", 
+    "description": "" 
+  },
+  
+  "stringNameEmpty" : { 
+    "message" : "名称不能为空", 
+    "description": "" 
+  },
+  
+  "stringNameExists" : { 
+    "message" : "名称已经存在", 
+    "description": "" 
+  },
+  
+  "stringOperation" : { 
+    "message" : "操作", 
+    "description": ""
+  },
+  
+  "stringMoreBoards": { 
+    "message": "更多画板", 
+    "description": ""
+  },
+  
+  "stringDigging": { 
+    "message": "正在努力地挖图...", 
+    "description": "" 
+  },
+  
+  "stringDigOk": { 
+    "message": "成功挖到了图片!", 
+    "description": "" 
+  },
+  
+  "stringDigError": { 
+    "message": "挖一下，失败!", 
+    "description": ""
+  },
+  
+  "stringHadDig": { 
+    "message": "图片已经挖过了哦!", 
+    "description": "" 
+  },
+  
+  "stringBoardNameEmpty" : {
+    "message" : "画板名称不能为空!",
+    "description": ""
+  },
+  
+  "filterRulesEnable" : {
+    "message": "开启智能挖图",
+    "description": ""
+  },
+  
+  "filterRulesWarning" : {
+    "message": "开启后，根据规则智能采集网站大图片",
+    "description": ""
+  },
+  
+  "filterRulesList" : {
+    "message": "智能规则列表",
+    "description": ""
+  }, 
+
+  "toolSave" : {
+    "message": "保存到本地",
+    "description": ""
+  },
+  
+  "toolSaveToCloud" : {
+    "message": "保存到挖一下云",
+    "description": ""
+  },
+
+  "toolUndo" : {
+    "message": "还原",
+    "description": ""
+  },
+
+  "toolRedo" : {
+    "message": "重做",
+    "description": ""
+  },
+
+  "toolText" : {
+    "message": "文字",
+    "description": ""
+  },
+
+  "toolArrow" : {
+    "message": "箭头",
+    "description": ""
+  },
+
+
+  "toolRectangle" : {
+    "message": "矩形",
+    "description": ""
+  },
+
+  "toolEllipse" : {
+    "message": "椭圆",
+    "description": ""
+  },
+
+  "toolLine" : {
+    "message": "直线",
+    "description": ""
+  },
+
+
+  "toolBrush" : {
+    "message": "画笔",
+    "description": ""
+  },
+
+  "toolEraser" : {
+    "message": "橡皮擦",
+    "description": ""
+  },
+
+
+  "toolColorTable" : {
+    "message": "选择颜色",
+    "description": ""
+  },
+
+  "toolLineSize" : {
+    "message": "线条大小",
+    "description": ""
+  },
+
+  "stringAccount" : {
+    "message": "挖一下帐号",
+    "description": ""
+  },
+
+  "stringAccountAttention" : {
+    "message": "插件设置将自动云同步",
+    "description": ""
+  },
+
+  "stringAccountLogin": {
+    "message": "登 录",
+    "description": ""
+  },
+
+  "stringAccountLogout": {
+    "message": "退 出",
+    "description": ""
+  },
+
+  "optBasic" : {
+    "message": "基 本",
+    "description" : ""
+  },
+ 
+  "optImageDownload" : {
+    "message": "下 载",
+    "description" : ""
+  },
+ 
+  "optWebCapture" : {
+    "message": "截 屏",
+    "description" : ""
+  },
+ 
+  "optShortcut" : {
+    "message": "快捷键",
+    "description" : ""
+  },
+
+  "stringCaptureAssistant" : {
+    "message": "截屏助手",
+    "description" : ""
+  },
+
+
+  "stringLongPageCapture" : {
+    "message": "支持超长网页截图",
+    "description" : ""
+  },
+
+  "stringChecking" : {
+    "message": "正在检查状态",
+    "description" : ""
+  },
+
+
+  "stringConnected" : {
+    "message": "已连接",
+    "description" : ""
+  },
+
+ 
+  "stringDisconnected" : {
+    "message": "未连接",
+    "description" : ""
+  },
+
+  "stringAssistantHelp": {
+    "message": "下载助手ImageCap并连接到Chrome扩展。",
+    "description" : ""
+  },
+
+
+
+ "stringLongPageTips" : {
+    "message": "当前网页过长，请<a href='https://www.wayixia.com/extension/install' target='_blank'><u>点击这里</u></a>下载截屏助手(ImageCap), 网页宽度和高度 ",
+    "description" : ""
+  },
+
+
+  "dummy" : {
+    "message": "",
+    "description": ""
+  }
+}

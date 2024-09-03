@@ -1,0 +1,587 @@
+{
+  "extName" : {
+    "message" : "ImageCap - image download and capture",
+    "description": ""
+  },
+  
+  "extShortName" : {
+    "message" : "ImageCap",
+    "description": ""
+  },
+
+  "extDescription": {
+    "message": "An usefull tool for image download & full page screen capture",
+    "description": ""
+  },
+  
+  "extShortDescription": {
+    "message": "image download & full page screen capture",
+    "description": ""
+  },
+
+  "extLogin": {
+    "message": "Login",
+    "description": ""
+  },
+
+  "extAbout": {
+    "message": "About",
+    "description": ""
+  },
+  
+  "extContact": {
+    "message": "Contact us",
+    "description": ""
+  },
+
+  "extVersion" : {
+    "message": "Version",
+    "description": ""
+  },
+
+  "menuDigImages": {
+    "message": "Dig Images",
+    "description": ""
+  },
+
+
+  "menuScreenshot": {
+    "message": "Page Screen Capture",
+    "description": ""
+  },
+
+
+  "menuFullPageScreenshot": {
+    "message": "Full Page Screen Capture",
+    "description": ""
+  },
+  
+  "menuPopupWidth": {
+    "message": "220",
+    "description": ""
+  },
+
+  "menuWarnScreenshot": {
+    "message": "Warn: Do nothing util the full screen capture end!",
+    "description": ""
+  },
+  
+  "menuScreencapturing": {
+    "message": "Screen Capturing...",
+    "description": ""
+  },
+  
+  "menuSaveToNewAlbum": {
+    "message": "Create album and save images to the album",
+    "description": ""
+  },
+ 
+  
+  "menuSaveToSiteFolder": {
+    "message": "Create new site folder and save",
+    "description": ""
+  },
+  
+  "menuManageSiteFolder": {
+    "message": "Manage sites folder",
+    "description": ""
+  },
+
+  "filterWidth": {
+    "message": "Width",
+    "description": ""
+  },
+  
+  "filterHeight": {
+    "message": "Height",
+    "description": ""
+  },
+  
+  "selectAll": {
+    "message": "Select All",
+    "description": ""
+  },
+
+  "haveBlocked": {
+    "message": "show/hide blocked images",
+    "description": ""
+  },
+
+  "addBlock": {
+    "message": "Block selected images",
+    "description": ""
+  },
+  
+  "download": {
+    "message": "Download",
+    "description": ""
+  },
+  
+  "captureZoom": {
+    "message": "ZOOM",
+    "description": ""
+  },
+  
+  "orignalSize": {
+    "message": "1 : 1",
+    "description": ""
+  },
+  
+  "saveCapture": {
+    "message": "Save Capture",
+    "description": ""
+  },
+
+  "infoAddBlock": {
+    "message": "The blocked images is never be displayed in the result page，confirm blocking these images?",
+    "description": ""
+  },
+ 
+  "savePath":  {
+    "message" : "Save path of downloaded images",
+    "description": ""
+  },
+
+  "savePathAttention" : {
+    "message": "The path is relative chrome download path, empty means using the default chrome download path",
+    "description": ""
+  },
+
+  "saveWithDateFolder" : {
+    "message": "Date folder",
+    "description": ""
+  },
+  
+  "saveLastConfig" : {
+    "message": "Auto save filters",
+    "description": ""
+  },
+  
+
+
+  "blockImageManage" : {
+    "message": "Manage the blocked images",
+    "description": ""
+  },
+
+  "setting" : {
+    "message": "Setting",
+    "description": ""
+  },
+
+  "shortcut" : {
+    "message": "Shortcut",
+    "description": ""
+  },
+
+
+  "digImage" : {
+    "message": "Dig images",
+    "description": ""
+  },
+
+  "closeExtensionWindow" : {
+    "message": "Close extension page",
+    "description": ""
+  },
+
+  "developer" : {
+    "message": "Developers",
+    "description": ""
+  },
+  
+  
+  "extOptions" : {
+    "message": "Options",
+    "description": ""
+  },
+
+  "extHelp": {
+    "message": "Help",
+    "description": ""
+  },
+
+  "extHelpFAQ": {
+    "message" : "FAQ",
+    "description" : ""
+  },
+
+  "extReportABug": {
+    "message" : "Report a bug",
+    "description" : ""
+  },
+
+  "saveOptions" : {
+    "message": "Save successfully!",
+    "description": ""
+  },
+
+  "viewTypeSize1" : {
+    "message": "Small  View",
+    "description": ""
+  },
+  
+  "viewTypeSize2" : {
+    "message": "Normal View",
+    "description": ""
+  },
+
+  "viewTypeSize3" : {
+    "message": "Large  View",
+    "description": ""
+  },
+
+  "btnSave" : {
+    "message": "Save",
+    "description": ""
+  },
+
+
+  "btnOK" : {
+    "message": " OK ",
+    "description": ""
+  },
+  
+  "btnUnblock" : {
+    "message": "Unblock",
+    "description": ""
+  },
+  
+  "btnClose" : {
+    "message": "Close",
+    "description": ""
+  },
+
+  "btnDonate" : {
+    "message": "Donate",
+    "description": ""
+  },
+
+  "qYes" : {
+    "message": " YES ",
+    "description": ""
+  },
+
+  "qSubmit" : {
+    "message": " Submit ",
+    "description": ""
+  },
+
+  "qNo" : {
+    "message": " NO ",
+    "description": ""
+  },
+
+
+  "qCancel" : {
+    "message": " Cancel ",
+    "description": ""
+  },
+
+  "stringLoading" : {
+    "message": " Loading... ",
+    "description": ""
+  },
+  
+  "stringChooseAnBugType" : {
+    "message": " Please choose an error type... ",
+    "description": ""
+  },
+  
+  "stringInvalidEmailFormat" : {
+    "message": " Invalid email address ",
+    "description": ""
+  },
+
+  "stringErrorType" : {
+    "message": " Error type ",
+    "description": ""
+  },
+
+  "stringErrorDescription" : {
+    "message": " Description ",
+    "description": ""
+  },
+
+  "stringEMail" : {
+    "message": " Mail Address ",
+    "description": ""
+  },
+
+  "stringGetNoneImage" : {
+    "message": "None image was get",
+    "description": ""
+  },
+
+  "stringGetUnwantedImage" : {
+    "message": "Images is not wanted",
+    "description": ""
+  },
+  
+  "stringDownloadImageFailed" : {
+    "message": "Download images failed",
+    "description": ""
+  },
+  
+  "stringScreenshotFailed" : {
+    "message": "Screen Capture failed",
+    "description": ""
+  },
+  
+  "stringErrorOther" : {
+    "message": "Other...",
+    "description": ""
+  },
+  
+  "stringDownloadError" : {
+    "message": "files download error.",
+    "description": ""
+  },
+  
+  "stringSelectNone": { 
+    "message": "Select a image please!", 
+    "description": ""
+  },
+  
+  "stringTitle" : { 
+    "message" : "Title", 
+    "description": "" 
+  },
+  
+  "stringAddress" : { 
+    "message" : "URL", 
+    "description": ""
+  },
+  
+  "stringSize" : { 
+    "message" : "Size", 
+    "description": "" 
+  },
+ 
+  "stringRemove" : {
+    "message" : "Remove", 
+    "description": "" 
+  },
+
+  
+  "stringName" : { 
+    "message" : "Name", 
+    "description": "" 
+  },
+  
+  "stringNameEmpty" : { 
+    "message" : "The name is not empty", 
+    "description": "" 
+  },
+  
+  "stringNameExists" : { 
+    "message" : "The name is exists", 
+    "description": "" 
+  },
+  
+  "stringOperation" : { 
+    "message" : "Operation", 
+    "description": ""
+  },
+  
+  "stringMoreBoards": { 
+    "message": "More boards", 
+    "description": ""
+  },
+  
+  "stringDigging": { 
+    "message": "Digging image...", 
+    "description": "" 
+  },
+  
+  "stringDigOk": { 
+    "message": "Dig image OK", 
+    "description": "" 
+  },
+  
+  "stringDigError": { 
+    "message": "Error occurred when dig image", 
+    "description": ""
+  },
+  
+  "stringHadDig": { 
+    "message": "The image had digged!", 
+    "description": "" 
+  },
+  
+  "stringBoardNameEmpty" : {
+    "message" : "Board name is empty!",
+    "description": ""
+  },
+  
+  "filterRulesEnable" : {
+    "message": "Intelligent big images",
+    "description": ""
+  },
+  
+  "filterRulesWarning" : {
+    "message": "The big images will be dug by the filter rules when enabled.",
+    "description": ""
+  },
+  
+  "filterRulesList" : {
+    "message": "Rules list",
+    "description": ""
+  }, 
+
+  "toolSave" : {
+    "message": "Save",
+    "description": ""
+  },
+  
+  "toolSaveToCloud" : {
+    "message": "Save to cloud of wayixia",
+    "description": ""
+  },
+
+  "toolUndo" : {
+    "message": "Undo",
+    "description": ""
+  },
+
+  "toolRedo" : {
+    "message": "Redo",
+    "description": ""
+  },
+
+  "toolText" : {
+    "message": "Text",
+    "description": ""
+  },
+
+  "toolArrow" : {
+    "message": "Arrow",
+    "description": ""
+  },
+
+
+  "toolRectangle" : {
+    "message": "Rectangle",
+    "description": ""
+  },
+
+  "toolEllipse" : {
+    "message": "Ellipse",
+    "description": ""
+  },
+
+  "toolLine" : {
+    "message": "Line",
+    "description": ""
+  },
+
+
+  "toolBrush" : {
+    "message": "Brush",
+    "description": ""
+  },
+
+  "toolEraser" : {
+    "message": "Eraser",
+    "description": ""
+  },
+
+
+  "toolColorTable" : {
+    "message": "Color table",
+    "description": ""
+  },
+
+  "toolLineSize" : {
+    "message": "Line size",
+    "description": ""
+  },
+
+  "stringAccount" : {
+    "message": "Account",
+    "description": ""
+  },
+
+  "stringAccountAttention" : {
+    "message": "Auto synchronous plugin's config",
+    "description": ""
+  },
+
+  "stringAccountLogin": {
+    "message": "Login",
+    "description": ""
+  },
+
+  "stringAccountLogout": {
+    "message": "Logout",
+    "description": ""
+  },
+
+
+  "optBasic" : {
+    "message": "Basic",
+    "description" : ""
+  },
+ 
+  "optImageDownload" : {
+    "message": "Download",
+    "description" : ""
+  },
+ 
+  "optWebCapture" : {
+    "message": "Web Capture",
+    "description" : ""
+  },
+ 
+  "optShortcut" : {
+    "message": "Shortcut",
+    "description" : ""
+  },
+ 
+
+  "stringCaptureAssistant" : {
+    "message": "Assistant",
+    "description" : ""
+  },
+
+
+  "stringLongPageCapture" : {
+    "message": "Support long web page capture",
+    "description" : ""
+  },
+
+  "stringChecking" : {
+    "message": "Checking",
+    "description" : ""
+  },
+
+
+  "stringConnected" : {
+    "message": "Connected",
+    "description" : ""
+  },
+
+ 
+  "stringDisconnected" : {
+    "message": "Disconnected",
+    "description" : ""
+  },
+
+  "stringAssistantHelp": {
+    "message": "Get \"ImageCap\" and connect to chrome extension.",
+    "description" : ""
+  },
+
+  "stringLongPageTips" : {
+    "message": "This page is too large  please get \"ImageCap\" from <a href='https://www.wayixia.com/extension/install' target='_blank'><u>here</u></a>, current page size ",
+    "description" : ""
+  },
+
+  
+
+ 
+  "dummy" : {
+    "message": "",
+    "description": ""
+  }
+}

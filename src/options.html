@@ -1,0 +1,289 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title> __MSG_extName__  </title>
+<link href="Q.js/ui.css" rel="stylesheet" type="text/css"/>
+<link href="tagname.css" rel="stylesheet" type="text/css"/>
+<link href="wayixia.css" rel="stylesheet" type="text/css"/>
+<script src="Q.js/Q.debug.js"></script>
+<script src="tracker.js"></script>
+<script src="i18n.js"></script>
+<script src="ui.js"></script>
+<script src="options.js"></script>
+<style>
+
+#layer-about {
+  margin: auto;
+  padding: 10px;
+  font-size: 16px;
+  visibility: hidden;
+}
+
+#layer-about {
+  line-height: 16px;
+}
+
+#layer,#layer-block-images {
+  visibility:hidden;
+  position: absolute;
+  left: 0; top:0;
+  right: 0; bottom: 0;
+}
+
+#layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  line-height: 30px;
+  font-size: 16px;
+  padding: 10px;
+  overflow:auto;
+}
+
+#layer-block-images #wayixia-container {
+  top: 0;
+}
+
+#layer-options {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  line-height: 30px;
+  font-size: 16px;
+  padding: 10px 0;
+  overflow:auto;
+  visibility: hidden;
+}
+
+
+.q-tabs.v-property {
+
+}
+
+
+
+.q-tabs.v-property .q-tabs-header {
+  float: left; 
+  width: 150px;
+}
+
+.q-tabs.v-property .q-tabs-header ul {
+  padding: 0 5px 0 5px;
+  list-style: none;
+  margin:0;
+}
+
+.q-tabs.v-property .q-tabs-header ul li {
+  text-indent: 10px;
+  line-height: 30px;
+  height: 30px;
+  margin-bottom: 3px;
+  border-radius: 5px;
+  color: #515151;
+  font-size: 11pt;
+}        
+
+.q-tabs.v-property .q-tabs-header ul li:hover, .q-tabs.v-property .q-tabs-header ul li.q-selected {
+  background-color: #F1F1F1;
+  color: #000;
+}
+
+
+.q-tabs.v-property .q-tabs-header ul li a,
+.q-tabs.v-property .q-tabs-header ul li a:visited {
+  display: block;
+  text-decoration: none;
+	color: #515151;
+}
+
+
+.q-tabs.v-property .q-tabs-header ul li a:hover,
+.q-tabs.v-property .q-tabs-header ul li.q-selected a {
+	color: #000
+}
+
+
+
+.q-tabs-body {
+  margin-left: 150px;
+  border-left: 1px solid #CCCCCC;
+  height: 100%;
+  background-colors: yellow;
+}
+
+.q-tabs-body .q-panel {
+  padding: 0px 10px;
+}
+
+
+.clearboth {
+  clear: both;
+}
+
+
+.wayixia-assistant {
+  text-indent: 20px; 
+  background:#FFF url(images/sprite_ok.png) left center no-repeat;
+}
+
+.wayixia-assistant.ok {
+  background-image: url(images/sprite_ok.png)
+}
+
+.wayixia-assistant.error {
+  background-image: url(images/sprite_error.png)
+}
+
+
+.wayixia-assistant.ing {
+  text-indent: 40px; 
+  background-image:url(images/wing32.gif);
+}
+
+</style>
+</head>
+<body style="-moz-user-select:none;-webkit-user-select: none;">
+<div id="layer">
+  <!--b> __MSG_stringAccount__</b>(<font color="#999">__MSG_stringAccountAttention__</font>)<br>
+  <button id="wayixia_account">__MSG_stringAccountLogin__</button>
+  <br/>
+  <br/-->
+  
+  <!--b> __MSG_savePath__</b>(<font color="#999">__MSG_savePathAttention__</font>)<br>
+  <div class="q-placeholder" id="label_save_path">
+    wayixia
+    <input id="save_path" size="50">
+  </div>
+  
+  <a id="date_folder" class="q-checkbox">__MSG_saveWithDateFolder__</a> 
+  <a id="save_lastconfig" class="q-checkbox">__MSG_saveLastConfig__</a> <br>
+
+
+  <br>
+  <b class="q-checkbox" id="filter_rules_enable">__MSG_filterRulesEnable__</b>（<font color="#999">__MSG_filterRulesWarning__</font>）<br>
+  <button id="manager_filter_rules" size="50">__MSG_setting__</button> <br>
+  <br>
+  <b>__MSG_blockImageManage__</b><br>
+  <button id="manager_block_images" size="50">__MSG_setting__</button> <br>
+  <br-->
+  <!--b>__MSG_shortcut__</b><br>
+  1. __MSG_digImage__（<font color="#999">Ctrl+Q</font>）<br>
+  2. __MSG_closeExtensionWindow__（<font color="#999">ESC</font>）<br-->
+</div>
+
+<div id="layer-options">
+  <div class="q-tabs v-property">
+
+<div class="q-tabs-header">
+	<ul>
+		<li id="tab-basic"> __MSG_optBasic__ </li>
+		<li id="tab-download"> __MSG_optImageDownload__ </li>
+		<li id="tab-screencapture" href="">__MSG_optWebCapture__ </li>
+		<li id="tab-shortcut"> __MSG_optShortcut__ </li>
+	</ul>
+</div>
+<div class="q-tabs-body">
+<div id="panel-1-1" class="q-panel">
+  <div>
+    <b> __MSG_stringAccount__</b>(<font color="#999">__MSG_stringAccountAttention__</font>)<br>
+  <button id="wayixia_account">__MSG_stringAccountLogin__</button>
+  <br/>
+  <br/>
+ 
+  </div>
+</div>
+<div id="panel-1-2" class="q-panel">
+  <b> __MSG_savePath__</b>(<font color="#999">__MSG_savePathAttention__</font>)<br>
+  <div class="q-placeholder" id="label_save_path">
+    wayixia
+    <input id="save_path" size="50">
+  </div>
+  
+  <a id="date_folder" class="q-checkbox">__MSG_saveWithDateFolder__</a> 
+  <a id="save_lastconfig" class="q-checkbox">__MSG_saveLastConfig__</a> <br>
+
+
+  <br>
+  <b class="q-checkbox" id="filter_rules_enable">__MSG_filterRulesEnable__</b>（<font color="#999">__MSG_filterRulesWarning__</font>）<br>
+  <button id="manager_filter_rules" size="50">__MSG_setting__</button> <br>
+  <br>
+  <b>__MSG_blockImageManage__</b><br>
+  <button id="manager_block_images" size="50">__MSG_setting__</button> <br>
+  <br>
+
+</div>
+
+
+<div id="panel-1-3" class="q-panel">
+  <b> __MSG_stringCaptureAssistant__</b>(<font color="#999">__MSG_stringLongPageCapture__</font>)<br>
+  <div id="wayixia-assistant-ing" class="wayixia-assistant ing" style="display: none;">
+    __MSG_stringChecking__...
+  </div>
+  <div id="wayixia-assistant-ok" class="wayixia-assistant ok" style="display: none;">
+    __MSG_stringConnected__ <a href="#"></a>
+  </div>
+  <div id="wayixia-assistant-error" class="wayixia-assistant error" style="display: none;">
+    __MSG_stringDisconnected__ <a href="https://www.wayixia.com/extension/install" target="_blank">(__MSG_stringAssistantHelp__)</a>
+  </div>
+</div>
+
+
+<div id="panel-1-4" class="q-panel">
+  <b>__MSG_shortcut__</b><br>
+  1. __MSG_digImage__（<font color="#999">Ctrl+Q</font>）<br>
+  2. __MSG_closeExtensionWindow__（<font color="#999">ESC</font>）<br>
+</div>
+
+</div>
+
+
+</div>
+<div class="clearboth" ></div>
+
+
+</div>
+
+
+<div id="layer-about">
+  <img src="icon128.png" style="float:left; margin-right:20px;margin-bottom: 100px; margin-top: 10px;">
+  <p style="font-size: 22px;line-height: 30px;"><b>__MSG_extShortName__</b> __MSG_extShortDescription__</p>
+  <p id="layer-about-version"></p> 
+  <p>__MSG_developer__: wayixia@gmail.com <!--a class="syscancelbtn" href="http://www.wayixia.com/chrome/about#donate" target="_blank" style="text-decoration: none;">__MSG_btnDonate__</a--></p>
+  <p style="color: #666;">2020&copy;www.wayixia.com</p>
+  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+    <div>
+      <input type="hidden" name="cmd" value="_donations" />
+      <input type="hidden" name="business" value="Y948MMS98FJGS" />     
+      <input type="hidden" name="lc" value="C2" />     
+      <input type="hidden" name="item_name" value="Donate for plugin" />     
+      <input type="hidden" name="currency_code" value="USD" />     
+      <input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHosted" />     
+      <input style="border:none;margin-right:10px;" type="image" src="https://www.wayixia.com/themes/default/donate-with-paypal.png" name="submit" alt="" />
+        <a rel="nofollow external" id="donate-with-alipay">
+          <img style="width:auto;border:none;" src="https://www.wayixia.com/themes/default/donate-with-alipay.png" alt="" />
+        </a>
+      <br />
+    </p>
+    </div>
+</form>
+  <div style="clear:both;"></div>
+  <br>
+  <br>
+  <br>
+  <br>
+</div>
+
+<div id="layer-block-images"> 
+  <div id="wayixia-container">
+    <div id="wayixia-list"></div>
+  </div>
+</div>
+
+</body>
+</html>
+
+
