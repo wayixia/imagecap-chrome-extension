@@ -1,0 +1,3 @@
+[submodule "deps/libq.js"]
+	path = deps/libq.js
+	url = https://wayixia@github.com/wayixia/libq.js.git
