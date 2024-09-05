@@ -1,6 +1,6 @@
 {
    "name": "__MSG_extName__",
-   "version": "1.20.1",
+   "version": "1.26",
    "default_locale" : "en",
    "manifest_version": 2,
    "short_name": "__MSG_extShortName__",
@@ -20,7 +20,7 @@
    },
    "content_scripts": [ 
      {
-      "js": [ "Q.js/Q.debug.js", "i18n.js", "content.js" ],
+      "js": [ "Q.js/Q.debug.js", "i18n.js", "content/content.js" ],
       "css": [ "Q.js/ui.css", "wayixia.css" ],
       "matches": [ "http://*/*", "https://*/*" ],
       "run_at": "document_end"
