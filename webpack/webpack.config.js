@@ -5,8 +5,6 @@ var path=require("path");
 var webpack = require("webpack");
 
 const app = [
-    //'../../../src/Q.js',
-    //'../deps/libq.js/Q.debug.js',
     './app.js',
     //'whatwg-fetch',
 ];
@@ -82,33 +80,22 @@ module.exports = {
   },
 
   plugins: [
-    new HtmlWebpackPlugin(
-      {
-        filename: './display.html',
-        template: '../src/display.html',
-        publicPath: '../',
-        inject: false,
-        
-      }
-    ),
+//    new HtmlWebpackPlugin(
+      //{
+        //filename: './pages/display/display.html',
+        //template: '../src/pages/display/display.html',
+        //publicPath: '../',
+        //inject: false,
+      //}
+    //),
 	  new CopyWebpackPlugin({
       patterns: [
-      {
-        from:"../src/manifest.json", to:"." 
-      },
-      {
-        from:"../src/_locales", to:"_locales" 
-      },
-//      {
-        //from:"../deps/libq.js/css",// 指定要拷贝的目录
-        //to:"libqjs/css" // 指定输出目录，会在output中指定的目录下生成
-      //},
-//      {
-        //from:"../deps/libq.js/images",// 指定要拷贝的目录
-        //to:"libqjs/images" // 指定输出目录，会在output中指定的目录下生成
-      //}
-
-
+      { from:"../src/manifest.json", to:"." },
+      { from:"../src/_locales", to:"_locales" },
+      { from:"../src/_background", to:"_background" },
+      { from:"../src/_content", to:"_content" },
+      { from:"../src/_popup", to:"_popup" },
+      { from:"../src/pages", to:"pages" },
     ]
     })
   ],

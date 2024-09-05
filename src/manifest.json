@@ -16,26 +16,26 @@
       "webRequestBlocking",
       "<all_urls>" ],
    "background": {
-      "scripts": [ "config.js", "background_ajax.js", "background.js" ]
+      "scripts": [ "_background/config.js", "_background/background_ajax.js", "_background/background.js" ]
    },
    "content_scripts": [ 
      {
-      "js": [ "Q.js/Q.debug.js", "i18n.js", "content/content.js" ],
-      "css": [ "Q.js/ui.css", "wayixia.css" ],
+      "js": [ "scripts/Q.js/Q.debug.js", "scripts/i18n.js", "_content/content.js" ],
+      "css": [],
       "matches": [ "http://*/*", "https://*/*" ],
       "run_at": "document_end"
      } 
    ],
    "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
    "icons": {
-      "128": "icon128.png",
-      "16": "icon16.png",
-      "48": "icon48.png"
+      "128": "_icons/icon128.png",
+      "16": "_icons/icon16.png",
+      "48": "_icons/icon48.png"
    },
    "browser_action" : {
      "default_title" : "__MSG_extName__",
-     "default_icon"  : "icon128.png",
-     "default_popup" : "popup.html"
+     "default_icon"  : "_icons/icon128.png",
+     "default_popup" : "_popup/popup.html"
    },
 
    "commands": {

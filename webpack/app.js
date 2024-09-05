@@ -15,4 +15,5 @@ import "../deps/libq.js/src/tree"
 
 
 //import {app_service} from "./service";
-//import  "../assets/css/app.css";
+import  "../src/css/wayixia.css";
+//import  "../deps/libq.js/css/ui.css";

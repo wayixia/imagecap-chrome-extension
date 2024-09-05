@@ -8,7 +8,7 @@
  */
 
 button.wayixia-toolbar-button {
-  background: transparent url(images/canvas-toolbar.png) left top no-repeat;
+  background: transparent url(../images/canvas-toolbar.png) left top no-repeat;
   height: 40px;
   width:45px;
   border-width: 0;
@@ -102,7 +102,7 @@ button.wayixia-toolbar-button {
   background-image: none;
   background-color: transparent;
   position: relative;
-  background: transparent url(images/dropdown.png) right 16px no-repeat;
+  background: transparent url(../images/dropdown.png) right 16px no-repeat;
 }
 */
 
@@ -110,7 +110,7 @@ button.wayixia-toolbar-button {
   background-image: none;
   background-color: transparent;
   position: relative;
-  background: transparent url(images/dropdown.png) right 16px no-repeat;
+  background: transparent url(../images/dropdown.png) right 16px no-repeat;
 }
 
 
@@ -118,7 +118,7 @@ button.wayixia-toolbar-button {
   position: relative;
   padding: 0;
   line-height: 31px;
-  background: transparent url(images/dropdown.png) right 16px no-repeat;
+  background: transparent url(../images/dropdown.png) right 16px no-repeat;
   color: #515151;
 }
 
@@ -135,9 +135,11 @@ button.wayixia-toolbar-button {
   background-position: -91px -45px;
 }
 
+/*
 .eraser-cur {
-  cursor: url(images/eraser.cur), default;
+  cursor: url(../images/eraser.cur), default;
 }
+  */
 
 .wayixia-toolbar-button.showblock {
   background-position: -180px -45px;
@@ -169,7 +171,7 @@ button.wayixia-toolbar-button {
   right: 0;
   top: 0;
   bottom: 0;
-  background: transparent url(images/dropmenu.png) center center no-repeat;
+  background: transparent url(../images/dropmenu.png) center center no-repeat;
   border-width:0;
   border-lefts: 1px solid #EEE;
 }
@@ -249,7 +251,7 @@ button#wayixia-close {
 {
   display: none;
   position: relative;
-  background: transparent url(images/bug.tips.png) left 10px no-repeat;
+  background: transparent url(../images/bug.tips.png) left 10px no-repeat;
   width: 28px;
   opacity: 0.9;
 }
@@ -283,7 +285,7 @@ button#wayixia-bugs {
 
 #wayixia-gotop {
   position: fixed;
-  background: transparent url(images/gotop.gif) center center no-repeat;
+  background: transparent url(../images/gotop.gif) center center no-repeat;
   width: 44px;
   height: 44px;
   right: 50px;
@@ -396,7 +398,7 @@ button#wayixia-bugs {
 }
 
 #wayixia-progress #wayixia-progress-bar #wayixia-progress-bar-thumb {
-  background: #428abc url(images/capturing.gif) repeat-x left top;
+  background: #428abc url(../images/capturing.gif) repeat-x left top;
   width: 130px;
   height: 100%;
 }
@@ -418,7 +420,7 @@ button#wayixia-bugs {
 }
 
 .q-window .q-icon {
-  background-image: url(images/icon.png);
+  background-image: url(../images/icon.png);
   left: 0;
 }
 
@@ -492,17 +494,12 @@ button#wayixia-bugs {
 
 .q-window.w-window {
   background-color: white;
-  background-images: url(input-bg.jpg);
-  background-repeats: repeat-x;
-  borders: 10px solid rgb(31, 30, 30);
   border: 1px solid #999;
-  border-top-widths: 5px;
   border-radius: 5px;
   border-radius: 5px;
 }
 
 .q-window.w-window .q-icon {
-  background-image: url(images/logo.icon.png);
   top: 19px;
   left: 10px;
 }
@@ -602,11 +599,13 @@ button#wayixia-bugs {
   font-size: 14px;
 }
 
+/*
 .q-contextmenu.wayixia-menu .q-item:hover, 
 .q-contextmenu.wayixia-menu .q-item.q-active 
 {
-  background-color: #;
+
 }
+*/
 
 .q-select.wayixia-menu {
   height: 42px;
@@ -619,11 +618,11 @@ button#wayixia-bugs {
 }
 
 .q-select.wayixia-menu {
-  background: transparent url(images/view-type.png) left center no-repeat;
+  background: transparent url(../images/view-type.png) left center no-repeat;
 }
 
 .q-select.wayixia-menu.checked {
-  background: transparent url(images/view-type.png) left center no-repeat;
+  background: transparent url(../images/view-type.png) left center no-repeat;
 }
 
 /* images-box style */
@@ -649,8 +648,6 @@ button#wayixia-bugs {
 }
 
 .q-images-box .q-box-item {
-  borders: transparent 2px solid;
-  box-shadows: 0 1px 9px rgba(0,0,0,.1);
 -moz-box-shadows: 0 1px 9px rgba(0,0,0,.1);
 -webkit-box-shadows: 0 1px 9px rgba(0,0,0,.1);
  z-index: auto;
@@ -676,7 +673,7 @@ button#wayixia-bugs {
 .q-images-box .q-box-item .edit 
 {
   background-color: transparent;
-  background-image: url(images/canvas-toolbar.png);
+  background-image: url(../images/canvas-toolbar.png);
   background-repeat: no-repeat;
   border-width: 0;
   outline: 0;
@@ -733,25 +730,25 @@ button#wayixia-bugs {
 .q-images-box .wing-box-ing {
   display: block ;
   text-indent: 53px;
-  background:#FFF url(images/wing32.gif) 10px center no-repeat;
+  background:#FFF url(../images/wing32.gif) 10px center no-repeat;
 }
 
 .q-images-box .wing-box-ok {
   display:block ;
   text-indent: 45px;
-  background:#FFF url(images/sprite_ok.png) 20px center no-repeat;
+  background:#FFF url(../images/sprite_ok.png) 20px center no-repeat;
 }
 
 .q-images-box .wing-box-error {
   display: block;
   text-indent: 45px;
-  background:#FFF url(images/sprite_error.png) 20px center no-repeat;
+  background:#FFF url(../images/sprite_error.png) 20px center no-repeat;
 }
 
 .q-images-box .wing-box-warn {
   display: block;
   text-indent: 45px;
-  background:#FFF url(images/sprite_warn.png) 20px center no-repeat;
+  background:#FFF url(../images/sprite_warn.png) 20px center no-repeat;
 }
 
 .q-images-box .q-box-item .wing-box {
@@ -789,25 +786,25 @@ button#wayixia-bugs {
 .q-images-box .layer-mask.wing-box-ing {
   display: block ;
   text-indent: 53px;
-  background:#FFF url(images/wing32.gif) 10px center no-repeat;
+  background:#FFF url(../images/wing32.gif) 10px center no-repeat;
 }
 
 .q-images-box .layer-mask.wing-box-ok {
   display:block ;
   text-indent: 45px;
-  background:#FFF url(images/sprite_ok.png) 20px center no-repeat;
+  background:#FFF url(../images/sprite_ok.png) 20px center no-repeat;
 }
 
 .q-images-box .layer-mask.wing-box-error {
   display: block;
   text-indent: 45px;
-  background:#FFF url(images/sprite_error.png) 20px center no-repeat;
+  background:#FFF url(../images/sprite_error.png) 20px center no-repeat;
 }
 
 .q-images-box .layer-mask.wing-box-warn {
   display: block;
   text-indent: 45px;
-  background:#FFF url(images/sprite_warn.png) 20px center no-repeat;
+  background:#FFF url(../images/sprite_warn.png) 20px center no-repeat;
 }
 
 .q-window-mask.q-top-mask {
@@ -839,15 +836,15 @@ button#wayixia-bugs {
 }
 
 .q-alert-content.q-alert-info {
-  background-image: url(images/sprite_warn.png);
+  background-image: url(../images/sprite_warn.png);
 }
 
 .q-alert-content.q-alert-error {
-  background-image: url(images/sprite_error.png);
+  background-image: url(../images/sprite_error.png);
 }
 
 .q-alert-content.q-alert-ok {
-  background-image: url(images/sprite_ok.png);
+  background-image: url(../images/sprite_ok.png);
 }
 
 
