@@ -2,7 +2,7 @@
    "name": "__MSG_extName__",
    "version": "1.26",
    "default_locale" : "en",
-   "manifest_version": 2,
+   "manifest_version": 3,
    "short_name": "__MSG_extShortName__",
    "description": "__MSG_extDescription__",
    "permissions": [ 
@@ -16,26 +16,28 @@
       "webRequestBlocking",
       "<all_urls>" ],
    "background": {
-      "scripts": [ "_background/config.js", "_background/background_ajax.js", "_background/background.js" ]
+      "service_worker":  "background/background.js"
    },
    "content_scripts": [ 
      {
-      "js": [ "scripts/Q.js/Q.debug.js", "scripts/i18n.js", "_content/content.js" ],
+      "js": [ "scripts/app.bundle.js", "content/content.js" ],
       "css": [],
       "matches": [ "http://*/*", "https://*/*" ],
       "run_at": "document_end"
      } 
    ],
-   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
+   "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; script-src-elem 'self' 'unsafe-inline' https://ssl.google-analytics.com/;"
+   },
    "icons": {
-      "128": "_icons/icon128.png",
-      "16": "_icons/icon16.png",
-      "48": "_icons/icon48.png"
+      "128": "assets/icons/icon128.png",
+      "16": "assets/icons/icon16.png",
+      "48": "assets/icons/icon48.png"
    },
    "browser_action" : {
      "default_title" : "__MSG_extName__",
-     "default_icon"  : "_icons/icon128.png",
-     "default_popup" : "_popup/popup.html"
+     "default_icon"  : "assets/icons/icon128.png",
+     "default_popup" : "popup/popup.html"
    },
 
    "commands": {

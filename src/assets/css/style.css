@@ -7,6 +7,8 @@
  toolbar button css style
  */
 
+@import url("../../deps/libq.js/css/ui.css");
+
 button.wayixia-toolbar-button {
   background: transparent url(../images/canvas-toolbar.png) left top no-repeat;
   height: 40px;

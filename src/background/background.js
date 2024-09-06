@@ -3,6 +3,9 @@
 // found in the LICENSE file.
 //
 
+
+var config = require("config");
+
 var plugin_name  = chrome.i18n.getMessage('menuDigImages');
 var wayixia = {};
 
@@ -257,11 +260,11 @@ function on_click_wa_all(info, tab) {
 }
 
 function on_click_open_options() {
-  chrome.tabs.create({"url":chrome.extension.getURL("options.html"), "selected":true}, function(tab) {});
+  chrome.tabs.create({"url":chrome.extension.getURL("pages/options/options.html"), "selected":true}, function(tab) {});
 } 
 
 function on_click_open_about() {
-  chrome.tabs.create({"url":chrome.extension.getURL("options.html#about"), "selected":true}, function(tab) {});
+  chrome.tabs.create({"url":chrome.extension.getURL("pages/options/options.html#about"), "selected":true}, function(tab) {});
 } 
 
 function on_click_screenshot(tab) {
@@ -622,7 +625,7 @@ chrome.extension.onMessage.addListener( function( o ) {
   case "assistant":
     console.log( o.port );
     set_wayixia_assistant( o.port );
-    focus_or_create_tab(chrome.extension.getURL("options.html") + "#tab-screencapture", function(view) { });
+    focus_or_create_tab(chrome.extension.getURL("pages/options/options.html") + "#tab-screencapture", function(view) { });
     break;
   }
 } );

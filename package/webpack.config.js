@@ -5,6 +5,7 @@ var path=require("path");
 var webpack = require("webpack");
 
 const app = [
+    './deps.js',
     './app.js',
     //'whatwg-fetch',
 ];
@@ -37,11 +38,11 @@ module.exports = {
          {
            loader: 'file-loader',
            options : {
-            outputPath: 'css/',
+            outputPath: 'assets/css/',
             //name: '[name].[contenthash].[ext]', 
-            //name: '[name].[ext]', 
-            name: 'style.css',
-            publicPath: 'http://' + devServerHost + ':' + devServerPort + '/css/',
+            name: '[name].[ext]', 
+            //name: 'style.css',
+            publicPath: 'http://' + devServerHost + ':' + devServerPort + '/assets/css/',
            }
          },
          'extract-loader',
@@ -59,7 +60,7 @@ module.exports = {
        use: {
          loader: 'file-loader',
          options: {
-           outputPath: 'fonts/'
+           outputPath: 'assets/fonts/'
          }
        }
      },
@@ -92,10 +93,12 @@ module.exports = {
       patterns: [
       { from:"../src/manifest.json", to:"." },
       { from:"../src/_locales", to:"_locales" },
-      { from:"../src/_background", to:"_background" },
-      { from:"../src/_content", to:"_content" },
-      { from:"../src/_popup", to:"_popup" },
+      { from:"../src/background", to:"background" },
+      { from:"../src/content", to:"content" },
+      { from:"../src/popup", to:"popup" },
       { from:"../src/pages", to:"pages" },
+      { from:"../src/assets/icons", to:"assets/icons" },
+      { from:"../src/assets/images", to:"assets/images" },
     ]
     })
   ],

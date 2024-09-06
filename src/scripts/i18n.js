@@ -6,14 +6,14 @@
  $ author: Q 
 ---------------------------------------------------------*/
 
-function locale_text(key, default_value) {
+window.locale_text = function (key, default_value) {
   var value = chrome.i18n.getMessage(key);
   if(!value)
     return default_value;
   return value;
-}
+};
 
-function locale_text_node(textNode) {
+window.locale_text_node = function(textNode) {
   var value = textNode.nodeValue;
   if(value == "") 
     return;
@@ -24,9 +24,9 @@ function locale_text_node(textNode) {
   );
 
   textNode.nodeValue = value;
-}
+};
 
-function extract_document(e) {
+window.extract_document = function(e) {
   var childNodes = e.childNodes;
   for (var i = 0; i < childNodes.length; i ++) {
     var c = childNodes[i];
@@ -39,7 +39,7 @@ function extract_document(e) {
       break;
     }
   }
-}
+};
 
 // fix page show slowly
 Q.addEvent(document, 'DOMContentLoaded', function() {
