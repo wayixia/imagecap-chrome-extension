@@ -2,7 +2,7 @@
  * wayixia chrome plugin config api
  */
 
-function user_config_is_new() {
+export function user_config_is_new() {
   var current_version = user_config_get('wayixia_version');
   console.log(current_version + ' -> ' + chrome.runtime.getManifest().version);
   var result = (parseFloat(current_version, 10) < parseFloat(chrome.runtime.getManifest().version, 10));
@@ -270,6 +270,5 @@ function filter_height() {
 function set_filter_height( height ) {
   user_config_set( "filter.height", height );
 }
-
 
 

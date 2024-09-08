@@ -174,12 +174,12 @@ var g_fullscreen_capture = {
   }
 };
 
-chrome.extension.sendMessage( { action:"userstatus" } );
+chrome.runtime.sendMessage( { action:"userstatus" } );
 
 
 
 // listener
-chrome.extension.onRequest.addListener(function(request, sender, sendResponse) 
+chrome.runtime.onMessage(function(request, sender, sendResponse) 
 {
   switch (request.type) {
   case "display-all-images": 

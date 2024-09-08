@@ -10,13 +10,17 @@
       "tabs", 
       "contextMenus", 
       "downloads", 
-      "http://*/*", 
-      "https://*/*",
       "webRequest",
-      "webRequestBlocking",
-      "<all_urls>" ],
+      "offscreen"
+    ],
+    "host_permissions":[ "<all_urls>",
+      "http://*/*", 
+      "https://*/*"
+    ],
+
    "background": {
-      "service_worker":  "background/background.js"
+      "service_worker":  "background/background.js",
+      "type": "module"
    },
    "content_scripts": [ 
      {
@@ -34,7 +38,7 @@
       "16": "assets/icons/icon16.png",
       "48": "assets/icons/icon48.png"
    },
-   "browser_action" : {
+   "action" : {
      "default_title" : "__MSG_extName__",
      "default_icon"  : "assets/icons/icon128.png",
      "default_popup" : "popup/popup.html"

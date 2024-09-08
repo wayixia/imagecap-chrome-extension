@@ -3,8 +3,8 @@
 // found in the LICENSE file.
 //
 
-
-var config = require("config");
+import { user_config_is_new } from "./config.js"
+//import "./background_ajax.js"
 
 var plugin_name  = chrome.i18n.getMessage('menuDigImages');
 var wayixia = {};
