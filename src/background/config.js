@@ -43,21 +43,24 @@ function user_config_tostring() {
   return(JSON.stringify(config));
 }
 
-function user_config_set(key, value) {
-  localStorage.setItem(key, value);
+async function user_config_set(key, value) {
+  return await chrome.storage.local.set(key, value);
 }
 
 function user_config_get(key) {
-  return localStorage.getItem(key);
+  const data = chrome.storage.local.get(key);
+  return data;
 }
 
 /*!
  * add block image
  */
 function block_image_add(url) {
-  var images = JSON.parse(localStorage.getItem('block_images')) || {};
-  images[url] = 1;
-  localStorage.setItem('block_images', JSON.stringify(images));
+  chrome.storage.local.get('block_images', (data)=>{
+    var images = JSON.parse() || {};
+    images[url] = 1;
+    chrome.storage.local.set('block_images', JSON.stringify(images));
+  });
 }
 
 /*!

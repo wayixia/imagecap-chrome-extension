@@ -116,6 +116,7 @@ function saveconfig() {
 
 }
 
+/*
 function ajax_execute( json ) {
   var http_call = new XMLHttpRequest();
   http_call.onreadystatechange = (function(callee) { return function() {
@@ -198,8 +199,10 @@ setTimeout(function() {
     }
   } );
 }, 1000)
+*/
 
 function wayixia_logout( fn ) {
+  /*
   ajax_execute( { command: "https://www.wayixia.com/?mod=user&action=logout",
     method: "GET",
     oncomplete : function( res ) {
@@ -211,6 +214,7 @@ function wayixia_logout( fn ) {
       fn( true );
     },
   } );
+   */
 }
 
 
@@ -233,19 +237,6 @@ function wayixia_statics_images( item, pageurl ) {
 }
 
 
-// create context menu
-var contexts = ["page", "image", "selection","editable","link","video","audio"];
-chrome.contextMenus.create({
-  "title": plugin_name, 
-  "contexts":contexts,  
-  "onclick": function(info, tab) { 
-    if(info.mediaType == 'image') {
-      on_click_wa_single(info, tab); 
-    } else {
-      on_click_wa_all(info, tab);  
-    }
-  }
-});
 
 function on_click_wa_single(info, tab) {
   download_image(info.srcUrl, null, "" );
@@ -524,18 +515,7 @@ function focus_or_create_tab(url, func) {
   chrome.tabs.create( { "url" : url, "selected" : true}, function on_tab_created( tab ) { display_tab_id = tab.id; } );
 }
 
-// add commands listener
-chrome.commands.onCommand.addListener(function(command) {
-  if (command == "toggle-wa-all") {
-    // Get the currently selected tab
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      // Toggle the wa all images
-      on_click_wa_all({}, tabs[0]);
-      //var current = tabs[0]
-      //chrome.tabs.update(current.id, {'pinned': !current.pinned});
-    });
-  }
-});
+
 
 
 chrome.downloads.onDeterminingFilename.addListener(function(item, suggest) {
@@ -579,7 +559,7 @@ chrome.downloads.onChanged.addListener(function(download) {
   }
 });
 
-chrome.extension.onMessage.addListener( function( o ) {
+chrome.runtime.onMessage.addListener( function( o, sender, res ) {
   //console.log(o.action);
   switch( o.action ) {
   case "userstatus":
@@ -631,6 +611,8 @@ chrome.extension.onMessage.addListener( function( o ) {
 } );
 
 
+/*
+
 // Disable XCORS
 const HEADERS_TO_STRIP_LOWERCASE = [
   //'content-security-policy',
@@ -647,6 +629,53 @@ chrome.webRequest.onHeadersReceived.addListener(
     urls: ['<all_urls>']
   },
   ['blocking', 'responseHeaders', 'extraHeaders']);
+
+  */
+
+// add commands listener
+chrome.commands.onCommand.addListener(function(command) {
+  if (command == "toggle-wa-all") {
+    // Get the currently selected tab
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      // Toggle the wa all images
+      on_click_wa_all({}, tabs[0]);
+      //var current = tabs[0]
+      //chrome.tabs.update(current.id, {'pinned': !current.pinned});
+    });
+  }
+});
+
+chrome.contextMenus.onClicked.addListener( function(info) {
+  console.log( info );
+  switch(info.menuItemId) {
+  case "imagecap":
+    if(info.mediaType == 'image') {
+      //on_click_wa_single(info, tab); 
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        on_click_wa_single(info, tabs[0]);
+      });
+    } else {
+      //on_click_wa_all(info, tab); 
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        // Toggle the wa all images
+        on_click_wa_all({}, tabs[0]);
+      });
+    } 
+    break;
+  }
+
+});
+
+
+chrome.runtime.onInstalled.addListener( function() { 
+  // create context menu
+  var contexts = ["page", "image", "selection","editable","link","video","audio"];
+  chrome.contextMenus.create({
+    "title": plugin_name, 
+    "contexts":contexts,  
+    "id": "imagecap"
+  });
+});
 
 console.log('background.js init');
 

@@ -179,7 +179,7 @@ chrome.runtime.sendMessage( { action:"userstatus" } );
 
 
 // listener
-chrome.runtime.onMessage(function(request, sender, sendResponse) 
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) 
 {
   switch (request.type) {
   case "display-all-images": 
