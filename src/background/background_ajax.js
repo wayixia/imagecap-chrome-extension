@@ -2,7 +2,13 @@
 /**
  * 用于chrome插件background
  */
-Q = {};
+
+
+
+class Q {
+  constructor() {
+
+  } 
 
 /**
  * 生成指定len长度的随机字符串
@@ -10,14 +16,14 @@ Q = {};
  * @param len {number} - 随机串的长度
  * @return {string} 随机串
  */
-Q.rnd = function(len) {
-  var str = '';
-  var roundArray = 'abcdef1234567890'.split('');
-  for(var i=0; i < len; i++) {
-    str += '' + roundArray[Math.round( Math.random()* (roundArray.length - 1))];
+  rnd(len) {
+    let str = '';
+    let roundArray = 'abcdef1234567890'.split('');
+    for(var i=0; i < len; i++) {
+      str += '' + roundArray[Math.round( Math.random()* (roundArray.length - 1))];
+    }
+    return str;
   }
-  return str;
-}
 
 /**
  * json2.js 版本的json序列化
@@ -26,7 +32,7 @@ Q.rnd = function(len) {
  * @param jsonObject {object} json对象
  * @return {string} json字符串
  */
-Q.json2str = function (jsonObject) {
+json2str(jsonObject) {
   return JSON.stringify(jsonObject, function(key, value){return value;});
 }
 
@@ -36,7 +42,7 @@ Q.json2str = function (jsonObject) {
  * @param message {string} json字符串
  * @return {object} javascript 对象
  */
-Q.json_decode = function(message) {
+json_decode(message) {
   return JSON.parse(message);
 }
 
@@ -46,27 +52,8 @@ Q.json_decode = function(message) {
  * @param message {object} javascript对象
  * @return {string} javascript 对象
  */
-Q.json_encode = function(v) {
+json_encode(v) {
   return JSON.stringify(v);
-}
-
-
-function createAjaxTrans() {
-  var transport = null;
-  try  {
-    transport = new ActiveXObject("Msxml2.XMLHTTP");
-  } catch(e){
-    try {
-      transport = new ActiveXObject("Microsoft.XMLHTTP");
-    } catch(sc) {
-      transport = null;
-    }
-  }
-  if( !transport && typeof XMLHttpRequest != "undefined" ) {
-    transport = new XMLHttpRequest();
-  }
-    
-  return transport;
 }
 
 /** ajax请求回调类型
@@ -100,12 +87,12 @@ function createAjaxTrans() {
  * @param {bool=} [json.withCredentials=false] - ajax跨域凭证， 默认false
  */
 
-Q.ajaxc = function(json) {
+ajaxc(json) {
   var queue = !!json.queue;
   if( queue ) { 
-    ajaxQueue( json, _data_handler );  
+    this.ajaxQueue( json, _data_handler );  
   } else {
-    newAjax( json, _data_handler );
+    this.newAjax( json, _data_handler );
   }
 
   function _data_handler(data) {
@@ -127,12 +114,12 @@ Q.ajaxc = function(json) {
  * @param {ajax_callback=} json.onerror - ajax请求完成时的回调
  * @param {bool=} [json.withCredentials=false] - ajax跨域凭证， 默认false
  */
-Q.ajax = function(json) {
+ajax(json) {
   var queue = !!json.queue;
   if( queue ) { 
-    ajaxQueue( json, _data_handler );  
+    this.ajaxQueue( json, _data_handler );  
   } else {
-    newAjax( json, _data_handler );
+    this.newAjax( json, _data_handler );
   }
 
   function _data_handler( data ) {
@@ -145,7 +132,7 @@ Q.ajax = function(json) {
   }
 }
 
-function ajaxQueue( json, data_handler ) {
+ajaxQueue( json, data_handler ) {
   this.tasks = this.tasks || [];
   var run_task = ( this.tasks.length == 0 );
  // queue execute ajax
@@ -163,7 +150,7 @@ function ajaxQueue( json, data_handler ) {
     }
     
     var t = a.tasks[0];
-    newAjax( t , data_handler, ( function( aa ) { return function( success ) {
+    this.newAjax( t , data_handler, ( function( aa ) { return function( success ) {
       var o = aa.tasks.shift();
       console.log("[ajax]completed("+(success?"ok":"failed")+") one and remove item -> "+o.command + ", size: " + aa.tasks.length );
       if( success || ( !!o.continueError ) ) {
@@ -173,7 +160,7 @@ function ajaxQueue( json, data_handler ) {
   } };
 }
 
-function newAjax(json, data_handler, complete_handler) {
+newAjax(json, data_handler, complete_handler) {
   var request = json || {};
   var command = request.command.toString();
   if(command.indexOf('?') == -1) {
@@ -190,34 +177,52 @@ function newAjax(json, data_handler, complete_handler) {
     method = "GET"
   }
 
-  var xmlhttp = createAjaxTrans();
+
   var async = true;
   if(request.async) {
     async = !! request.async;
   }
 
-  xmlhttp.open(method, command, async);
-  if(request.withCredentials) {
-    xmlhttp.withCredentials = !! request.withCredentials;
-  }
-  xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  //xmlhttp.setRequestHeader( "Content-Type", "text/html;charset=UTF-8" );
-  xmlhttp.onreadystatechange = function() {
-    if(xmlhttp.readyState == 4) {
-      if(xmlhttp.status == 200) {
-        request.oncomplete && request.oncomplete(xmlhttp);
-        complete_handler && complete_handler( true );
-      } else {
-        request.onerror && request.onerror(xmlhttp);
-        complete_handler && complete_handler( false );
-      }
-    }
-  };
-
   var postdata = null;
   if(request.data && typeof data_handler == 'function') {
     postdata = data_handler(request.data);
   }
-  
-  xmlhttp.send(postdata);
+
+  fetch( command, { method: method, body: postdata })
+  .then((response)=> {
+    if( response.ok )
+    {
+      request.oncomplete && request.oncomplete(xmlhttp);
+      complete_handler && complete_handler( true ); 
+    }
+    else
+    {
+      request.oncomplete && request.oncomplete(xmlhttp);
+      complete_handler && complete_handler( false );
+    }
+  });
+
+
+//  xmlhttp.open(method, command, async);
+  //if(request.withCredentials) {
+    //xmlhttp.withCredentials = !! request.withCredentials;
+  //}
+  //xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  ////xmlhttp.setRequestHeader( "Content-Type", "text/html;charset=UTF-8" );
+  //xmlhttp.onreadystatechange = function() {
+    //if(xmlhttp.readyState == 4) {
+      //if(xmlhttp.status == 200) {
+        //request.oncomplete && request.oncomplete(xmlhttp);
+        //complete_handler && complete_handler( true );
+      //} else {
+        //request.onerror && request.onerror(xmlhttp);
+        //complete_handler && complete_handler( false );
+      //}
+    //}
+  //};
+  //xmlhttp.send(postdata);
 }
+
+} // end class
+
+export default new Q();

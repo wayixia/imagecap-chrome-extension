@@ -43,12 +43,12 @@ function user_config_tostring() {
   return(JSON.stringify(config));
 }
 
-async function user_config_set(key, value) {
-  return await chrome.storage.local.set(key, value);
+export function user_config_set(key, value) {
+  chrome.storage.local.set(key, value);
 }
 
-function user_config_get(key) {
-  const data = chrome.storage.local.get(key);
+export async function user_config_get(key) {
+  const data = await chrome.storage.local.get(key);
   return data;
 }
 

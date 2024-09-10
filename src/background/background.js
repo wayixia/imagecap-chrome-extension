@@ -3,7 +3,8 @@
 // found in the LICENSE file.
 //
 
-import { user_config_is_new } from "./config.js"
+import { user_config_is_new, user_config_get } from "./config.js"
+import Q from "./background_ajax.js"
 //import "./background_ajax.js"
 
 var plugin_name  = chrome.i18n.getMessage('menuDigImages');
@@ -100,6 +101,7 @@ function is_max_screenshot( width, height ) {
 
 
 function saveconfig() {
+  /*
  Q.ajaxc( { command: "https://www.wayixia.com/?mod=user&action=do-save-config&inajax=true",
     data: { config: user_config_tostring() },
     oncomplete : function( xmlhttp ) {
@@ -113,7 +115,7 @@ function saveconfig() {
       console.log("Problem save config");
     }
   } );
-
+  */
 }
 
 /*
@@ -220,6 +222,8 @@ function wayixia_logout( fn ) {
 
 function wayixia_statics_images( item, pageurl ) {
   var re = /data:(.+?);(\w+?),(.+)/;
+  var url;
+  var mime;
   if(re.test(item.url)) { // data
     url = pageurl;
     mime = "image/screenshot";
@@ -227,6 +231,7 @@ function wayixia_statics_images( item, pageurl ) {
     url = item.url;
     mime = item.mime;
   }
+
   Q.ajaxc( { command: "https://www.wayixia.com/?mod=statics&action=image&inajax=true",
     queue: true,
     data: [item.byExtensionId, url, mime, item.fileSize],
@@ -243,7 +248,7 @@ function on_click_wa_single(info, tab) {
 }
 
 function on_click_wa_all(info, tab) {  
-  chrome.tabs.sendRequest(tab.id, { type : "display-all-images"}, function(res) {
+  chrome.tabs.sendMessage(tab.id, { type : "display-all-images"}, function(res) {
     res = res || {};
     res.track_from = info.track_from;
     create_display_page(tab.id, res); 
@@ -352,6 +357,7 @@ function screenshot_end(tab, canvas) {
 }
 
 function merge_images_with_client( canvas, fn ) {
+  /*
   Q.ajaxc( { command: wayixia_assistant() + "/merge?rid=" + canvas.row,
     queue: true,
     data: canvas,
@@ -362,6 +368,7 @@ function merge_images_with_client( canvas, fn ) {
       console.log( xmlhttp.responseText );
     }
   } );
+   */
 }
 
 var cache_display = {};
@@ -446,7 +453,7 @@ function get_date_path() {
   var day = date.getDate();   
   month = month>9?month:('0'+month);
   day   = day>9?day:('0'+day);
-  date_path = date.getFullYear()+month+day;
+  var date_path = date.getFullYear()+month+day;
   return date_path;
 }
 
@@ -564,6 +571,7 @@ chrome.runtime.onMessage.addListener( function( o, sender, res ) {
   switch( o.action ) {
   case "userstatus":
     //if( wayixia.nickname == ""  ) {
+    /*
       ajax( { command: "https://www.wayixia.com/?mod=user&action=status&withalbums=true&inajax=true",
         method: "GET",
         oncomplete : function( r ) {
@@ -600,6 +608,7 @@ chrome.runtime.onMessage.addListener( function( o, sender, res ) {
         }
       } );
     //}
+    */
     break;
   
   case "assistant":
