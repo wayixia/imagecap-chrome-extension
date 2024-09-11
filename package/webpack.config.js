@@ -5,7 +5,6 @@ var path=require("path");
 var webpack = require("webpack");
 
 const app = [
-    './deps.js',
     './app.js',
     //'whatwg-fetch',
 ];
@@ -29,8 +28,19 @@ module.exports = {
      {
        test: /\.scss$/,
        use: [ { 
-           loader: 'sass-loader' 
-       }] 
+           loader: 'sass-loader',
+           options : {
+            outputPath: 'assets/css/',
+            //name: '[name].[contenthash].[ext]', 
+            name: '[name].[ext]', 
+            //name: 'style.css',
+            publicPath: 'http://' + devServerHost + ':' + devServerPort + '/assets/css/',
+           }
+       },
+       'extract-loader',
+       'css-loader',
+       'postcss-loader'
+      ] 
      },
      {
        test: /\.css$/,

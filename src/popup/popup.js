@@ -1,4 +1,6 @@
 
+import Q from "~libq.js/dist/libq.cjs.js"
+
 function deactive() {
   window.close();
 }

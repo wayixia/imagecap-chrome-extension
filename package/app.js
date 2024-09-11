@@ -8,7 +8,10 @@ import "../src/scripts/tracker"
 import "../src/scripts/ui"
 import "../src/scripts/urls_filter"
 
+var Q = require("libqjs")
 
+//import {app_service} from "./service";
+import  "../src/assets/scss/style.scss";
 
 //import {app_service} from "./service";
 //import  "../deps/libq.js/css/ui.css";

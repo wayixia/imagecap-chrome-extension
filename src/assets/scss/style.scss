@@ -3,11 +3,8 @@
  *
  */
 
-/**
- toolbar button css style
- */
 
-@import url("../../deps/libq.js/css/ui.css");
+@import "~/node_modules/libqjs/dist/assets/css/ui.css";
 
 button.wayixia-toolbar-button {
   background: transparent url(../images/canvas-toolbar.png) left top no-repeat;

@@ -2,31 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+
+
+import Analytics from './google-analytics.js';
+
 /**
  * Add your Analytics tracking ID here.
  */
 var _AnalyticsCode = 'UA-57909309-4';
-
-/**
- * Below is a modified version of the Google Analytics asynchronous tracking
- * code snippet.  It has been modified to pull the HTTPS version of ga.js
- * instead of the default HTTP version.  It is recommended that you use this
- * snippet instead of the standard tracking snippet provided when setting up
- * a Google Analytics account.
- */
-
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', _AnalyticsCode]);
-_gaq.push(['_trackPageview']);
-
-(function() {
-  var ga = document.createElement('script');
-  ga.type = 'text/javascript';
-  ga.async = true;
-  ga.src = 'https://ssl.google-analytics.com/ga.js';
-  var s = document.getElementsByTagName('script')[0];
-  s.parentNode.insertBefore(ga, s);
-})();
 
 /**
  * Track a click on a button using the asynchronous tracking API.
@@ -35,24 +18,27 @@ _gaq.push(['_trackPageview']);
  * for information on how to use the asynchronous tracking API.
  */
 function wayixia_track_button_click(e) {
-  _gaq.push(['_trackEvent', e.id, 'clicked']);
+  Analytics.fireEvent('click_button', { id: e.id });
 }
 
 function wayixia_track_event(id, from) {
-  _gaq.push(['_trackEvent', id, from]);
+  Analytics.fireEvent(from, { id: id });
 }
 
-/**
- * Now set up your event handlers for the popup's `button` elements once the
- * popup's DOM has loaded.
- */
-//document.addEventListener('DOMContentLoaded', function () {
-  //var buttons = document.querySelectorAll('button');
-  //for (var i = 0; i < buttons.length; i++) {
-  //  buttons[i].addEventListener('click', trackButtonClick);
-  //}
-//});
-//
 
+// Fire a page view event on load
+window.addEventListener('load', () => {
+  Analytics.firePageViewEvent(document.title, document.location.href);
+});
+
+
+/*
+// Listen globally for all button events
+document.addEventListener('click', (event) => {
+  if (event.target instanceof HTMLButtonElement) {
+    Analytics.fireEvent('click_button', { id: event.target.id });
+  }
+});
+*/
 
 

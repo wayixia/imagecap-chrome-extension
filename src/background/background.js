@@ -256,11 +256,11 @@ function on_click_wa_all(info, tab) {
 }
 
 function on_click_open_options() {
-  chrome.tabs.create({"url":chrome.extension.getURL("pages/options/options.html"), "selected":true}, function(tab) {});
+  chrome.tabs.create({"url":chrome.runtime.getURL("pages/options/options.html"), "selected":true}, function(tab) {});
 } 
 
 function on_click_open_about() {
-  chrome.tabs.create({"url":chrome.extension.getURL("pages/options/options.html#about"), "selected":true}, function(tab) {});
+  chrome.tabs.create({"url":chrome.runtime.getURL("pages/options/options.html#about"), "selected":true}, function(tab) {});
 } 
 
 function on_click_screenshot(tab) {
@@ -380,7 +380,7 @@ function get_display_cache( tab_id ) {
 }
 
 function create_display_page(context_tab_id,  res) {  
-  create_tab( { url: chrome.extension.getURL("display.html"), callback : ( function( id, res ) { return function( tab_id ) { 
+  create_tab( { url: chrome.runtime.getURL("pages/display/display.html"), callback : ( function( id, res ) { return function( tab_id ) { 
     cache_display[tab_id] = {
       ctx_tab_id : id,
       data : res 
@@ -389,7 +389,7 @@ function create_display_page(context_tab_id,  res) {
 }
 
 function create_display_screenshot(context_tab_id,  res, url) {  
-  create_tab( { url : chrome.extension.getURL("screenshot.html"), callback : ( function( id, res ) { return function( tab_id ) { 
+  create_tab( { url : chrome.runtime.getURL("pages/screenshot/screenshot.html"), callback : ( function( id, res ) { return function( tab_id ) { 
     cache_display[tab_id] = {
       ctx_tab_id : id,
       data : res,
@@ -401,7 +401,7 @@ function create_display_screenshot(context_tab_id,  res, url) {
 }
 
 function create_display_full_screenshot(context_tab_id,  res, url) {  
-  create_tab( { url : chrome.extension.getURL("screenshot.html"), callback : ( function( id, res ) { return function( tab_id ) { 
+  create_tab( { url : chrome.runtime.getURL("pages/screenshot/screenshot.html"), callback : ( function( id, res ) { return function( tab_id ) { 
     cache_display[tab_id] = {
       ctx_tab_id : id,
       data : res,
@@ -422,7 +422,7 @@ function create_upgrade_page() {
 
 
 function edit_image( url, view ) {
-  focus_or_create_tab(chrome.extension.getURL("screenshot.html") + "?img=" + url, function(view) { });
+  focus_or_create_tab(chrome.runtime.getURL("pages/screenshot/screenshot.html") + "?img=" + url, function(view) { });
 }
 
 var download_items = {};
@@ -614,7 +614,7 @@ chrome.runtime.onMessage.addListener( function( o, sender, res ) {
   case "assistant":
     console.log( o.port );
     set_wayixia_assistant( o.port );
-    focus_or_create_tab(chrome.extension.getURL("pages/options/options.html") + "#tab-screencapture", function(view) { });
+    focus_or_create_tab(chrome.runtime.getURL("pages/options/options.html") + "#tab-screencapture", function(view) { });
     break;
   }
 } );
