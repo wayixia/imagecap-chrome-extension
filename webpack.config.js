@@ -6,7 +6,6 @@ var webpack = require("webpack");
 
 const app = [
     './app.js',
-    //'whatwg-fetch',
 ];
 
 
@@ -19,28 +18,31 @@ module.exports = {
     app : app,
   },
   "output": {
-    path: path.resolve( __dirname, '../dist' ),
+    path: path.resolve( __dirname, 'dist' ),
     filename: 'scripts/[name].bundle.js',
     publicPath: '/',
   },
   "module": {
     rules: [
      {
-       test: /\.scss$/,
-       use: [ { 
-           loader: 'sass-loader',
-           options : {
-            outputPath: 'assets/css/',
-            //name: '[name].[contenthash].[ext]', 
-            name: '[name].[ext]', 
-            //name: 'style.css',
-            publicPath: 'http://' + devServerHost + ':' + devServerPort + '/assets/css/',
-           }
-       },
-       'extract-loader',
-       'css-loader',
-       'postcss-loader'
-      ] 
+      test: /\.(scss)$/,
+      use: [{
+        loader: 'style-loader', // inject CSS to page
+      }, {
+        loader: 'css-loader', // translates CSS into CommonJS modules
+      }, {
+        loader: 'postcss-loader', // Run postcss actions
+        /*
+        options: {
+          plugins: function () { // postcss plugins, can be exported to postcss.config.js
+            return [
+              require('autoprefixer')
+            ];
+          }
+        }*/
+      }, {
+        loader: 'sass-loader' // compiles Sass to CSS
+      }]
      },
      {
        test: /\.css$/,
@@ -87,7 +89,10 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [".js"]
+    extensions: [".js"],
+    alias: {
+      "libq.js" : path.resolve(__dirname, "deps", "libq.js")
+    }
   },
 
   plugins: [
@@ -101,14 +106,14 @@ module.exports = {
     //),
 	  new CopyWebpackPlugin({
       patterns: [
-      { from:"../src/manifest.json", to:"." },
-      { from:"../src/_locales", to:"_locales" },
-      { from:"../src/background", to:"background" },
-      { from:"../src/content", to:"content" },
-      { from:"../src/popup", to:"popup" },
-      { from:"../src/pages", to:"pages" },
-      { from:"../src/assets/icons", to:"assets/icons" },
-      { from:"../src/assets/images", to:"assets/images" },
+      { from:"./src/manifest.json", to:"." },
+      { from:"./src/_locales", to:"_locales" },
+      { from:"./src/background", to:"background" },
+      { from:"./src/content", to:"content" },
+      { from:"./src/popup", to:"popup" },
+      { from:"./src/pages", to:"pages" },
+      { from:"./src/assets/icons", to:"assets/icons" },
+      { from:"./src/assets/images", to:"assets/images" },
     ]
     })
   ],

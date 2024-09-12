@@ -1,10 +1,4 @@
-
-/** \brief wayixia style css
- *
- */
-
-
-@import "~/node_modules/libqjs/dist/assets/css/ui.css";
+@import "~libq.js/assets/css/ui.css";
 
 button.wayixia-toolbar-button {
   background: transparent url(../images/canvas-toolbar.png) left top no-repeat;

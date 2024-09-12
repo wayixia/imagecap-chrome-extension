@@ -5,6 +5,8 @@
  $ author: Q 
 ---------------------------------------------------------*/
 
+import "../../scripts/app.bundle.js"
+
 var t = null;
 var checkbox_show_block = null;
 var wayixia_images_box = null;

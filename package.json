@@ -11,7 +11,7 @@
     "extract-loader": "^5.1.0",
     "file-loader": "^6.2.0",
     "install": "^0.13.0",
-    "libqjs": "file:../deps/libq.js",
+    "libq.js": "file:./deps/libq.js",
     "lodash": "^4.17.21",
     "npm": "^8.12.1",
     "postcss-loader": "^7.0.0",
