@@ -5,7 +5,7 @@
  $ author: Q 
 ---------------------------------------------------------*/
 
-import "../../scripts/app.bundle.js"
+import * as Q from "../../scripts/app.bundle.js"
 
 var t = null;
 var checkbox_show_block = null;

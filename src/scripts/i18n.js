@@ -6,6 +6,7 @@
  $ author: Q 
 ---------------------------------------------------------*/
 
+
 window.locale_text = function (key, default_value) {
   var value = chrome.i18n.getMessage(key);
   if(!value)
@@ -42,7 +43,7 @@ window.extract_document = function(e) {
 };
 
 // fix page show slowly
-Q.addEvent(document, 'DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
   // hook locale_text
   Q.set_locale_text(locale_text);
   extract_document(document.childNodes[0]);
