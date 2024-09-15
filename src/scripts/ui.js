@@ -1,4 +1,7 @@
 
+
+import Q from "libq.js/dist/libq.js"
+
 var wayixia_errors = [];
 var wayixia_source_tab_id = null;
 var wayixia_help_menu = null;
@@ -8,13 +11,14 @@ var wayixia_report_window = null;
 var wayixia_ui_wndx = null;
 var wayixia_request_data = {imgs: [], data: {}};
 
-Q.ready(function() {
 
-document.body.ondragstart  =function() { return false; }
-document.body.onselectstart=function() { return false; }
+export function wayixia_ui_init() 
+{
+  document.body.ondragstart  =function() { return false; }
+  document.body.onselectstart=function() { return false; }
 
-// set locale
-Q.set_locale_text(locale_text);
+  // set locale
+  Q.set_locale_text(locale_text);
 
 // shortcut
 //Q.addEvent(document, 'keyup', function(evt) {
@@ -26,11 +30,10 @@ Q.set_locale_text(locale_text);
   //}
 //});
 
-// display and screenshot view
-if(Q.$('wayixia-bugs')) {
-
-Q.$('wayixia-bugs').title = Q.locale_text('extReportABug');
-} // Q.$('wayixia-bugs')
+  // display and screenshot view
+  if(Q.$('wayixia-bugs')) {
+    Q.$('wayixia-bugs').title = Q.locale_text('extReportABug');
+  } // Q.$('wayixia-bugs')
 
 
 if(Q.$('wayixia-help')) { // wayixia-help
@@ -99,7 +102,7 @@ if( Q.$('wayixia-donate') ) {
   }
 }
 
-});
+}
 
 function background_warning(o) {
   wayixia_errors.push(o);
@@ -194,7 +197,7 @@ function popup_tocloud_menu( e, evt, f )
   evt = evt || window.event;
   // init drop menu
   if( wayixia_tocloud_menu ) {
-    delete wayixia_tocloud_menu;
+    wayixia_tocloud_menu = null;
   }
   wayixia_tocloud_menu = new Q.Menu({
     style: "wayixia-menu", 
@@ -261,7 +264,7 @@ function popup_save_menu( e, evt, f )
   evt = evt || window.event;
   // init drop menu
   if( wayixia_save_menu ) {
-    delete wayixia_save_menu;
+    wayixia_save_menu = null;
   }
   wayixia_save_menu = new Q.Menu({
     style: "wayixia-menu", 

@@ -43,9 +43,9 @@ window.extract_document = function(e) {
 };
 
 // fix page show slowly
-document.addEventListener('DOMContentLoaded', function() {
-  // hook locale_text
-  Q.set_locale_text(locale_text);
-  extract_document(document.childNodes[0]);
-})
+//document.addEventListener('DOMContentLoaded', function() {
+//  // hook locale_text
+//  Q.set_locale_text(locale_text);
+//  extract_document(document.childNodes[0]);
+//})
 

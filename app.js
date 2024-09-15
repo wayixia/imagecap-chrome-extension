@@ -3,17 +3,24 @@
  * author Q
  */
 
-import "./src/scripts/i18n"
+import "./src/scripts/i18n.js"
 import "./src/scripts/tracker"
 import "./src/scripts/ui"
 import "./src/scripts/urls_filter"
 
-window.Q = require("libq.js")
+
 
 //import {app_service} from "./service";
 import  "./src/assets/scss/style.scss";
 
 //import {app_service} from "./service";
-//import  "../deps/libq.js/css/ui.css";
+//import  "../deps/libq.js/css/ui.css"
 
-export default window.Q;
+
+// fix page show slowly
+Q.addEvent('DOMContentLoaded', function() {
+  // hook locale_text
+  Q.set_locale_text(locale_text);
+  extract_document(document.childNodes[0]);
+  wayixia_ui_init();
+})

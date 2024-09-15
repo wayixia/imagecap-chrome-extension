@@ -1,5 +1,5 @@
 
-function urls_filter(url, rules) {
+export function urls_filter(url, rules) {
   try { // try
 
   //var re = /^\w+:\/\/[0-9a-zA-z\-]+\.([0-9a-zA-Z\-\.]+)\//i;
