@@ -92,14 +92,14 @@ function block_images_all() {
  * set view type of image box
  * @param t - view type, enum: size_1, size_2, size_3
  */
-function view_type_set(t) {
+export function view_type_set(t) {
   user_config_set('view_type', t);
 }
 
 /*!
  * get current view type of image box
  */
-function view_type() {
+export function view_type() {
   var type = user_config_get('view_type');
   if( type == "size_1" 
      || type == "size_2" 

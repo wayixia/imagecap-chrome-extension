@@ -114,6 +114,7 @@ module.exports = {
       { from:"./src/pages", to:"pages" },
       { from:"./src/assets/icons", to:"assets/icons" },
       { from:"./src/assets/images", to:"assets/images" },
+      //{ from:"./deps/libq.js/dist/assets", to:"assets/libqjs" },
     ]
     })
   ],

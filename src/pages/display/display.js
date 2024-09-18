@@ -7,12 +7,15 @@
 
 //import * as Q from "../../scripts/app.bundle.js"
 
+
+import * as extension from "../../background/config"
+
 var t = null;
 var checkbox_show_block = null;
 var wayixia_images_box = null;
 
 function is_block_image(url) {
-  var extension = chrome.extension.getBackgroundPage();
+  //var extension = chrome.extension.getBackgroundPage();
   return extension.is_block_image(url); 
 }
 
@@ -25,7 +28,7 @@ g_min_height: 0,
 e_with : null,
 e_height : null,
 __init__ : function( json ) {
-  var extension = chrome.extension.getBackgroundPage();
+  //var extension = chrome.extension.getBackgroundPage();
   var _this = this;
   json = json || {};
 
@@ -76,7 +79,7 @@ function initialize () {
   var _this = t = this;
   var blocked_images = [];
   var accept_length  = 0;
-  var extension = chrome.extension.getBackgroundPage();
+  //var extension = chrome.extension.getBackgroundPage();
   
   // Image box
   wayixia_images_box = new Q.ImagesBox({id: 'wayixia-list',
@@ -164,7 +167,7 @@ function initialize () {
       content: '<div style="margin:auto; padding:20px;font-size:14px;">'+Q.locale_text('infoAddBlock')+'</div>',
       on_ok: function() {
         var remove_items = [];
-        var extension = chrome.extension.getBackgroundPage();
+        //var extension = chrome.extension.getBackgroundPage();
         wayixia_images_box.each_item(function(item) {
           if(Q.hasClass(item, 'mouseselected') && item.style.display == '') {
             if(!Q.hasClass(item, 'blocked')) {
@@ -189,7 +192,7 @@ function initialize () {
     evt = evt || window.event;
     wayixia_track_button_click(this);
 
-    var extension = chrome.extension.getBackgroundPage();
+    //var extension = chrome.extension.getBackgroundPage();
     var selected_items = 0;
     wayixia_images_box.each_item( ( function( folder ) { return function( item ) {
       if((item.className.indexOf('mouseselected') != -1) && item.style.display == '') {
@@ -304,7 +307,7 @@ function initialize () {
 
   function download_item( item, folder ) {
     //if((item.className.indexOf('mouseselected') != -1) && item.style.display == '') {
-      var extension = chrome.extension.getBackgroundPage();
+      //var extension = chrome.extension.getBackgroundPage();
       var url = item.getAttribute('data-url');
       var name = "";
       if( folder && folder.name ) {
@@ -317,7 +320,7 @@ function initialize () {
   }
 
   function edit_item( item ) {
-    var extension = chrome.extension.getBackgroundPage();
+    //var extension = chrome.extension.getBackgroundPage();
     extension.edit_image( item.getAttribute('data-url'), window );
   }
 
@@ -559,7 +562,7 @@ function album_player_display( url, imgs ) {
         },
         
         download : function(src) {
-          var extension = chrome.extension.getBackgroundPage();
+          //var extension = chrome.extension.getBackgroundPage();
           extension.download_image(src, window, extension.last_site().name );
         }
       }); 
@@ -580,7 +583,7 @@ Q.ready(function() {
   Q.set_locale_text(locale_text);
   initialize();
 
-  var extension = chrome.extension.getBackgroundPage();
+  //var extension = chrome.extension.getBackgroundPage();
   chrome.tabs.getCurrent( function( tab ) {
     /** initialize images data*/
     var data = extension.get_display_cache(tab.id);
