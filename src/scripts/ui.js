@@ -1,6 +1,5 @@
 
 
-import Q from "libq.js/dist/libq.js"
 
 var wayixia_errors = [];
 var wayixia_source_tab_id = null;

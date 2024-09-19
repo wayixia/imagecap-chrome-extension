@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 //
 
-import { user_config_is_new, user_config_get } from "./config.js"
+import config from "../scripts/config.js"
 import Q from "./background_ajax.js"
 //import "./background_ajax.js"
 
@@ -21,7 +21,7 @@ wayixia.assistant = "http://127.0.0.1:8010";
 wayixia.maxheight = 5000;
 
 // check new version for helper
-if(user_config_is_new()) {
+if(config.user_config_is_new()) {
   // display new features of wayixia extension
   setTimeout(create_upgrade_page(), 60*1000);
 }
@@ -417,7 +417,7 @@ function create_display_full_screenshot(context_tab_id,  res, url) {
 function create_upgrade_page() {  
   var manager_url = "https://www.wayixia.com/extension/#v."+chrome.runtime.getManifest().version;
   focus_or_create_tab(manager_url, function(view) { });
-  user_config_version_ok();
+  config.user_config_version_ok();
 }
 
 
@@ -458,8 +458,8 @@ function get_date_path() {
 }
 
 function get_save_path( folder ) {
-  var save_path = "wayixia/" + ( user_config_get('save_path') || "" );
-  var date_folder = (user_config_get('date_folder') != '0');
+  var save_path = "wayixia/" + ( config.user_config_get('save_path') || "" );
+  var date_folder = (config.user_config_get('date_folder') != '0');
   
   if( save_path != "" ) {
     save_path += "/";
@@ -602,7 +602,7 @@ chrome.runtime.onMessage.addListener( function( o, sender, res ) {
             }
 
             if( r.data.chrome_plugin ) {
-              user_config_load( r.data.chrome_plugin );
+              config.user_config_load( r.data.chrome_plugin );
             }
           }
         }

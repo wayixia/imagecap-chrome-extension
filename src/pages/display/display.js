@@ -8,31 +8,34 @@
 //import * as Q from "../../scripts/app.bundle.js"
 
 
-import * as extension from "../../background/config"
+import config from "../../scripts/config.js"
+import "../../scripts/i18n.js"
+import "../../scripts/tracker.js"
 
 var t = null;
 var checkbox_show_block = null;
 var wayixia_images_box = null;
+var wayixia_images_filter = null;
 
 function is_block_image(url) {
-  //var extension = chrome.extension.getBackgroundPage();
-  return extension.is_block_image(url); 
+  //var config = chrome.config.getBackgroundPage();
+  return config.is_block_image(url); 
 }
 
 /** font size drop window
  *
  */
-Q.ImageFilter = Q.DropWindow.extend( {
+var ImageFilter = Q.DropWindow.extend( {
 g_min_width: 0,
 g_min_height: 0,
 e_with : null,
 e_height : null,
 __init__ : function( json ) {
-  //var extension = chrome.extension.getBackgroundPage();
+  //var config = chrome.config.getBackgroundPage();
   var _this = this;
   json = json || {};
 
-  this.e_width = new Q.Slider({id: 'x-ctrl-mini-width', min: 0, max: 100, value: extension.filter_width()/10, 
+  this.e_width = new Q.Slider({id: 'x-ctrl-mini-width', min: 0, max: 100, value: config.filter_width()/10, 
     on_xscroll: function(v) {
       _this.g_min_width = v*10;
       
@@ -41,13 +44,13 @@ __init__ : function( json ) {
           wayixia_images_box.check_size(item, _this.g_min_width, _this.g_min_height);
       });
       Q.$('wayixia-min-width').innerText = _this.g_min_width + 'px';
-      if( extension.save_lastconfig() ) {
-        extension.set_filter_width( _this.g_min_width );
+      if( config.save_lastconfig() ) {
+        config.set_filter_width( _this.g_min_width );
       }
     }
   });
   
-  this.e_height = new Q.Slider({id: 'x-ctrl-mini-height', min: 0, max: 100, value: extension.filter_height()/10, 
+  this.e_height = new Q.Slider({id: 'x-ctrl-mini-height', min: 0, max: 100, value: config.filter_height()/10, 
     on_xscroll: function(v) {
 
       _this.g_min_height = v*10;
@@ -60,8 +63,8 @@ __init__ : function( json ) {
       
       Q.$('wayixia-min-height').innerText = _this.g_min_height + 'px';
       
-      if( extension.save_lastconfig() ) {
-        extension.set_filter_height( _this.g_min_height );
+      if( config.save_lastconfig() ) {
+        config.set_filter_height( _this.g_min_height );
       }
     }
   });
@@ -79,7 +82,7 @@ function initialize () {
   var _this = t = this;
   var blocked_images = [];
   var accept_length  = 0;
-  //var extension = chrome.extension.getBackgroundPage();
+  //var config = chrome.config.getBackgroundPage();
   
   // Image box
   wayixia_images_box = new Q.ImagesBox({id: 'wayixia-list',
@@ -120,10 +123,10 @@ function initialize () {
   var view_type = new Q.DropDownList({ 
     id: 'wayixia-select-view', 
     wstyle: 'wayixia-menu',
-    value : extension.view_type(),
+    value : config.view_type(),
     on_change: function(text, value) {
       wayixia_images_box.set_style(value);
-      extension.view_type_set(value);
+      config.view_type_set(value);
       if(!t.__first_display)
         wayixia_track_button_click(Q.$('wayixia-view'), value);
       t.__first_display = true;
@@ -167,12 +170,12 @@ function initialize () {
       content: '<div style="margin:auto; padding:20px;font-size:14px;">'+Q.locale_text('infoAddBlock')+'</div>',
       on_ok: function() {
         var remove_items = [];
-        //var extension = chrome.extension.getBackgroundPage();
+        //var config = chrome.config.getBackgroundPage();
         wayixia_images_box.each_item(function(item) {
           if(Q.hasClass(item, 'mouseselected') && item.style.display == '') {
             if(!Q.hasClass(item, 'blocked')) {
               var url = item.getAttribute('data-url');
-              extension.block_image_add(url);
+              config.block_image_add(url);
               blocked_images.push(url);
 	          }
             block_item(item, true);
@@ -192,14 +195,14 @@ function initialize () {
     evt = evt || window.event;
     wayixia_track_button_click(this);
 
-    //var extension = chrome.extension.getBackgroundPage();
+    //var config = chrome.config.getBackgroundPage();
     var selected_items = 0;
     wayixia_images_box.each_item( ( function( folder ) { return function( item ) {
       if((item.className.indexOf('mouseselected') != -1) && item.style.display == '') {
         download_item( item, folder );
         selected_items ++;
       }
-    } } )( extension.last_site() ) );
+    } } )( config.last_site() ) );
 
     if( selected_items == 0 ) {
       message_box( { content: Q.locale_text('stringSelectNone'), icon: 'info' } ); 
@@ -247,9 +250,9 @@ function initialize () {
     } );
   }
 
-  this.imageFilter =  new Q.ImageFilter({}); 
+  wayixia_images_filter =  new ImageFilter({}); 
   Q.$( 'wayixia-filter-icon' ).onclick = (function(t, e) { return function(evt) { 
-    t.imageFilter.showElement(e);
+    wayixia_images_filter.showElement(e);
     wayixia_track_event( 'toolbar', 'filtersize' );
   } } )(this, Q.$( 'wayixia-filter-icon' ));
 
@@ -307,21 +310,21 @@ function initialize () {
 
   function download_item( item, folder ) {
     //if((item.className.indexOf('mouseselected') != -1) && item.style.display == '') {
-      //var extension = chrome.extension.getBackgroundPage();
+      //var config = chrome.config.getBackgroundPage();
       var url = item.getAttribute('data-url');
       var name = "";
       if( folder && folder.name ) {
         name = folder.name;
       }
-      extension.download_image(url, window, name );
+      config.download_image(url, window, name );
       Q.addClass(item, 'downloaded');
       item.style.display = 'none';
     //}
   }
 
   function edit_item( item ) {
-    //var extension = chrome.extension.getBackgroundPage();
-    extension.edit_image( item.getAttribute('data-url'), window );
+    //var config = chrome.config.getBackgroundPage();
+    config.edit_image( item.getAttribute('data-url'), window );
   }
 
   function tocloud_item( item, album_id ) {
@@ -354,18 +357,18 @@ function initialize () {
       if(!is_blocked) {
         accept_length++;
         update_ui_count();
-        wayixia_images_box.check_size( item, extension.filter_width(), extension.filter_height() );
+        wayixia_images_box.check_size( item, config.filter_width(), config.filter_height() );
       }
     }
   }
 
   // entry display images
-  this.display_valid_images = function(imgs, data) {
+  window.display_valid_images = function(imgs, data) {
     // clear errors
     clear_errors();
     clear_album_player();
-    this.imageFilter.e_width.setValue( extension.filter_width()/10  );
-    this.imageFilter.e_height.setValue( extension.filter_height()/10 );
+    this.imageFilter.e_width.setValue( config.filter_width()/10  );
+    this.imageFilter.e_height.setValue( config.filter_height()/10 );
     // init datacheckbox_show_block.checked()
     var accept_images  = {};
     accept_length  = 0;
@@ -373,8 +376,8 @@ function initialize () {
 
     if(!imgs)
       return;
-    var filter_rule_is_enabled = extension.filter_rule_is_enabled();
-    var filter_rules = extension.filter_rule_get();
+    var filter_rule_is_enabled = config.filter_rule_is_enabled();
+    var filter_rules = config.filter_rule_get();
     //filter image duplicated
     for(var i=0; i < imgs.length ; i++) {
       var url = imgs[i].src;
@@ -397,7 +400,7 @@ function initialize () {
   /*
   this.g_min_width = 0;
   this.g_min_height= 0; 
-  this.e_width = new Q.Slider({id: 'x-ctrl-mini-width', min: 0, max: 100, value: extension.filter_width()/10, 
+  this.e_width = new Q.Slider({id: 'x-ctrl-mini-width', min: 0, max: 100, value: config.filter_width()/10, 
     on_xscroll: function(v) {
       g_min_width = v*10;
       wayixia_images_box.each_item(function(item) {
@@ -405,13 +408,13 @@ function initialize () {
           wayixia_images_box.check_size(item, t.g_min_width, t.g_min_height);
       });
       Q.$('wayixia-min-width').innerText = t.g_min_width + 'px';
-      if( extension.save_lastconfig() ) {
-        extension.set_filter_width( t.g_min_width );
+      if( config.save_lastconfig() ) {
+        config.set_filter_width( t.g_min_width );
       }
     }
   });
   
-  this.e_height = new Q.Slider({id: 'x-ctrl-mini-height', min: 0, max: 100, value: extension.filter_height()/10, 
+  this.e_height = new Q.Slider({id: 'x-ctrl-mini-height', min: 0, max: 100, value: config.filter_height()/10, 
     on_xscroll: function(v) {
 
       t.g_min_height = v*10;
@@ -422,8 +425,8 @@ function initialize () {
       });
       Q.$('wayixia-min-height').innerText = t.g_min_height + 'px';
       
-      if( extension.save_lastconfig() ) {
-        extension.set_filter_height( t.g_min_height );
+      if( config.save_lastconfig() ) {
+        config.set_filter_height( t.g_min_height );
       }
     }
   });
@@ -562,8 +565,8 @@ function album_player_display( url, imgs ) {
         },
         
         download : function(src) {
-          //var extension = chrome.extension.getBackgroundPage();
-          extension.download_image(src, window, extension.last_site().name );
+          //var config = chrome.config.getBackgroundPage();
+          config.download_image(src, window, config.last_site().name );
         }
       }); 
       g_album_player.render(url, imgs); 
@@ -583,10 +586,10 @@ Q.ready(function() {
   Q.set_locale_text(locale_text);
   initialize();
 
-  //var extension = chrome.extension.getBackgroundPage();
+  //var config = chrome.config.getBackgroundPage();
   chrome.tabs.getCurrent( function( tab ) {
     /** initialize images data*/
-    var data = extension.get_display_cache(tab.id);
+    var data = config.get_display_cache(tab.id);
     if( !data )
       return;
     wayixia_source_tab_id = data.ctx_tab_id;

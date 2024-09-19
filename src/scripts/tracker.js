@@ -17,11 +17,11 @@ var _AnalyticsCode = 'UA-57909309-4';
  * See http://code.google.com/apis/analytics/docs/tracking/asyncTracking.html
  * for information on how to use the asynchronous tracking API.
  */
-function wayixia_track_button_click(e) {
+export function wayixia_track_button_click(e) {
   Analytics.fireEvent('click_button', { id: e.id });
 }
 
-function wayixia_track_event(id, from) {
+export function wayixia_track_event(id, from) {
   Analytics.fireEvent(from, { id: id });
 }
 
