@@ -16,6 +16,7 @@ var t = null;
 var checkbox_show_block = null;
 var wayixia_images_box = null;
 var wayixia_images_filter = null;
+//var wayixia_source_tab_id = 0;
 
 function is_block_image(url) {
   //var config = chrome.config.getBackgroundPage();
@@ -583,24 +584,25 @@ function clear_album_player() {
 
 /** 挖图界面初始化 */
 Q.ready(function() {  
-  Q.set_locale_text(locale_text);
+  Q.set_locale_text(window.locale_text);
   initialize();
 
   //var config = chrome.config.getBackgroundPage();
-  chrome.tabs.getCurrent( function( tab ) {
+  chrome.tabs.getCurrent( async function( tab ) {
     /** initialize images data*/
-    var data = config.get_display_cache(tab.id);
+    const data = await chrome.runtime.sendMessage({action: "get_display_cache", tabid: tab.id});
+    //var data = config.get_display_cache(tab.id);
     if( !data )
       return;
-    wayixia_source_tab_id = data.ctx_tab_id;
+    wayixia.source_tab_id = data.ctx_tab_id;
     var packet = data.data || {};
     packet.imgs = packet.imgs || [];
     packet.data = packet.data || {};
-    wayixia_request_data.imgs = packet.imgs;
-    wayixia_request_data.data = packet.data;
+    wayixia.request_data.imgs = packet.imgs;
+    wayixia.request_data.data = packet.data;
     
-    if(wayixia_request_data.imgs) {
-      window.display_valid_images(wayixia_request_data.imgs, wayixia_request_data.data)();
+    if(wayixia.request_data.imgs) {
+      window.display_valid_images(wayixia.request_data.imgs, wayixia.request_data.data)();
     }
   } );
 });

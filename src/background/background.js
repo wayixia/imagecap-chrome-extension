@@ -488,12 +488,13 @@ function create_tab( json ) {
     if(tab_id != display_tab_id || changed_props.status != "complete")
       return;
     chrome.tabs.onUpdated.removeListener(listener);
+    chrome.tabs.update(tab_id, {active: true});
     // lookup views
-    chrome.tabs.get( tab_id, function( tab ) {
-      var views = chrome.extension.getViews( { windowId: tab.windowId } );
-      var view = views[0];
-      view.focus();
-    } ); 
+    //chrome.tabs.get( tab_id, function( tab ) {
+    //  var views = chrome.extension.getViews( { windowId: tab.windowId } );
+    //  var view = views[0];
+    //  view.focus();
+    //} ); 
   });
   
   chrome.tabs.create( { "url" : json.url, "selected" : true }, function on_tab_created( tab ) {
@@ -510,13 +511,14 @@ function focus_or_create_tab(url, func) {
     if(tab_id != display_tab_id || changed_props.status != "complete")
       return;
     chrome.tabs.onUpdated.removeListener(listener);
+    chrome.tabs.update(tab_id, {active: true});
     // lookup views
-    chrome.tabs.get( tab_id, function( tab ) {
-      var views = chrome.extension.getViews( { windowId: tab.windowId } );
-      var view = views[0];
-      view.focus();
-      func(view); 
-    } ); 
+    //chrome.tabs.get( tab_id, function( tab ) {
+      //var views = chrome.extension.getViews( { windowId: tab.windowId } );
+      //var view = views[0];
+      //view.focus();
+      //func(view); 
+    //} ); 
   });
   
   chrome.tabs.create( { "url" : url, "selected" : true}, function on_tab_created( tab ) { display_tab_id = tab.id; } );
@@ -616,7 +618,14 @@ chrome.runtime.onMessage.addListener( function( o, sender, res ) {
     set_wayixia_assistant( o.port );
     focus_or_create_tab(chrome.runtime.getURL("pages/options/options.html") + "#tab-screencapture", function(view) { });
     break;
+
+  case "get_display_cache":
+    var cache = get_display_cache(o.tabid);
+    res( cache );
+    break;
   }
+
+  return true;
 } );
 
 

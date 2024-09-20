@@ -24,16 +24,16 @@ import  "./src/assets/scss/style.scss";
 //import  "../deps/libq.js/css/ui.css"
 
 
-
-
-var wayixia_errors = [];
-var wayixia_source_tab_id = null;
-var wayixia_help_menu = null;
-var wayixia_tocloud_menu = null;
-var wayixia_save_menu = null;
-var wayixia_report_window = null;
-var wayixia_ui_wndx = null;
-var wayixia_request_data = {imgs: [], data: {}};
+window.wayixia = {
+  errors : [],
+  source_tab_id: null,
+  help_menu : null,
+  tocloud_menu : null,
+  save_menu : null,
+  report_window : null,
+  ui_wndx : null,
+  request_data : {imgs: [], data: {}}
+};
 
 
 function wayixia_ui_init() 
@@ -129,11 +129,11 @@ if( Q.$('wayixia-donate') ) {
 }
 
 function background_warning(o) {
-  wayixia_errors.push(o);
-  if(wayixia_errors.length > 0) {
+  wayixia.errors.push(o);
+  if(wayixia.errors.length > 0) {
     Q.$('wayixia-bugs-num').style.visibility = 'visible';
-    Q.$('wayixia-bugs-num').innerText = (wayixia_errors.length>9)?'N':wayixia_errors.length;
-    Q.$('wayixia-bugs').title = wayixia_errors.length + ' ' + Q.locale_text('stringDownloadError') ;
+    Q.$('wayixia-bugs-num').innerText = (wayixia.errors.length>9)?'N':wayixia.errors.length;
+    Q.$('wayixia-bugs').title = wayixia.errors.length + ' ' + Q.locale_text('stringDownloadError') ;
   } else {
     Q.$('wayixia-bugs-num').style.visibility = 'hidden';
     Q.$('wayixia-bugs').title = Q.locale_text('extReportABug');  //"feedback & suggestions to us.";
@@ -147,8 +147,8 @@ function deactive() {
 }
 
 function back2page() {
-  if(wayixia_source_tab_id) {
-    chrome.tabs.update(wayixia_source_tab_id, {selected: true});
+  if(wayixia.source_tab_id) {
+    chrome.tabs.update(wayixia.source_tab_id, {selected: true});
   }
 }
 
@@ -521,8 +521,8 @@ ui( function( t ) {
 
 
 
-function clear_errors() {
-  wayixia_errors = [];
+window.clear_errors = function() {
+  wayixia.errors = [];
   Q.$('wayixia-bugs-num').style.visibility = 'hidden';
   Q.$('wayixia-bugs').title = Q.locale_text('extReportABug');
 }
@@ -547,7 +547,7 @@ function report_a_bug( evt ) {
         d.email = d.item('email');
         d.type  = d.item('type');
         d.message = d.item('message');
-        if(wayixia_errors.length > 0) {
+        if(wayixia.errors.length > 0) {
           // set error message
           d.type.value = Q.locale_text("stringDownloadImageFailed");
           d.type.disabled = true;
