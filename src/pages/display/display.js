@@ -9,24 +9,26 @@
 
 
 import config from "../../scripts/config.js"
-import "../../scripts/i18n.js"
-import "../../scripts/tracker.js"
 
-var t = null;
+import {wayixia_track_button_click} from "../../scripts/tracker.js"
+import {urls_filter} from "../../scripts/urls_filter.js"
+
+var t = {};
 var checkbox_show_block = null;
 var wayixia_images_box = null;
 var wayixia_images_filter = null;
+var wayixia_block_images = {};
 //var wayixia_source_tab_id = 0;
 
-function is_block_image(url) {
+window.is_block_image = function(url) {
   //var config = chrome.config.getBackgroundPage();
-  return config.is_block_image(url); 
+  return !!wayixia_block_images[url]; 
 }
 
 /** font size drop window
  *
  */
-var ImageFilter = Q.DropWindow.extend( {
+window.ImageFilter = Q.DropWindow.extend( {
 g_min_width: 0,
 g_min_height: 0,
 e_with : null,
@@ -128,9 +130,9 @@ function initialize () {
     on_change: function(text, value) {
       wayixia_images_box.set_style(value);
       config.view_type_set(value);
-      if(!t.__first_display)
+      if(!window.__first_display)
         wayixia_track_button_click(Q.$('wayixia-view'), value);
-      t.__first_display = true;
+      window.__first_display = true;
     }  
   });
 
@@ -364,12 +366,12 @@ function initialize () {
   }
 
   // entry display images
-  window.display_valid_images = function(imgs, data) {
+  window.display_valid_images = function(filter_rule_is_enabled, filter_rules, imgs, data) {
     // clear errors
     clear_errors();
     clear_album_player();
-    this.imageFilter.e_width.setValue( config.filter_width()/10  );
-    this.imageFilter.e_height.setValue( config.filter_height()/10 );
+    wayixia_images_filter.e_width.setValue( config.filter_width()/10  );
+    wayixia_images_filter.e_height.setValue( config.filter_height()/10 );
     // init datacheckbox_show_block.checked()
     var accept_images  = {};
     accept_length  = 0;
@@ -377,15 +379,14 @@ function initialize () {
 
     if(!imgs)
       return;
-    var filter_rule_is_enabled = config.filter_rule_is_enabled();
-    var filter_rules = config.filter_rule_get();
+
     //filter image duplicated
     for(var i=0; i < imgs.length ; i++) {
       var url = imgs[i].src;
       if(filter_rule_is_enabled)
         url = urls_filter(url, filter_rules.rules);
       if(url && (accept_images[url] == undefined) ) {
-        var blocked = _this.is_block_image(url);
+        var blocked = window.is_block_image(url);
         accept_images[url] = blocked;
         //accept_length++;
         if(blocked) 
@@ -584,7 +585,7 @@ function clear_album_player() {
 
 /** 挖图界面初始化 */
 Q.ready(function() {  
-  Q.set_locale_text(window.locale_text);
+  //Q.set_locale_text(locale_text);
   initialize();
 
   //var config = chrome.config.getBackgroundPage();
@@ -594,6 +595,11 @@ Q.ready(function() {
     //var data = config.get_display_cache(tab.id);
     if( !data )
       return;
+
+    var filter_rule_is_enabled = config.filter_rule_is_enabled();
+    const filter_rules = await config.filter_rule_get();
+    const block_images = await config.block_images_all();
+    wayixia_block_images = block_images;
     wayixia.source_tab_id = data.ctx_tab_id;
     var packet = data.data || {};
     packet.imgs = packet.imgs || [];
@@ -602,7 +608,7 @@ Q.ready(function() {
     wayixia.request_data.data = packet.data;
     
     if(wayixia.request_data.imgs) {
-      window.display_valid_images(wayixia.request_data.imgs, wayixia.request_data.data)();
+      window.display_valid_images(filter_rule_is_enabled, filter_rules, wayixia.request_data.imgs, wayixia.request_data.data)();
     }
   } );
 });

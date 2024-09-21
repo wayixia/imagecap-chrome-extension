@@ -5,7 +5,7 @@
 
 import "libq.js/dist/libq.js"
 import "./src/scripts/imagesbox.js"
-
+import {locale_text, extract_document} from "./src/scripts/i18n.js"
 //import "./src/scripts/i18n.js"
 //import "./src/scripts/tracker"
 //import "./src/scripts/ui"
@@ -63,7 +63,7 @@ function wayixia_ui_init()
 if(Q.$('wayixia-help')) { // wayixia-help
 
 // init drop menu
-wayixia_help_menu = new Q.Menu({
+wayixia.help_menu = new Q.Menu({
   style: "wayixia-menu", 
   on_popup: function(popup) {
     if(popup) {
@@ -95,9 +95,9 @@ var menu_about = new Q.MenuItem( {
   }
 } );
 
-wayixia_help_menu.addMenuItem(menu_report_a_bug);
-wayixia_help_menu.addMenuItem(menu_help);
-wayixia_help_menu.addMenuItem(menu_about);
+wayixia.help_menu.addMenuItem(menu_report_a_bug);
+wayixia.help_menu.addMenuItem(menu_help);
+wayixia.help_menu.addMenuItem(menu_about);
 
 if( /^zh(-)?/ig.test( navigator.language ) ) {
   var menu_qq_qun = new Q.MenuItem( {
@@ -107,13 +107,13 @@ if( /^zh(-)?/ig.test( navigator.language ) ) {
     }
   } );
 
-  wayixia_help_menu.addMenuItem(menu_qq_qun);
+  wayixia.help_menu.addMenuItem(menu_qq_qun);
 }
-wayixia_help_menu.hide();
+wayixia.help_menu.hide();
 
 // init menu button
 Q.$('wayixia-help').onclick = function(evt) {
-  wayixia_help_menu.showElement(this, evt);
+  wayixia.help_menu.showElement(this, evt);
 }
 
 } // wayixia-help
@@ -527,7 +527,7 @@ window.clear_errors = function() {
   Q.$('wayixia-bugs').title = Q.locale_text('extReportABug');
 }
 
-function report_a_bug( evt ) {
+window.report_a_bug = function( evt ) {
   wayixia_track_event('report_a_bug', 'report_a_bug');
   ui(function(t) {
     var tpl = t.template('wndx-errors');
@@ -595,7 +595,7 @@ function report_a_bug( evt ) {
 ///////////////// wayixia service ////////////////////////////////////
 
 
-var service = Q.extend({
+window.service = Q.extend({
 api: null, 
 __init__: function(json) {
   json = json || {};
@@ -624,7 +624,7 @@ call : function(method, params, f) {
 });
 
 
-var bugs_service = service.extend({
+window.bugs_service = service.extend({
 __init__: function(json) {
   json = {api: "https://www.wayixia.com/?mod=bugs&inajax=true&action="};
   service.prototype.__init__.call(this, json);
@@ -636,16 +636,16 @@ report_a_bug : function(props, f) {
 
 });
 
-var wayixia_bugs_service = new bugs_service;
+window.wayixia_bugs_service = new bugs_service;
 
 ///////////////// wayixia service end/////////////////////////////////
 
 
 
-//// fix page show slowly
-//Q.addEvent(window, 'DOMContentLoaded', function() {
-  //// hook locale_text
-  //Q.set_locale_text(window.locale_text);
-  //window.extract_document(document.childNodes[0]);
-  //wayixia_ui_init();
-//})
+// fix page show slowly
+Q.addEvent(window, 'DOMContentLoaded', function() {
+  // hook locale_text
+  Q.set_locale_text(locale_text);
+  extract_document(document.childNodes[0]);
+  wayixia_ui_init();
+})

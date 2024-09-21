@@ -84,16 +84,17 @@ block_image_remove(url) {
  * check image is blocked
  * @param url {string} - image url
  */
-is_block_image(url) {
-  var images = JSON.parse(localStorage.getItem('block_images')) || {};
+async is_block_image(url) {
+  const images = await this.get('block_images');
+  //var images = JSON.parse(localStorage.getItem('block_images')) || {};
   return !!images[url];
 }
 
 /*!
  * get all block images
  */
-block_images_all() {
-  return JSON.parse(localStorage.getItem('block_images')) || {};
+async block_images_all() {
+  return await this.get('block_images');
 }
 
 /*!
@@ -156,8 +157,9 @@ filter_rule_is_enabled() {
 /*!
  * get all filter rules
  */
-filter_rule_get() {
-  var rules_config = JSON.parse(this.get('filter_rules'));
+async filter_rule_get() {
+  const data = await this.get('filter_rules');
+  var rules_config = data; //JSON.parse(data);
   if(rules_config && (typeof rules_config == "object")) {
   } else {
     rules_config = {version: 0, rules: {}};
@@ -174,8 +176,8 @@ filter_rule_get() {
  * set filter rules
  * @param {Array} - rule list
  */
-filter_rule_set(rules) {
-  var rules_config = filter_rule_get();
+async filter_rule_set(rules) {
+  var rules_config = await filter_rule_get();
   for(var name in rules) {
     rules_config.rules[name] = rules[name];
   }

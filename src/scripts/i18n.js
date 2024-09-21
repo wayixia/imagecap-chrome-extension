@@ -7,14 +7,14 @@
 ---------------------------------------------------------*/
 
 
-window.locale_text = function (key, default_value) {
+export function locale_text(key, default_value) {
   var value = chrome.i18n.getMessage(key);
   if(!value)
     return default_value;
   return value;
 };
 
-window.locale_text_node = function(textNode) {
+function locale_text_node(textNode) {
   var value = textNode.nodeValue;
   if(value == "") 
     return;
@@ -27,7 +27,7 @@ window.locale_text_node = function(textNode) {
   textNode.nodeValue = value;
 };
 
-window.extract_document = function(e) {
+export function extract_document(e) {
   var childNodes = e.childNodes;
   for (var i = 0; i < childNodes.length; i ++) {
     var c = childNodes[i];
