@@ -6,6 +6,7 @@
 import "libq.js/dist/libq.js"
 import "./src/scripts/imagesbox.js"
 import {locale_text, extract_document} from "./src/scripts/i18n.js"
+import {wayixia_track_event} from "./src/scripts/tracker.js"
 //import "./src/scripts/i18n.js"
 //import "./src/scripts/tracker"
 //import "./src/scripts/ui"
@@ -529,6 +530,7 @@ window.clear_errors = function() {
 
 window.report_a_bug = function( evt ) {
   wayixia_track_event('report_a_bug', 'report_a_bug');
+  /*
   ui(function(t) {
     var tpl = t.template('wndx-errors');
     var item_tpl = t.template('wndx-item-errors');
@@ -587,9 +589,18 @@ window.report_a_bug = function( evt ) {
         {text: Q.locale_text('qCancel'), style: "q-syscancelbtn", onclick : function() { return true; }},
       ]
     });
+    */
 
-    wayixia_report_window.domodal();
-  });
+    wayixia.report_window = require('./src/views/report_a_bug.view')( {
+      app: this,
+      title:  Q.locale_text('extReportABug'), 
+      on_close: function() {
+          delete wayixia.report_window;
+          wayixia.report_window=null; return true; 
+      }
+    } );
+
+    wayixia.report_window.domodal();
 }
 
 ///////////////// wayixia service ////////////////////////////////////

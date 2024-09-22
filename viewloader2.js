@@ -18,7 +18,7 @@ module.exports = function (src) {
   //src = src.replace(/\r|\n/g,"");
   if(1) {
     const $ = cheerio.load(src);
-    //console.log( $('style').html() );
+    console.log( $('style').html() );
     //console.log( $('template').html() );
     //console.log( $('script').html() );
     tpl = '<style>' + $('style').html()  + '</style>'+ $('template').html();

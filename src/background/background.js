@@ -457,9 +457,9 @@ function get_date_path() {
   return date_path;
 }
 
-function get_save_path( folder ) {
-  var save_path = "wayixia/" + ( config.user_config_get('save_path') || "" );
-  var date_folder = (config.user_config_get('date_folder') != '0');
+async function get_save_path( folder ) {
+  var save_path = "wayixia/" + ( await config.user_config_get('save_path') || "" );
+  var date_folder = (await config.user_config_get('date_folder') != '0');
   
   if( save_path != "" ) {
     save_path += "/";
@@ -527,12 +527,12 @@ function focus_or_create_tab(url, func) {
 
 
 
-chrome.downloads.onDeterminingFilename.addListener(function(item, suggest) {
+chrome.downloads.onDeterminingFilename.addListener(async function(item, suggest) {
   // if downloaded not by wayixia, then use default
   if(item.byExtensionId == chrome.runtime.id) {
     console.log(item.id + ":" + item.state)
     var cfg = download_items[item.id];
-    var save_path = get_save_path( cfg.folder );
+    const save_path = await get_save_path( cfg.folder );
     var filename = "";
     var re = /data:(.+?);(\w+?),(.+)/;
     if(re.test(item.url)) { // data
