@@ -1,3 +1,4 @@
+"use strict"
 
 const cheerio = require('cheerio');
 
@@ -13,17 +14,18 @@ function template( tpl, record ) {
 
 
 module.exports = function (src) {
+  console.log( "======" + src );
   //src = src.replace( /\"/g, "\\\"");
   //src = src.replace( /\s$/g, '');
   //src = src.replace(/\r|\n/g,"");
   if(1) {
     const $ = cheerio.load(src);
-    console.log( $('style').html() );
+    //console.log( $('style').html() );
     //console.log( $('template').html() );
     //console.log( $('script').html() );
-    tpl = '<style>' + $('style').html()  + '</style>'+ $('template').html();
+    let tpl = '<style>' + $('style').html()  + '</style>'+ $('template').html();
 
-    script = 'function( args ) { var cls = ' + $('script').html() + '; return new cls(args);  }';
+    let script = 'function( args ) { var cls = ' + $('script').html() + '; return new cls(args);  }';
     //script = $('script').html();
     script = template( script, { 
       template: tpl.replace(/\r|\n/g,"") 

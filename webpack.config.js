@@ -28,9 +28,11 @@ module.exports = {
       test: /\.(scss)$/,
       use: [{
         loader: 'style-loader', // inject CSS to page
-      }, {
+        }, 
+        {
         loader: 'css-loader', // translates CSS into CommonJS modules
-      }, {
+        },
+        {
         loader: 'postcss-loader', // Run postcss actions
         /*
         options: {
@@ -40,9 +42,11 @@ module.exports = {
             ];
           }
         }*/
-      }, {
+        }, 
+        {
         loader: 'sass-loader' // compiles Sass to CSS
-      }]
+        }
+      ]
      },
      {
        test: /\.css$/,
@@ -65,7 +69,7 @@ module.exports = {
 
      {
        test: /\.view$/,
-       use: [ './viewloader2.js' ]
+       use: [ { loader: './viewloader2.js' } ]
      },
      {
        test: /\.(eot|svg|ttf|woff|woff2)$/,
@@ -90,9 +94,9 @@ module.exports = {
   },
   resolve: {
     extensions: [".js"],
-    alias: {
-      "libq.js" : path.resolve(__dirname, "deps", "libq.js")
-    }
+    //alias: {
+    //  "libq.js" : path.resolve(__dirname, "deps", "libq.js")
+    //}
   },
 
   plugins: [
@@ -104,6 +108,7 @@ module.exports = {
         //inject: false,
       //}
     //),
+    
 	  new CopyWebpackPlugin({
       patterns: [
       { from:"./src/manifest.json", to:"." },
@@ -118,7 +123,7 @@ module.exports = {
       { from:"./src/scripts", to:"scripts" },
       //{ from:"./deps/libq.js/dist/assets", to:"assets/libqjs" },
     ]
-    })
+    }) 
   ],
 
   devServer : {

@@ -2,6 +2,7 @@
  * app.js @wayixia.com 
  * author Q
  */
+const { times } = require('lodash');
 
 import "libq.js/dist/libq.js"
 import "./src/scripts/imagesbox.js"
@@ -21,8 +22,6 @@ import {wayixia_track_event} from "./src/scripts/tracker.js"
 //import {app_service} from "./service";
 import  "./src/assets/scss/style.scss";
 
-//import {app_service} from "./service";
-//import  "../deps/libq.js/css/ui.css"
 
 
 window.wayixia = {
