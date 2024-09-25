@@ -14,7 +14,6 @@ function template( tpl, record ) {
 
 
 module.exports = function (src) {
-  console.log( "======" + src );
   //src = src.replace( /\"/g, "\\\"");
   //src = src.replace( /\s$/g, '');
   //src = src.replace(/\r|\n/g,"");

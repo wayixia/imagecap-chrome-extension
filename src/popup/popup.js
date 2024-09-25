@@ -1,5 +1,4 @@
 
-import Q from "~libq.js/dist/libq.cjs.js"
 
 function deactive() {
   window.close();
@@ -10,7 +9,8 @@ function init(){
   Q.$('wayixia-all-images').onclick = function() {
     chrome.tabs.query({'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT},
      function(tabs){
-       extension.on_click_wa_all({track_from: 'from_popup'}, tabs[0]);
+       chrome.runtime.sendMessage( {action: 'on_click_wa_all', track_from: 'from_popup', tab:tabs[0]});
+       //extension.on_click_wa_all({track_from: 'from_popup'}, tabs[0]);
      }
     );
     deactive();
@@ -63,28 +63,23 @@ function init(){
     extension.on_click_open_about();
   }  
 
-  extension = chrome.extension.getBackgroundPage();
-  if( extension.nickname() != "" ) {
-    Q.$('wayixia-login-text').innerHTML = extension.nickname().toUpperCase();
-    Q.$('wayixia-login-text').onclick = function() {
-      deactive();
-      window.open("https://www.wayixia.com/?mod=user&action=home");
+  //extension = chrome.extension.getBackgroundPage();
+
+  chrome.runtime.sendMessage({action:'get_nickname'}, function(res) {
+     
+    if( res.nickname != "" ) {
+      Q.$('wayixia-login-text').innerHTML = res.nickname.toUpperCase();
+      Q.$('wayixia-login-text').onclick = function() {
+        deactive();
+        window.open("https://www.wayixia.com/?mod=user&action=home");
+      }
+    } else {
+      Q.$('wayixia-login-text').onclick = function() {
+        deactive();
+        window.open("https://www.wayixia.com/?mod=user&action=login");
+      }
     }
-  } else {
-    Q.$('wayixia-login-text').onclick = function() {
-      deactive();
-      window.open("https://www.wayixia.com/?mod=user&action=login");
-    }
-  }
-
-
-  chrome.tabs.query({'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT},
-   function(tabs){
-   
-   }
-  );
-
-
+  });
 
   document.body.style.visibility='visible';
 };

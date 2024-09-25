@@ -623,6 +623,10 @@ chrome.runtime.onMessage.addListener( function( o, sender, res ) {
     var cache = get_display_cache(o.tabid);
     res( cache );
     break;
+
+  case "on_click_wa_all":
+    on_click_wa_all( o, o.tab );
+    break;
   }
 
   return true;

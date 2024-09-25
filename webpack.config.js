@@ -124,6 +124,7 @@ module.exports = {
       //{ from:"./deps/libq.js/dist/assets", to:"assets/libqjs" },
     ]
     }) 
+    
   ],
 
   devServer : {

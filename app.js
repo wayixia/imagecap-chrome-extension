@@ -7,7 +7,7 @@ const { times } = require('lodash');
 import "libq.js/dist/libq.js"
 import "./src/scripts/imagesbox.js"
 import {locale_text, extract_document} from "./src/scripts/i18n.js"
-import {wayixia_track_event} from "./src/scripts/tracker.js"
+import {wayixia_track_event, wayixia_track_button_click} from "./src/scripts/tracker.js"
 //import "./src/scripts/i18n.js"
 //import "./src/scripts/tracker"
 //import "./src/scripts/ui"
@@ -32,7 +32,8 @@ window.wayixia = {
   save_menu : null,
   report_window : null,
   ui_wndx : null,
-  request_data : {imgs: [], data: {}}
+  request_data : {imgs: [], data: {}},
+  i18n: extract_document
 };
 
 
@@ -152,20 +153,6 @@ function back2page() {
   }
 }
 
-function ui(f) {
-  if(wayixia_ui_wndx) {
-    f(wayixia_ui_wndx);
-  } else {
-    wayixia_ui_wndx = new Q.UI({src: 'wndx_template.html', oncomplete:  function(ok) {
-      if(ok) {
-        // bind css style from template file
-        wayixia_ui_wndx.bindCss();
-        f(wayixia_ui_wndx);
-      } else
-        Q.printf('Load template of wndx failed. File is not exists.');
-    }});
-  }
-}
 
 function dismiss(d) {
   (new Q.Animate({ 

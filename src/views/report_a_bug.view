@@ -1,14 +1,72 @@
 <style>
-.classa {
 
-  background:red;
+
+#wndx-errors {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
 }
+
+
+.layer {
+  line-height: 30px;
+  font-size: 16px;
+  padding: 10px;
+  overflow:auto;
+}
+
+
+.error-list {
+  background-color: #F8F8F8;
+  height: 250px;
+  overflow: auto;
+  border: 1px solid #CCC;
+  padding: 3px;
+}
+
+.error-list li {
+  list-style: none;
+  text-indent: 0px;
+}
+
+.error-list li p {
+  font-size: 14px;
+  margin: 0px;
+  padding:0;
+  line-height: 22px;
+}
+
+.error-list li .url {
+  font-size: 16px;
+}
+
+.error-list li .info {
+  font-size: 16px;
+  color: #999;
+}
+
+.error-message {
+  width: 100%;
+  height: 210px;
+  border: 1px solid #CCC;
+  background-colors: #F8F8F8;
+  outline: 0;
+}
+
+.error-type {
+  width: 100%;
+  height: 25px;
+}
+
 </style>
 <template>
-  <div id="report-a-bug" class="layer">
+  <div qid="report-a-bug" id="wndx-errors" class="layer">
     <b> __MSG_stringErrorType__(*):</b>
     <!--（<font color="#999">__MSG_savePathAttention__</font>）--><br>
-    <select q:id="type" class="error-type">
+    <select qid="type" class="error-type">
     <option value="" selected>__MSG_stringChooseAnBugType__</option>
     <option>__MSG_stringGetNoneImage__</option>
     <option>__MSG_stringGetUnwantedImage__</option>
@@ -18,11 +76,12 @@
     </select>
     <br/>
     <b> __MSG_stringErrorDescription__:</b><br>
-    <textarea q:id="message" class="error-message"></textarea>
+    <textarea qid="message" class="error-message"></textarea>
     
-    <div q:id="list" class="error-list" style="display: none;"></div> 
+    <div qid="list" class="error-list" style="display: none;"></div>
+    <br/>
     <b>__MSG_stringEMail__(*):</b><br/>
-    <input q:id="email" style="width:100%; height: 25px;" type="text" />
+    <input qid="email" style="width:100%; height: 25px;" type="text" />
     <br/>
   </div>
 </template>
@@ -35,31 +94,11 @@
       json.content = '{#template}',
       json.wstyle = "w-window";
       json.width = 650;
-      json.height = 475;
-      json.on_create = Q.bind_handler(this, this.on_create);
-      Q.Dialog.prototype.__init__.call(this, json);
-    },
-
-    //on_close: function() { this.end(CONST.IDCANCEL);  wayixia_report_window = null; },
-    on_create: function() {
-        // init dialog
-        var d = this;
-        d.email = d.item('email');
-        d.type  = d.item('type');
-        d.message = d.item('message');
-        if(wayixia.errors.length > 0) {
-          // set error message
-          d.type.value = Q.locale_text("stringDownloadImageFailed");
-          d.type.disabled = true;
-          Q.$('wayixia-bugs-num').style.visibility = 'hidden';
-          Q.$('wayixia-bugs').title = Q.locale_text('extReportABug');
-        }
-    },
-    
-    buttons: [
+      json.height = 485;
+      json.buttons = [
       { text: Q.locale_text('qSubmit'), 
         onclick : function() {
-          var d = wayixia_report_window;
+          var d = wayixia.report_window;
           var props = {};
 
           if(d.type.value == "") {
@@ -74,7 +113,7 @@
             d.email.focus();
             return false;
           }
-          props.uri = wayixia_request_data.data.pageUrl || "null";
+          props.uri = wayixia.request_data.data.pageUrl || "null";
           props.type = d.type.value;
           props.message = d.message.value;
           props.email = d.email.value;
@@ -86,6 +125,31 @@
         }
       },
       {text: Q.locale_text('qCancel'), style: "q-syscancelbtn", onclick : function() { return true; }},
-    ]
+      ];
+
+      json.on_create = Q.bind_handler(this, this.on_create);
+
+
+      Q.Dialog.prototype.__init__.call(this, json);
+    },
+
+    //on_close: function() { this.end(CONST.IDCANCEL);  wayixia_report_window = null; },
+    on_create: function() {
+        // init dialog
+        var d = this;
+        d.email = d.item('email');
+        d.type  = d.item('type');
+        d.message = d.item('message');
+        wayixia.i18n(d.item('report-a-bug'));
+        if(wayixia.errors.length > 0) {
+          // set error message
+          d.type.value = Q.locale_text("stringDownloadImageFailed");
+          d.type.disabled = true;
+          Q.$('wayixia-bugs-num').style.visibility = 'hidden';
+          Q.$('wayixia-bugs').title = Q.locale_text('extReportABug');
+        }
+    }
+    
+    
   });
 </script>
