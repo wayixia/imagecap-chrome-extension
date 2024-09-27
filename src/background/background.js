@@ -624,8 +624,36 @@ chrome.runtime.onMessage.addListener( function( o, sender, res ) {
     res( cache );
     break;
 
-  case "on_click_wa_all":
+  case "wa_all":
     on_click_wa_all( o, o.tab );
+    break;
+  case "full_screenshot":
+    on_click_full_screenshot(o.tab);
+    break;
+  case "screenshot":
+    on_click_screenshot(o.tab);
+    break;
+  case "open_options":
+    on_click_open_options();
+    break;
+  case "open_about":
+    on_click_open_about();
+    break;
+  case "get":
+    var configs = {};
+    o.names.map(function (name) {
+      // 遍历数组，对每个元素进行操作
+      console.log(name);
+      if( name == "wayixia_assistant")
+      {
+        configs[name] = wayixia_assistant();
+      }
+      else if( name == "save_path") {
+        configs[name] = config.user_config_get(name);
+      }
+    });
+
+    res( configs );
     break;
   }
 
@@ -672,12 +700,10 @@ chrome.contextMenus.onClicked.addListener( function(info) {
   switch(info.menuItemId) {
   case "imagecap":
     if(info.mediaType == 'image') {
-      //on_click_wa_single(info, tab); 
       chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         on_click_wa_single(info, tabs[0]);
       });
     } else {
-      //on_click_wa_all(info, tab); 
       chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         // Toggle the wa all images
         on_click_wa_all({}, tabs[0]);

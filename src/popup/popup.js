@@ -4,14 +4,17 @@ function deactive() {
   window.close();
 }
 
+function send_message_with_noreply( action, data ) {
+  chrome.runtime.sendMessage( { action: action, data: data||{}});
+}
+
 function init(){
   // wayixia
   Q.$('wayixia-all-images').onclick = function() {
     chrome.tabs.query({'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT},
-     function(tabs){
-       chrome.runtime.sendMessage( {action: 'on_click_wa_all', track_from: 'from_popup', tab:tabs[0]});
-       //extension.on_click_wa_all({track_from: 'from_popup'}, tabs[0]);
-     }
+      function(tabs){
+        send_message_with_noreply( 'wa_all', { track_from: 'from_popup', tab:tabs[0]} );
+      }
     );
     deactive();
   }
@@ -20,7 +23,7 @@ function init(){
     
     chrome.tabs.query({'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT},
      function(tabs){
-       extension.on_click_screenshot(tabs[0]);
+       send_message_with_noreply( 'screenshot', { tab: tabs[0] } );
      }
     );
     deactive();
@@ -55,12 +58,12 @@ function init(){
 
   Q.$('wayixia-options').onclick = function() {
     deactive();
-    extension.on_click_open_options();
+    send_message_with_noreply('open_options', {});
   }  
   
   Q.$('wayixia-aboutus').onclick = function() {
     deactive();
-    extension.on_click_open_about();
+    send_message_with_noreply('open_about', {});
   }  
 
   //extension = chrome.extension.getBackgroundPage();

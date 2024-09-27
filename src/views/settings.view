@@ -1,0 +1,244 @@
+<style>
+
+
+#layer,#layer-block-images {
+  visibility:hidden;
+  position: absolute;
+  left: 0; top:0;
+  right: 0; bottom: 0;
+}
+
+#layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  line-height: 30px;
+  font-size: 16px;
+  padding: 10px;
+  overflow:auto;
+}
+
+#layer-block-images #wayixia-container {
+  top: 0;
+}
+
+#layer-options {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  line-height: 30px;
+  font-size: 16px;
+  padding: 10px 0;
+  overflow:auto;
+  visibility: hidden;
+}
+
+
+.q-tabs.v-property {
+  border-width: 0;
+}
+
+
+
+.q-tabs.v-property .q-tabs-header {
+  float: left; 
+  width: 150px;
+}
+
+.q-tabs.v-property .q-tabs-header ul {
+  padding: 0 5px 0 5px;
+  list-style: none;
+  margin:0;
+}
+
+.q-tabs.v-property .q-tabs-header ul li {
+  text-indent: 10px;
+  line-height: 30px;
+  height: 30px;
+  margin-bottom: 3px;
+  border-radius: 5px;
+  color: #515151;
+  font-size: 11pt;
+}        
+
+.q-tabs.v-property .q-tabs-header ul li:hover, .q-tabs.v-property .q-tabs-header ul li.q-selected {
+  background-color: #F1F1F1;
+  color: #000;
+}
+
+
+.q-tabs.v-property .q-tabs-header ul li a,
+.q-tabs.v-property .q-tabs-header ul li a:visited {
+  display: block;
+  text-decoration: none;
+	color: #515151;
+}
+
+
+.q-tabs.v-property .q-tabs-header ul li a:hover,
+.q-tabs.v-property .q-tabs-header ul li.q-selected a {
+	color: #000
+}
+
+
+
+.q-tabs-body {
+  margin-left: 150px;
+  border-left: 1px solid #CCCCCC;
+  height: 100%;
+  background-colors: yellow;
+}
+
+.q-tabs-body .q-panel {
+  padding: 0px 10px;
+}
+
+
+.clearboth {
+  clear: both;
+}
+
+
+.wayixia-assistant {
+  text-indent: 20px; 
+  background:#FFF url(images/sprite_ok.png) left center no-repeat;
+}
+
+.wayixia-assistant.ok {
+  background-image: url(images/sprite_ok.png)
+}
+
+.wayixia-assistant.error {
+  background-image: url(images/sprite_error.png)
+}
+
+
+.wayixia-assistant.ing {
+  text-indent: 40px; 
+  background-image:url(images/wing32.gif);
+}
+</style>
+<template>
+  <div qid="layer-options"  class="layer-options">
+    <div class="q-tabs v-property">
+  
+  <div class="q-tabs-header">
+    <ul>
+      <li id="tab-basic"> __MSG_optBasic__ </li>
+      <li id="tab-download"> __MSG_optImageDownload__ </li>
+      <li id="tab-screencapture" href="">__MSG_optWebCapture__ </li>
+      <li id="tab-shortcut"> __MSG_optShortcut__ </li>
+    </ul>
+  </div>
+  <div class="q-tabs-body">
+  <div id="panel-1-1" class="q-panel">
+    <div>
+      <b> __MSG_stringAccount__</b>(<font color="#999">__MSG_stringAccountAttention__</font>)<br>
+    <button id="wayixia_account">__MSG_stringAccountLogin__</button>
+    <br/>
+    <br/>
+   
+    </div>
+  </div>
+  <div id="panel-1-2" class="q-panel">
+    <b> __MSG_savePath__</b>(<font color="#999">__MSG_savePathAttention__</font>)<br>
+    <div class="q-placeholder" id="label_save_path">
+      wayixia
+      <input id="save_path" size="50">
+    </div>
+    
+    <a id="date_folder" class="q-checkbox">__MSG_saveWithDateFolder__</a> 
+    <a id="save_lastconfig" class="q-checkbox">__MSG_saveLastConfig__</a> <br>
+  
+  
+    <br>
+    <b class="q-checkbox" id="filter_rules_enable">__MSG_filterRulesEnable__</b>（<font color="#999">__MSG_filterRulesWarning__</font>）<br>
+    <button id="manager_filter_rules" size="50">__MSG_setting__</button> <br>
+    <br>
+    <b>__MSG_blockImageManage__</b><br>
+    <button id="manager_block_images" size="50">__MSG_setting__</button> <br>
+    <br>
+  
+  </div>
+  
+  
+  <div id="panel-1-3" class="q-panel">
+    <b> __MSG_stringCaptureAssistant__</b>(<font color="#999">__MSG_stringLongPageCapture__</font>)<br>
+    <div id="wayixia-assistant-ing" class="wayixia-assistant ing" style="display: none;">
+      __MSG_stringChecking__...
+    </div>
+    <div id="wayixia-assistant-ok" class="wayixia-assistant ok" style="display: none;">
+      __MSG_stringConnected__ <a href="#"></a>
+    </div>
+    <div id="wayixia-assistant-error" class="wayixia-assistant error" style="display: none;">
+      __MSG_stringDisconnected__ <a href="https://www.wayixia.com/extension/install" target="_blank">(__MSG_stringAssistantHelp__)</a>
+    </div>
+  </div>
+  
+  
+  <div id="panel-1-4" class="q-panel">
+    <b>__MSG_shortcut__</b><br>
+    1. __MSG_digImage__（<font color="#999">Ctrl+Q</font>）<br>
+    2. __MSG_closeExtensionWindow__（<font color="#999">ESC</font>）<br>
+  </div>
+  
+  </div>
+  
+  
+  </div>
+  <div class="clearboth" ></div>
+  
+  
+</div>
+</template>
+<script>
+  Q.Dialog.extend({
+
+    
+    __init__ : function(json) {
+      json.width = 706;
+      json.height = 480;
+      json.wstyle = "w-window";
+      json.content = '{#template}',
+
+      json.buttons = [
+      { text: Q.locale_text('btnSave'), onclick: function() {
+         wayixia_track_event('option', 'save');
+         wayixia_track_event('option-date-folder', date_folder.checked()?'checked':'unchecked');
+         // save settings
+         extension.user_config_set('save_path', Q.$('save_path').value);
+         extension.user_config_set('date_folder', (date_folder.checked())?1:0);
+         extension.set_save_lastconfig( save_lastconfig.checked() );
+         if( !save_lastconfig.checked() ) {
+           // reset default value
+           extension.set_filter_width( 0 );
+           extension.set_filter_height( 0 );
+         }
+         extension.filter_rule_enable(filter_rules.checked());
+         extension.saveconfig();
+         message_box( {title: locale_text('extShortName'), content: locale_text('saveOptions'), icon: "ok" } );
+         return false;
+        }
+      },
+      { text: locale_text('qCancel'), style: 'q-syscancelbtn', onclick: function() {
+          wayixia_track_event('option', 'cancel');
+          return true; 
+        }
+      },
+    ] ;
+
+      json.on_create = Q.bind_handler(this, this.on_create);
+      Q.Dialog.prototype.__init__.call(this, json);
+    },
+    on_create: function() {
+      // init dialog
+      var d = this;
+      wayixia.i18n(d.item('layer-options'));
+    },
+    on_close: function() { window.close(); },
+  })
+</script>
