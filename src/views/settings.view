@@ -224,7 +224,7 @@
          return false;
         }
       },
-      { text: locale_text('qCancel'), style: 'q-syscancelbtn', onclick: function() {
+      { text: Q.locale_text('qCancel'), style: 'q-syscancelbtn', onclick: function() {
           wayixia_track_event('option', 'cancel');
           return true; 
         }
