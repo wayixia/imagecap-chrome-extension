@@ -58,10 +58,12 @@
       ];
 
       json.on_create = Q.bind_handler(this, this.on_create);
+      json.on_close = Q.bind_handler(this, this.on_close);
 
       Q.Dialog.prototype.__init__.call(this, json);
     },
 
+    on_close: function() { window.close(); },
     //on_close: function() { this.end(CONST.IDCANCEL);  wayixia_report_window = null; },
     on_create: function() {
       // init dialog

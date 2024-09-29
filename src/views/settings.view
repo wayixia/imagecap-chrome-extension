@@ -197,8 +197,6 @@
 </template>
 <script>
   Q.Dialog.extend({
-
-    
     __init__ : function(json) {
       json.width = 706;
       json.height = 480;
@@ -226,12 +224,14 @@
       },
       { text: Q.locale_text('qCancel'), style: 'q-syscancelbtn', onclick: function() {
           wayixia_track_event('option', 'cancel');
+          window.close();
           return true; 
         }
       },
     ] ;
 
       json.on_create = Q.bind_handler(this, this.on_create);
+      json.on_close = Q.bind_handler(this, this.on_close);
       Q.Dialog.prototype.__init__.call(this, json);
     },
     on_create: function() {
