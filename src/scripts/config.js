@@ -3,8 +3,8 @@
  */
 
 
-class config {
-
+class config 
+{
   constructor()
   {
 
@@ -58,6 +58,10 @@ class config {
   async get(key) {
     const data = await chrome.storage.local.get(key);
     return data;
+  }
+
+  getall(callback) {
+    chrome.storage.local.get( null, callback );
   }
 
   /*!

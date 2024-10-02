@@ -13,7 +13,7 @@ import {wayixia_track_event, wayixia_track_button_click} from "./src/scripts/tra
 //import "./src/scripts/ui"
 //import "./src/scripts/urls_filter"
 
-
+import config from "./src/scripts/config.js"
 
 
 
@@ -653,104 +653,12 @@ window.init_about = function()
 function init_setting_( extension )
 {
 
- // var tabactive = Q.$(location.hash.replace( /^#/g, "" ) );
-  //if( !tabactive ) {
-    //tabactive = Q.$('tab-basic');
-  //}
-  
-  //var t2 = new Q.tabs({
-    //action: "click",
-    //active: tabactive,
-    //onactive: function( tid ) {
-      //var stateObject = {};
-      //var newUrl = "#" + tid.id;
-      //history.pushState(stateObject,tid.innerText,newUrl);
-    //},
-    //items: [
-      //{tab: Q.$('tab-basic'), content: Q.$('panel-1-1')},
-      //{tab: Q.$('tab-download'), content: Q.$('panel-1-2')},
-      //{tab: Q.$('tab-screencapture'), content: Q.$('panel-1-3')},
-      //{tab: Q.$('tab-shortcut'), content: Q.$('panel-1-4')},
-    //]  
-  //});
-
-  //var assistant_url = extension.wayixia_assistant;
-  //if( assistant_url != "" ) {
-    //Q.$('wayixia-assistant-ing').style.display = '';
-    //Q.ajax( {
-      //command: assistant_url + '/keepalive',
-      //oncomplete: function(xml) {
-        //if( xml.responseText == "connected") {
-          //Q.$('wayixia-assistant-ing').style.display = 'none';
-          //Q.$('wayixia-assistant-ok').style.display = '';
-          //Q.$('wayixia-assistant-error').style.display = 'none';
-        //} else{
-          //Q.$('wayixia-assistant-ing').style.display = 'none';
-          //Q.$('wayixia-assistant-ok').style.display = 'none';
-          //Q.$('wayixia-assistant-error').style.display = '';
-        //}
-
-      //},
-      //onerror: function(xml) {
-        //Q.$('wayixia-assistant-ing').style.display = 'none';
-        //Q.$('wayixia-assistant-ok').style.display = 'none';
-        //Q.$('wayixia-assistant-error').style.display = '';
-      //} 
-    //} );
-  //} else {
-    //Q.$('wayixia-assistant-ing').style.display = 'none';
-    //Q.$('wayixia-assistant-ok').style.display = 'none';
-    //Q.$('wayixia-assistant-error').style.display = '';
-  //}
-
-
-  //// save path
-  //Q.$('save_path').value = extension.save_path;
-  //new Q.PlaceHolder( {
-      //holder: "label_save_path", 
-      //id: "save_path", 
-  //} );
-  
-  //// date folder
-  //var option_date_folder = (extension.date_folder != '0');
-  //var date_folder = new Q.CheckBox({ id : "date_folder", checked: option_date_folder});
-
-  //// Sitename folder
-  //var save_lastconfig = new Q.CheckBox({ id : "save_lastconfig", checked: extension.save_lastconfig() });
-
-  //// filter rules
-  //var option_filter_rules = extension.filter_rule_is_enabled();
-  //Q.$('manager_filter_rules').disabled = !option_filter_rules;
-  //var filter_rules = new Q.CheckBox({ id : "filter_rules_enable",
-    //checked: option_filter_rules,
-    //onchange : function(checked) {
-      //Q.$('manager_filter_rules').disabled = !checked;
-    //}
-  //});
-
-  //// Account buttons
-  //var wayixia_account_text = "" ;
-  //if( extension.nickname() != "" ) {
-    //wayixia_account_text = locale_text('stringAccountLogout') + " ( " + extension.nickname().toUpperCase() + " )";
-  //} else {
-    //wayixia_account_text = locale_text('stringAccountLogin');
-  //}
-  //Q.$('wayixia_account').innerHTML = wayixia_account_text;  
-  //Q.$('wayixia_account').onclick = ( function( ext ) { return function() {
-    //wayixia_track_button_click(this);
-    //if( extension.nickname() != "" ) {
-      //ext.wayixia_logout( function(ok) {
-        //location.reload(); 
-      //} );
-    //} else {
-      //// login
-      //window.open("https://www.wayixia.com/?mod=user&action=login&refer="+location.href);
-    //}
-  //} } )( extension );
+ 
 
 
   g_option_window = require('./src/views/settings.view')({
-    title: locale_text('extOptions')
+    title: locale_text('extOptions'),
+    config: config
   });
   
   //Q.$('layer-options').style.visibility = 'visible';
