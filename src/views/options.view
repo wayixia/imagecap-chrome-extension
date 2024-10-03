@@ -333,6 +333,20 @@
         window.open("https://www.wayixia.com/?mod=user&action=login&refer="+location.href);
       }
       } } )( extension );
+
+        // block images
+      Q.$('manager_block_images').onclick = function() {
+        wayixia_track_button_click(this);
+        g_block_images_box = new Q.ImagesBox({id: 'wayixia-list'});
+        var extension = chrome.extension.getBackgroundPage();
+        var block_images = extension.block_images_all();
+        g_block_images_box.display_images(block_images, {})();  
+        display_block_images();
+      }
+      
+      Q.$('manager_filter_rules').onclick = function() {
+        display_filter_rules();
+      }
     },
 
     show_assistant: function(show)

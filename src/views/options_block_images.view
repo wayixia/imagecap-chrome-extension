@@ -1,0 +1,29 @@
+<style>
+
+</style>
+<template>
+  <div id="layer-block-images"> 
+    <div id="wayixia-container">
+      <div id="wayixia-list"></div>
+    </div>
+  </div>
+</template>
+<script>
+  Q.Dialog.extend( {
+
+    __init__: function(json) {
+      json.on_create = Q.bind_handler(this, this.on_create);
+      json.on_close = Q.bind_handler(this, this.on_close);
+      Q.Dialog.prototype.__init__.call(this, json); 
+    },
+
+    on_creat: function() {
+
+    },
+
+    on_close: function() {
+
+    }
+
+} );
+</script>

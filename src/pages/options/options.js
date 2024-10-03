@@ -6,22 +6,22 @@ var g_block_images_box = null;
 
 
 
-function display_block_images() {
-  g_block_window = new Q.Dialog({
-    parent: g_option_window,
-    width: 800,
-    height: 600,
-    title: locale_text('haveBlocked'),
-    content: Q.$('layer-block-images'),
-    buttons: [
-      { text: locale_text('btnUnblock'), onclick: function() { block_images_remove(); return false; }  },
-      { text: locale_text('qCancel'), style:'syscancelbtn', onclick: function() { return true; } 
-      },
-    ]
-  });
-  Q.$('layer-block-images').style.visibility = 'visible';
-  g_block_window.domodal();
-}
+//function display_block_images() {
+  //g_block_window = new Q.Dialog({
+    //parent: g_option_window,
+    //width: 800,
+    //height: 600,
+    //title: locale_text('haveBlocked'),
+    //content: Q.$('layer-block-images'),
+    //buttons: [
+      //{ text: locale_text('btnUnblock'), onclick: function() { block_images_remove(); return false; }  },
+      //{ text: locale_text('qCancel'), style:'syscancelbtn', onclick: function() { return true; } 
+      //},
+    //]
+  //});
+  //Q.$('layer-block-images').style.visibility = 'visible';
+  //g_block_window.domodal();
+//}
 
 function block_images_remove() {
   var extension = chrome.extension.getBackgroundPage();

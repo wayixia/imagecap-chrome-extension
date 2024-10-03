@@ -586,41 +586,36 @@ window.init_about = function()
   wayixia.about_window.domodal();
 }
 
-
-
-
-function init_setting_( extension )
-{
-  g_option_window = require('./src/views/settings.view')({
+window.init_options = function() {
+  wayixia.option_window = require('./src/views/options.view')({
     title: locale_text('extOptions'),
     config: config
   });
   
   //Q.$('layer-options').style.visibility = 'visible';
   //g_option_window.domodal($GetDesktopWindow());
-  g_option_window.domodal();
+  wayixia.option_window.domodal();
 
-//  // block images
-  //Q.$('manager_block_images').onclick = function() {
-    //wayixia_track_button_click(this);
-    //g_block_images_box = new Q.ImagesBox({id: 'wayixia-list'});
-    //var extension = chrome.extension.getBackgroundPage();
-    //var block_images = extension.block_images_all();
-    //g_block_images_box.display_images(block_images, {})();  
-    //display_block_images();
-  //}
-  
-  //Q.$('manager_filter_rules').onclick = function() {
-    //display_filter_rules();
-  //}
+
+};
+
+window.display_block_images = function() {
+  wayixia.options_block_window = require('./src/views/options_block_images.view')({
+    parent: wayixia.option_window,
+    width: 800,
+    height: 600,
+    title: Q.locale_text('haveBlocked'),
+    content: Q.$('layer-block-images'),
+    buttons: [
+      { text: locale_text('btnUnblock'), onclick: function() { block_images_remove(); return false; }  },
+      { text: locale_text('qCancel'), style:'syscancelbtn', onclick: function() { return true; } 
+      },
+    ]
+  });
+  //Q.$('layer-block-images').style.visibility = 'visible';
+  wayixia.options_block_window.domodal();
 }
 
-
-window.init_setting = function() {
-  chrome.runtime.sendMessage( { action: 'get', names: ['wayixia_assistant'] }, function(extension){
-    init_setting_( extension );
-  });
-};
 
 // fix page show slowly
 Q.addEvent(window, 'DOMContentLoaded', function() {
