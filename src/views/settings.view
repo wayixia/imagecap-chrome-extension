@@ -145,11 +145,12 @@
     </div>
   </div>
   <div id="panel-1-2" class="q-panel">
-    <b> __MSG_savePath__</b>(<font color="#999">__MSG_savePathAttention__</font>)<br>
-    <div class="q-placeholder" id="label_save_path">
+    <b> __MSG_savePath__</b>(<font color="#999">__MSG_savePathAttention__</font>)<br/>
+    <input id="save_path" size="50" placeholder="wayixia"><br/>
+    <!--div class="q-placeholder" id="label_save_path">
       wayixia
-      <input id="save_path" size="50">
-    </div>
+      <input id="save_path" size="50" placeholder="wayixia">
+    </div-->
     
     <a id="date_folder" class="q-checkbox">__MSG_saveWithDateFolder__</a> 
     <a id="save_lastconfig" class="q-checkbox">__MSG_saveLastConfig__</a> <br>
@@ -292,8 +293,8 @@
       }
 
       // save path
-      Q.$('save_path').value = extension.save_path;
-      new Q.PlaceHolder( { holder: "label_save_path", id: "save_path", } );
+      Q.$('save_path').value = extension.save_path?extension.save_path:"wayixia";
+      //new Q.PlaceHolder( { holder: "label_save_path", id: "save_path", } );
   
       // date folder 
       var option_date_folder = (extension.date_folder != '0'); 
@@ -313,16 +314,17 @@
       });
 
       // Account buttons 
-      var wayixia_account_text = "" ; 
-      if( extension.nickname() != "" ) { 
-        wayixia_account_text = locale_text('stringAccountLogout') + " ( " + extension.nickname().toUpperCase() + " )";
+      var wayixia_account_text = "" ;
+      var nickname = extension.nickname ? extension.nickname : "";
+      if( nickname != "" ) { 
+        wayixia_account_text = Q.locale_text('stringAccountLogout') + " ( " + nickname.toUpperCase() + " )";
       } else {
-        wayixia_account_text = locale_text('stringAccountLogin'); 
+        wayixia_account_text = Q.locale_text('stringAccountLogin'); 
       }
       Q.$('wayixia_account').innerHTML = wayixia_account_text;  
       Q.$('wayixia_account').onclick = ( function( ext ) { return function() {
         wayixia_track_button_click(this);
-        if( extension.nickname() != "" ) {
+        if( nickname != "" ) {
           ext.wayixia_logout( function(ok) {
           location.reload(); 
         } );

@@ -516,77 +516,16 @@ window.clear_errors = function() {
 
 window.report_a_bug = function( evt ) {
   wayixia_track_event('report_a_bug', 'report_a_bug');
-  /*
-  ui(function(t) {
-    var tpl = t.template('wndx-errors');
-    var item_tpl = t.template('wndx-item-errors');
-    // i18n 
-    extract_document(tpl);
-    wayixia_report_window = new Q.Dialog({
-      title: Q.locale_text('extReportABug'),
-      width: 650,
-      height: 475, 
-      wstyle: "w-window",
-      content:  tpl,
-      //on_close: function() { this.end(CONST.IDCANCEL);  wayixia_report_window = null; },
-      on_create: function() {
-        // init dialog
-        var d = this;
-        d.email = d.item('email');
-        d.type  = d.item('type');
-        d.message = d.item('message');
-        if(wayixia.errors.length > 0) {
-          // set error message
-          d.type.value = Q.locale_text("stringDownloadImageFailed");
-          d.type.disabled = true;
-          Q.$('wayixia-bugs-num').style.visibility = 'hidden';
-          Q.$('wayixia-bugs').title = Q.locale_text('extReportABug');
-        }
-      },
-      buttons: [
-        { text: Q.locale_text('qSubmit'), 
-          onclick : function() {
-            var d = wayixia_report_window;
-            var props = {};
+  wayixia.report_window = require('./src/views/report_a_bug.view')( {
+    app: this,
+    title:  Q.locale_text('extReportABug'), 
+    on_close: function() {
+        delete wayixia.report_window;
+        wayixia.report_window=null; return true; 
+    }
+  } );
 
-            if(d.type.value == "") {
-              alert(Q.locale_text('stringChooseAnBugType'));
-              d.type.focus();
-              return;
-            }
-
-            var expr_email = /^[a-zA-Z0-9\-\.]+@[0-9a-zA-Z\-]+\.\w+$/;
-            if(!expr_email.test(d.email.value)) {
-              alert(Q.locale_text('stringInvalidEmailFormat'));
-              d.email.focus();
-              return false;
-           }
-            props.uri = wayixia_request_data.data.pageUrl || "null";
-            props.type = d.type.value;
-            props.message = d.message.value;
-            props.email = d.email.value;
-            props.useragent = navigator.userAgent;
-            wayixia_bugs_service.report_a_bug(props, function(r) {
-              dismiss(d);
-            })
-            return false; 
-          }
-        },
-        {text: Q.locale_text('qCancel'), style: "q-syscancelbtn", onclick : function() { return true; }},
-      ]
-    });
-    */
-
-    wayixia.report_window = require('./src/views/report_a_bug.view')( {
-      app: this,
-      title:  Q.locale_text('extReportABug'), 
-      on_close: function() {
-          delete wayixia.report_window;
-          wayixia.report_window=null; return true; 
-      }
-    } );
-
-    wayixia.report_window.domodal();
+  wayixia.report_window.domodal();
 }
 
 ///////////////// wayixia service ////////////////////////////////////
@@ -652,10 +591,6 @@ window.init_about = function()
 
 function init_setting_( extension )
 {
-
- 
-
-
   g_option_window = require('./src/views/settings.view')({
     title: locale_text('extOptions'),
     config: config
