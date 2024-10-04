@@ -211,8 +211,8 @@
       
       json.buttons = [
       { text: Q.locale_text('btnSave'), onclick: function() {
-         wayixia_track_event('option', 'save');
-         wayixia_track_event('option-date-folder', date_folder.checked()?'checked':'unchecked');
+         wayixia.track_event('option', 'save');
+         wayixia.track_event('option-date-folder', date_folder.checked()?'checked':'unchecked');
          // save settings
          extension.user_config_set('save_path', Q.$('save_path').value);
          extension.user_config_set('date_folder', (date_folder.checked())?1:0);
@@ -229,7 +229,7 @@
         }
       },
       { text: Q.locale_text('qCancel'), style: 'q-syscancelbtn', onclick: function() {
-          wayixia_track_event('option', 'cancel');
+          wayixia.track_event('option', 'cancel');
           window.close();
           return true; 
         }

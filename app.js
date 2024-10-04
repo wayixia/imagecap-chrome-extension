@@ -617,6 +617,70 @@ window.display_block_images = function() {
 }
 
 
+window.display_filter_rules = function() {
+  wayixia.options_filterrules_window = require('./src/views/options_filter_rules.view')({
+    parent: wayixia.option_window,
+    config: config,
+    title: Q.locale_text('filterRulesList'),
+    buttons: [
+      { text: locale_text('btnUnblock'), onclick: function() { block_images_remove(); return false; }  },
+      { text: locale_text('qCancel'), style:'q-syscancelbtn', onclick: function() { return true; } 
+      },
+    ]
+  });
+  //Q.$('layer-block-images').style.visibility = 'visible';
+  wayixia.options_filterrules_window.domodal();
+}
+//  ui(function(t) {
+    //var tpl = t.template('wndx-filter-rules');
+    //// i18n 
+    //extract_document(tpl);
+    //filter_rules_window = new Q.Dialog({
+      //title: Q.locale_text('filterRulesList'),
+      //width: 400,
+      //height: 350, 
+      //wstyle: "q-attr-no-icon",
+      //content:  tpl,
+      //on_close: function() { delete filter_rules_window; filter_rules_window = null; },
+      //on_create: function() {
+        //// init dialog
+        //var d = this;
+        
+        //var filter_rules = chrome.extension.getBackgroundPage().filter_rule_get();
+        //var rules = [];
+        //for(var name in filter_rules.rules) {
+          //rules.push(filter_rules.rules[name]);
+        //}
+        //var store = new Q.Store({
+          //data: rules
+        //});
+        //d.table = new Q.Table({ 
+          //title: Q.locale_text('filterRulesList'), 
+          //wstyle: "q-attr-no-title",
+          //id: d.item('list'),
+          //columns: [
+            //{ name: 'url', title: Q.locale_text('stringName'), align:'left', fixed: true, width: 398, isHTML: true, renderer : function(record) {return record['name'];} }
+          //],
+          //store: store,
+          //row_onclick : function(row) {
+            //var url = this.getRecord(row).url;
+          //},
+          //row_onmouseover : function(row) {},
+          //row_onmouseout : function(row) {},
+        //});
+      //},
+      //buttons: [
+        //{text: Q.locale_text('btnClose'), style: "syscancelbtn", onclick : function() { return true; }}
+      //]
+    //});
+
+    //filter_rules_window.domodal();
+    //filter_rules_window.table.autosize();
+  //});
+
+
+
+
 // fix page show slowly
 Q.addEvent(window, 'DOMContentLoaded', function() {
   // hook locale_text

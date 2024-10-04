@@ -1,0 +1,37 @@
+<style>
+
+</style>
+<template>
+  <div id="wndx-filter-rules" qid="list" style="position:absolute; left:0; top:0; right:0;bottom:0;">
+
+  </div>
+</template>
+<script>
+  Q.Dialog.extend( {
+    imagebox: null,
+    config: null,
+    __init__: function(json) {
+      this.config = json.config;
+      json.width = 800;
+      json.height = 600;
+      json.content = '{#template}';
+      json.on_create = Q.bind_handler(this, this.on_create);
+      json.on_close = Q.bind_handler(this, this.on_close);
+      Q.Dialog.prototype.__init__.call(this, json); 
+    },
+
+    on_create: function() {
+      var d = this;
+      wayixia.i18n(Q.$('wayixia-list'));
+      d.imagebox = new Q.ImagesBox({id: 'wayixia-list'});
+      d.config.get_block_images( (res) => {
+        d.imagebox.display_images(res, {})(); 
+      });
+    },
+
+    on_close: function() {
+      return true;
+    }
+
+} );
+</script>

@@ -40,56 +40,56 @@ function block_images_remove() {
   }
 }
 
-function display_filter_rules() {
-  ui(function(t) {
-    var tpl = t.template('wndx-filter-rules');
-    // i18n 
-    extract_document(tpl);
-    filter_rules_window = new Q.Dialog({
-      title: Q.locale_text('filterRulesList'),
-      width: 400,
-      height: 350, 
-      wstyle: "q-attr-no-icon",
-      content:  tpl,
-      on_close: function() { delete filter_rules_window; filter_rules_window = null; },
-      on_create: function() {
-        // init dialog
-        var d = this;
+//function display_filter_rules() {
+  //ui(function(t) {
+    //var tpl = t.template('wndx-filter-rules');
+    //// i18n 
+    //extract_document(tpl);
+    //filter_rules_window = new Q.Dialog({
+      //title: Q.locale_text('filterRulesList'),
+      //width: 400,
+      //height: 350, 
+      //wstyle: "q-attr-no-icon",
+      //content:  tpl,
+      //on_close: function() { delete filter_rules_window; filter_rules_window = null; },
+      //on_create: function() {
+        //// init dialog
+        //var d = this;
         
-        var filter_rules = chrome.extension.getBackgroundPage().filter_rule_get();
-        var rules = [];
-        for(var name in filter_rules.rules) {
-          rules.push(filter_rules.rules[name]);
-        }
-        var store = new Q.Store({
-          data: rules
-        });
-        d.table = new Q.Table({ 
-          title: Q.locale_text('filterRulesList'), 
-          wstyle: "q-attr-no-title",
-          id: d.item('list'),
-          columns: [
-            { name: 'url', title: Q.locale_text('stringName'), align:'left', fixed: true, width: 398, isHTML: true, renderer : function(record) {return record['name'];} }
-          ],
-          store: store,
-          row_onclick : function(row) {
-            var url = this.getRecord(row).url;
-          },
-          row_onmouseover : function(row) {},
-          row_onmouseout : function(row) {},
-        });
-      },
-      buttons: [
-        {text: Q.locale_text('btnClose'), style: "syscancelbtn", onclick : function() { return true; }}
-      ]
-    });
+        //var filter_rules = chrome.extension.getBackgroundPage().filter_rule_get();
+        //var rules = [];
+        //for(var name in filter_rules.rules) {
+          //rules.push(filter_rules.rules[name]);
+        //}
+        //var store = new Q.Store({
+          //data: rules
+        //});
+        //d.table = new Q.Table({ 
+          //title: Q.locale_text('filterRulesList'), 
+          //wstyle: "q-attr-no-title",
+          //id: d.item('list'),
+          //columns: [
+            //{ name: 'url', title: Q.locale_text('stringName'), align:'left', fixed: true, width: 398, isHTML: true, renderer : function(record) {return record['name'];} }
+          //],
+          //store: store,
+          //row_onclick : function(row) {
+            //var url = this.getRecord(row).url;
+          //},
+          //row_onmouseover : function(row) {},
+          //row_onmouseout : function(row) {},
+        //});
+      //},
+      //buttons: [
+        //{text: Q.locale_text('btnClose'), style: "syscancelbtn", onclick : function() { return true; }}
+      //]
+    //});
 
-    filter_rules_window.domodal();
-    filter_rules_window.table.autosize();
-  });
+    //filter_rules_window.domodal();
+    //filter_rules_window.table.autosize();
+  //});
 
 
-}
+//}
 
 Q.ready(function() {
   var hash = location.hash;
