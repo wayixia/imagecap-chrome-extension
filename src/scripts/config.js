@@ -64,6 +64,10 @@ class config
     chrome.storage.local.get( null, callback );
   }
 
+  getall2( key, fn ) {
+    chrome.storage.local.get( key, fn );
+  }
+
   /*!
    * add block image
    */
@@ -97,8 +101,8 @@ async is_block_image(url) {
 /*!
  * get all block images
  */
-async block_images_all() {
-  return await this.get('block_images');
+get_block_images(f) {
+  this.getall2(['block_images'], f);
 }
 
 /*!

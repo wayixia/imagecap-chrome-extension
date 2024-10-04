@@ -33,7 +33,9 @@ window.wayixia = {
   report_window : null,
   ui_wndx : null,
   request_data : {imgs: [], data: {}},
-  i18n: extract_document
+  i18n: extract_document,
+  track_button_click: wayixia_track_button_click,
+  track_event: wayixia_track_event
 };
 
 
@@ -602,13 +604,11 @@ window.init_options = function() {
 window.display_block_images = function() {
   wayixia.options_block_window = require('./src/views/options_block_images.view')({
     parent: wayixia.option_window,
-    width: 800,
-    height: 600,
+    config: config,
     title: Q.locale_text('haveBlocked'),
-    content: Q.$('layer-block-images'),
     buttons: [
       { text: locale_text('btnUnblock'), onclick: function() { block_images_remove(); return false; }  },
-      { text: locale_text('qCancel'), style:'syscancelbtn', onclick: function() { return true; } 
+      { text: locale_text('qCancel'), style:'q-syscancelbtn', onclick: function() { return true; } 
       },
     ]
   });

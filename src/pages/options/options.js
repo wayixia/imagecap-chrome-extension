@@ -96,7 +96,7 @@ Q.ready(function() {
   if(hash == "#about") {
     init_about();     
   } else {
-    init_setting(); 
+    init_options(); 
   }
 });
 

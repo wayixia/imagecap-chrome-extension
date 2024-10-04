@@ -73,7 +73,7 @@
       d.item('layer-about').style.visibility = 'visible'; 
       d.item('layer-about-version').innerText = Q.locale_text('extVersion') + ': v.' + chrome.runtime.getManifest().version;
       d.item('donate-with-alipay').onclick = function() { 
-        wayixia_track_button_click(this); 
+        wayixia.track_button_click(this); 
         Q.alert({ 
           title: '[资助]支付宝二维码', 
           wstyle: 'w-window', 
