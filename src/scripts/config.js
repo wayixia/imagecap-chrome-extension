@@ -165,19 +165,21 @@ filter_rule_is_enabled() {
 /*!
  * get all filter rules
  */
-async filter_rule_get() {
-  const data = await this.get('filter_rules');
-  var rules_config = data; //JSON.parse(data);
-  if(rules_config && (typeof rules_config == "object")) {
-  } else {
-    rules_config = {version: 0, rules: {}};
-  }
-  if(rules_config.version === undefined || isNaN(rules_config.version))
-    rules_config.version = 0;
-
-  if(rules_config.rules === undefined)
-    rules_config.rules = {};
-  return rules_config; 
+get_filter_rule( fn ) {
+  this.getall2('filter_rules', (rules_config)=>{
+    //var rules_config = data; //JSON.parse(data);
+    if(rules_config && (typeof rules_config == "object")) {
+    } else {
+      rules_config = {version: 0, rules: {}};
+    }
+    
+    if(rules_config.version === undefined || isNaN(rules_config.version))
+      rules_config.version = 0;
+    if(rules_config.rules === undefined)
+      rules_config.rules = {};
+    //return rules_config; 
+    fn(rules_config);
+  } );
 }
 
 /*!

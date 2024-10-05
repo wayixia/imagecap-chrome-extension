@@ -8,7 +8,7 @@
 </template>
 <script>
   Q.Dialog.extend( {
-    imagebox: null,
+    table: null,
     config: null,
     __init__: function(json) {
       this.config = json.config;
@@ -21,11 +21,33 @@
     },
 
     on_create: function() {
+      // init dialog
       var d = this;
-      wayixia.i18n(Q.$('wayixia-list'));
-      d.imagebox = new Q.ImagesBox({id: 'wayixia-list'});
-      d.config.get_block_images( (res) => {
-        d.imagebox.display_images(res, {})(); 
+      d.config.get_filter_rule( (extension)=>{ 
+        var filter_rules = extension.filter_rules;
+        var rules = [];
+        for(var name in filter_rules.rules) {
+          rules.push(filter_rules.rules[name]);
+        }
+        
+        var store = new Q.Store({
+          data: rules
+        });
+     
+        d.table = new Q.Table({ 
+          title: Q.locale_text('filterRulesList'), 
+          wstyle: "q-attr-no-title",
+          id: d.item('list'),
+          columns: [
+            { name: 'url', title: Q.locale_text('stringName'), align:'left', fixed: true, width: 398, isHTML: true, renderer : function(record) {return record['name'];} }
+          ], 
+          store: store,
+          row_onclick : function(row) { 
+            var url = this.getRecord(row).url;
+          },
+          row_onmouseover : function(row) {},
+          row_onmouseout : function(row) {},
+        });
       });
     },
 
