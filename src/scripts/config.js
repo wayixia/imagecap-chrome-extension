@@ -151,15 +151,14 @@ filter_rule_version() {
  * @param b {bool} - enable or disable filter rule
  */
 filter_rule_enable(b) {
-  this.set('filter_rule_enable', b?1:0);
+  this.set('filter_rule_is_enabled', b);
 }
 
 /*! 
  * filter rule is enabled
  */
-filter_rule_is_enabled() {
-  var enabled = this.get('filter_rule_enable'); 
-  return (parseInt(enabled, 10) != 0);
+filter_rule_is_enabled(fn) {
+  this.getall2('filter_rule_is_enabled', fn); 
 }
 
 /*!
@@ -186,12 +185,16 @@ get_filter_rule( fn ) {
  * set filter rules
  * @param {Array} - rule list
  */
-async filter_rule_set(rules) {
-  var rules_config = await filter_rule_get();
-  for(var name in rules) {
-    rules_config.rules[name] = rules[name];
-  }
-  this.set('filter_rules', JSON.stringify(rules_config));
+filter_rule_set(rules) {
+  this.get_filter_rule( (rules_config)=>{
+    for(var name in rules) {
+      rules_config.rules[name] = rules[name];
+    }
+
+    this.set('filter_rules', rules_config);
+  });
+  //var rules_config = await get_filter_rule();
+  //this.set('filter_rules', JSON.stringify(rules_config));
 }
 
 

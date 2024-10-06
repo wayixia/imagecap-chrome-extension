@@ -583,33 +583,40 @@ function clear_album_player() {
 }
 
 
+function display_all_valid_images( data, extension ) {
+//  var filter_rule_is_enabled = extension.filter_rule_is_enabled();
+  //const filter_rules = await config.filter_rule_get();
+  //const block_images = await config.block_images_all();
+  wayixia_block_images = extension.block_images||{};
+  wayixia.source_tab_id = data.ctx_tab_id;
+  var packet = data.data || {};
+  packet.imgs = packet.imgs || [];
+  packet.data = packet.data || {};
+  wayixia.request_data.imgs = packet.imgs;
+  wayixia.request_data.data = packet.data;
+  
+  if(wayixia.request_data.imgs) {
+    window.display_valid_images(extension.filter_rule_is_enabled, extension.filter_rules, wayixia.request_data.imgs, wayixia.request_data.data)();
+  }
+}
+
+
 /** 挖图界面初始化 */
 Q.ready(function() {  
   //Q.set_locale_text(locale_text);
   initialize();
 
-  //var config = chrome.config.getBackgroundPage();
   chrome.tabs.getCurrent( async function( tab ) {
     /** initialize images data*/
-    const data = await chrome.runtime.sendMessage({action: "get_display_cache", tabid: tab.id});
-    //var data = config.get_display_cache(tab.id);
-    if( !data )
-      return;
-
-    var filter_rule_is_enabled = config.filter_rule_is_enabled();
-    const filter_rules = await config.filter_rule_get();
-    const block_images = await config.block_images_all();
-    wayixia_block_images = block_images;
-    wayixia.source_tab_id = data.ctx_tab_id;
-    var packet = data.data || {};
-    packet.imgs = packet.imgs || [];
-    packet.data = packet.data || {};
-    wayixia.request_data.imgs = packet.imgs;
-    wayixia.request_data.data = packet.data;
-    
-    if(wayixia.request_data.imgs) {
-      window.display_valid_images(filter_rule_is_enabled, filter_rules, wayixia.request_data.imgs, wayixia.request_data.data)();
-    }
+    chrome.runtime.sendMessage(
+      {action: "get_display_cache", tabid: tab.id}, 
+      (data)=>{
+        var names = ['filter_rule_is_enabled', 'filter_rules', 'block_images'];
+        config.getall2( names, (extension)=>{
+            display_all_valid_images(data, extension);
+        });
+      }
+    );
   } );
 });
 
