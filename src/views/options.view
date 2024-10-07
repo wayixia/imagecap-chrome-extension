@@ -203,6 +203,7 @@
     filter_rules: null,
     config: null,
     __init__ : function(json) {
+      var d = this;
       this.config = json.config;
       json.width = 706;
       json.height = 480;
@@ -212,19 +213,19 @@
       json.buttons = [
       { text: Q.locale_text('btnSave'), onclick: function() {
          wayixia.track_event('option', 'save');
-         wayixia.track_event('option-date-folder', date_folder.checked()?'checked':'unchecked');
+         wayixia.track_event('option-date-folder', d.date_folder.checked()?'checked':'unchecked');
          // save settings
-         extension.user_config_set('save_path', Q.$('save_path').value);
-         extension.user_config_set('date_folder', (date_folder.checked())?1:0);
-         extension.set_save_lastconfig( save_lastconfig.checked() );
-         if( !save_lastconfig.checked() ) {
+         d.config.set('save_path', Q.$('save_path').value);
+         d.config.set('date_folder', (d.date_folder.checked())?1:0);
+         d.config.set_save_lastconfig( d.save_lastconfig.checked() );
+         if( !d.save_lastconfig.checked() ) {
            // reset default value
-           extension.set_filter_width( 0 );
-           extension.set_filter_height( 0 );
+           d.config.set('filter_width', 0 );
+           d.config.set('filter_height', 0 );
          }
-         extension.filter_rule_enable(filter_rules.checked());
-         extension.saveconfig();
-         message_box( {title: locale_text('extShortName'), content: locale_text('saveOptions'), icon: "ok" } );
+         d.config.filter_rule_enable(d.filter_rules.checked());
+         //extension.saveconfig();
+         wayixia.message_box( {title: Q.locale_text('extShortName'), content: Q.locale_text('saveOptions'), icon: "ok" } );
          return false;
         }
       },
@@ -245,14 +246,14 @@
       var d = this;
       wayixia.i18n(d.item('layer-options'));
 
-      this.tabactive = Q.$(location.hash.replace( /^#/g, "" ) );
-      if( this.tabactive ) {
-        this.tabactive = Q.$('tab-basic');
+      d.tabactive = Q.$(location.hash.replace( /^#/g, "" ) );
+      if( !d.tabactive ) {
+        d.tabactive = Q.$('tab-basic');
       }
   
       var t2 = new Q.tabs({
         action: "click",
-        active: this.tabactive,
+        active: d.tabactive,
         onactive: function( tid ) {
           var stateObject = {};
           var newUrl = "#" + tid.id;
@@ -306,7 +307,7 @@
       // filter rules 
       var option_filter_rules = extension.filter_rule_is_enabled; 
       Q.$('manager_filter_rules').disabled = !option_filter_rules; 
-      var filter_rules = new Q.CheckBox({ id : "filter_rules_enable", 
+      d.filter_rules = new Q.CheckBox({ id : "filter_rules_enable", 
         checked: option_filter_rules, 
         onchange : function(checked) { 
           Q.$('manager_filter_rules').disabled = !checked; 

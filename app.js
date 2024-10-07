@@ -170,7 +170,7 @@ function dismiss(d) {
   })).play();
 }
 
-function message_box( json ) {
+wayixia.message_box = function( json ) {
   var json = json || {};
   json.wstyle = "w-window";
   json.title = document.title;
@@ -597,8 +597,6 @@ window.init_options = function() {
   //Q.$('layer-options').style.visibility = 'visible';
   //g_option_window.domodal($GetDesktopWindow());
   wayixia.option_window.domodal();
-
-
 };
 
 window.display_block_images = function() {
