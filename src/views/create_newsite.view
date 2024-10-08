@@ -1,0 +1,72 @@
+<style>
+#layer-about {
+  margin: auto;
+  padding: 10px;
+  font-size: 16px;
+  visibility: hidden;
+}
+
+#layer-about {
+  line-height: 16px;
+}
+</style>
+<template>
+  <div qid="wndx-newsite" style="line-height: 30px;padding:10px;">
+    __MSG_stringName__: <br/>
+    <input type="text" qid="site-name" style="height: 20px; width: 100%;"> <br/>
+    <div qid="msg" style="color: red;"></div>
+  </div>
+</template>
+<script>
+  Q.Dialog.extend({
+    config: null,
+    on_createok: null,
+    __init__: function(json) {
+      this.config = json.config;
+      this.on_createok = json.on_createok;
+      json.wstyle = 'w-window';
+      json.content = '{#template}';
+      json.width = 350;
+      json.height = 200;
+
+
+      json.buttons = [
+        { text: Q.locale_text('btnSave'), onclick: Q.bind_handler(this, this.on_ok ) },
+        { text: Q.locale_text('qCancel'), style: 'q-syscancelbtn', onclick: function() { return true; } },
+      ];
+
+      json.on_create = Q.bind_handler(this, this.on_create);
+      json.on_close = Q.bind_handler(this, this.on_close);
+      Q.Dialog.prototype.__init__.call(this, json); 
+    },
+
+    on_create: function() {
+      wayixia.i18n(this.item('wndx-newsite'));
+    },
+
+    on_close: function() {
+      return true;
+    },
+
+    on_ok : function() {
+      var album_name = this.item( 'site-name' ).value;
+      if(!album_name) {
+        this.item('msg').innerText = Q.locale_text('stringNameEmpty');
+        return false;
+      }
+
+      var extension = chrome.extension.getBackgroundPage();
+      var newsite = { id: 0, name: album_name };
+      if( extension.is_site_exists( newsite ) ) {
+        this.item('msg').innerText = Q.locale_text('stringNameExists');
+      } else {
+        extension.add_site( newsite );
+        extension.set_last_site( newsite );
+        f( newsite );
+        extension.saveconfig();
+        dismiss( dlg );
+      }
+      return false;
+    }
+  });
+</script>

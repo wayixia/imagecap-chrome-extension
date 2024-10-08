@@ -271,37 +271,9 @@ function popup_tocloud_menu( e, evt, f )
   wayixia_tocloud_menu.showElement( e, evt );
 }
 
-function popup_save_menu( e, evt, f ) 
-{
-  var extension = chrome.extension.getBackgroundPage();
-  evt = evt || window.event;
-  // init drop menu
-  if( wayixia_save_menu ) {
-    wayixia_save_menu = null;
-  }
-  wayixia_save_menu = new Q.Menu({
-    style: "wayixia-menu", 
-    on_popup: function(popup) {
-      if(popup) {
-        Q.addClass( e, "checked");
-      } else {
-        Q.removeClass( e, "checked");
-      }
-    }
-  });   
-  wayixia_save_menu.hide();
-  var sites = [
-    {id: -1, name: Q.locale_text("menuSaveToSiteFolder") }, 
-    {id: -2, name: Q.locale_text("menuManageSiteFolder") } 
-  ];
-  var last_site = extension.last_site();
-  if( last_site.name ) {
-    sites.push( last_site );
-  }
-  sites.push({ type: "seperate" });
-  sites = sites.concat( extension.sites() );
-  var more_menu = null;
 
+function init_save_menu(sites, f) {
+  var more_menu = null;
   for( var i=0; i < sites.length; i++ ) {
     // Add submenu item
     var site = sites[i];
@@ -320,7 +292,7 @@ function popup_save_menu( e, evt, f )
           manage_sites_folder();
         } else {
           // Save last site
-          extension.set_last_site( a );
+          config.set('last_site', a );
           f( a );
         }
       } } )(site)
@@ -335,113 +307,84 @@ function popup_save_menu( e, evt, f )
           
           }
         } );
-        wayixia_save_menu.addMenuItem( more_menu );
+        wayixia.save_menu.addMenuItem( more_menu );
       }
 
       more_menu.addSubMenuItem( item );
       continue;
     }
-    wayixia_save_menu.addMenuItem( item );
+    wayixia.save_menu.addMenuItem( item );
   }
-
-  wayixia_save_menu.showElement( e, evt );
 }
+
+window.popup_save_menu = function( e, evt, f ) 
+{
+  evt = evt || window.event;
+  // init drop menu
+  if( wayixia.save_menu ) {
+    wayixia.save_menu = null;
+  }
+  wayixia.save_menu = new Q.Menu({
+    style: "wayixia-menu", 
+    on_popup: function(popup) {
+      if(popup) {
+        Q.addClass( e, "checked");
+      } else {
+        Q.removeClass( e, "checked");
+      }
+    }
+  });   
+  wayixia.save_menu.hide();
+
+
+  config.getall2( ['last_site', 'sites'], (c)=>{
+    var sites = [
+      {id: -1, name: Q.locale_text("menuSaveToSiteFolder") }, 
+      {id: -2, name: Q.locale_text("menuManageSiteFolder") } 
+    ];
+
+    var last_site = c.last_site;
+    if( last_site && last_site.name ) {
+      sites.push( last_site );
+      sites.push({ type: "seperate" });
+    }
+
+    sites = sites.concat( c.sites );
+
+    init_save_menu( sites, f );
+    wayixia.save_menu.showElement( e, evt );
+  });
+}
+
 
 
 
 /** @brief Create new album and execute f when operation is ok 
  *
- */
+ 
 function create_newalbum_save( f ) 
 {
-// load template
-ui( function(t) {    
-  var tpl = t.template('wndx-newalbum');
-  // i18n 
-  extract_document(tpl);
-  var dlg = Q.alert({
-    wstyle: 'w-window',
+  wayixia.create_newalbum = require('./src/views/create_newalbum.view')({
     title: Q.locale_text("menuSaveToNewAlbum"),
-    content: tpl,
-    width: 350,
-    height: 200,
-    on_ok : function() {
-      var album_name = this.item( 'album-name' ).value;
-      if(!album_name) {
-        this.item('msg').innerText = Q.locale_text('stringBoardNameEmpty');
-        return false;
-      }
-
-      Q.ajaxc({
-        command: 'https://www.wayixia.com/?mod=album&action=create-new&inajax=true',
-        withCredentials: true,
-        noCache:true,
-        method:"post",
-        queue: true,
-        continueError: true,
-        data : {album_name:album_name},
-        oncomplete : function(xmlhttp) {
-          try {
-          var res = Q.json_decode(xmlhttp.responseText);
-          if( ( res.header == 0 ) && ( res.data.album_id > 0 ) ) {
-            var extension = chrome.extension.getBackgroundPage();
-            var newalbum = { id: res.data.album_id, name: res.data.album_name };
-            extension.set_last_album( newalbum );
-            f( newalbum );
-            dismiss( dlg );
-          } else {
-            dlg.item('msg').innerText = res.data;
-          }
-          } catch (e) {
-            dlg.item('msg').innerText = "error: " + e.message + "\n" + xmlhttp.responseText ;
-          }        
-        }
-      }); // end ajax
-      return false;
-    }
+    on_createok: f
   });
-}); // end ui
+  wayixia.create_newalbum.domodal();
 } // end create_newalbum_save
 
+*/
 
 /** @brief Create new site folder to save folder 
  *
  */
 function create_newsite_save( f ) 
 {
-// load template
-ui( function(t) {    
-  var tpl = t.template('wndx-newsite');
-  // i18n 
-  extract_document(tpl);
-  var dlg = Q.alert({
-    wstyle: 'w-window',
+  wayixia.dlg_create_newsite = require('./src/views/create_newsite.view')({
     title: Q.locale_text("menuSaveToSiteFolder"),
-    content: tpl,
-    width: 350,
-    height: 200,
-    on_ok : function() {
-      var album_name = this.item( 'site-name' ).value;
-      if(!album_name) {
-        this.item('msg').innerText = Q.locale_text('stringNameEmpty');
-        return false;
-      }
-
-      var extension = chrome.extension.getBackgroundPage();
-      var newsite = { id: 0, name: album_name };
-      if( extension.is_site_exists( newsite ) ) {
-        this.item('msg').innerText = Q.locale_text('stringNameExists');
-      } else {
-        extension.add_site( newsite );
-        extension.set_last_site( newsite );
-        f( newsite );
-        extension.saveconfig();
-        dismiss( dlg );
-      }
-      return false;
-    }
+    config: config,
+    on_createok: f
   });
-}); // end ui
+  wayixia.dlg_create_newsite.domodal();
+
 } // end create_newsite_save
 
 
@@ -450,60 +393,13 @@ ui( function(t) {
  */
 function manage_sites_folder() {
 // load template
-ui( function( t ) {
-  var tpl = t.template('wndx-sites');
-  extract_document( tpl );
-  var dlg = new Q.Dialog( {
-    wstyle: 'w-window',
+  wayixia.dlg_manage_sites = require('./src/views/manage_sites.view')({
     title: Q.locale_text("menuManageSiteFolder"),
-    content: tpl,
-    width: 380,
-    height: 300,
-    on_create: function() {
-      var extension = chrome.extension.getBackgroundPage();
-      var columns = [
-        { name: 'name', title: Q.locale_text('stringName'), align:'left', width: 280, isHTML: true },
-        { name: 'name', title: Q.locale_text('stringOperation'), align:'center', width: 80, isHTML: true, renderer : function(record) { return "<font class=\"remove-site\" style=\"text-decoration: underline; cursor: hand;\"> " + Q.locale_text('stringRemove') + " </font>"; }, }
-      ];
-
-      var store = new Q.Store({
-        data: extension.sites()
-      });
-    
-      //init Q.table
-      this.table = new Q.Table({ 
-        id: tpl,
-        title: "",
-        wstyle: "q-attr-no-title",
-        columns: columns,  
-        store: store,
-        row_height: 21,
-        row_onclick : function( row, evt ) {
-          var data = this.getRecord(row);
-          var e = Q.isNS6() ? evt.target : evt.srcElement;
-          if( e.className == "remove-site" ) {
-            this.row_remove( row );
-            extension.remove_site( data );
-            if( data.name == extension.last_site().name ) {
-              extension.set_last_site( { name : "" } );
-            }
-            extension.saveconfig();
-          }
-        }
-      });
-    
-      
-    },
-    on_ok : function() {
-      return true;
-    }
-  } );
+    config: config
+  });
   
-  dlg.domodal();
-  dlg.table.autosize();
-
-} );
-
+  wayixia.dlg_manage_sites.domodal();
+  wayixia.dlg_manage_sites.table.autosize();
 }
 
 

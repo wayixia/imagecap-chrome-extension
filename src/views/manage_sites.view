@@ -1,0 +1,85 @@
+<style>
+#layer-about {
+  margin: auto;
+  padding: 10px;
+  font-size: 16px;
+  visibility: hidden;
+}
+
+#layer-about {
+  line-height: 16px;
+}
+</style>
+<template>
+  <div id="wndx-sites" style="position:absolute; left:0; top:0; right:0;bottom:0;">
+    <table>
+    <tr>
+    </tr>
+    </table>
+  </div>
+</template>
+<script>
+  Q.Dialog.extend({
+    config: null,
+    table: null,
+
+    on_createok: null,
+    __init__: function(json) {
+      this.config = json.config;
+      this.on_createok = json.on_createok;
+      json.wstyle = 'w-window';
+      json.content = '{#template}';
+      json.width = 380;
+      json.height = 300;
+      json.on_create = Q.bind_handler(this, this.on_create);
+      json.on_close = Q.bind_handler(this, this.on_close);
+      Q.Dialog.prototype.__init__.call(this, json); 
+    },
+    on_create: function() {
+      var d = this;
+      d.config.getall2([], (c)=>{
+        d.init_view(c); 
+      });
+    },
+    init_view: function( c ) {
+      var d = this;
+      var columns = [
+        { name: 'name', title: Q.locale_text('stringName'), align:'left', width: 280, isHTML: true },
+        { name: 'name', title: Q.locale_text('stringOperation'), align:'center', width: 80, isHTML: true, renderer : function(record) { return "<font class=\"remove-site\" style=\"text-decoration: underline; cursor: hand;\"> " + Q.locale_text('stringRemove') + " </font>"; }, }
+      ];
+
+      var store = new Q.Store({
+        data: c.sites
+      });
+    
+      //init Q.table
+      this.table = new Q.Table({ 
+        id: d.item('wndx-sites'),
+        title: "",
+        wstyle: "q-attr-no-title",
+        columns: columns,  
+        store: store,
+        row_height: 21,
+        row_onclick : function( row, evt ) {
+          var data = this.getRecord(row);
+          var e = Q.isNS6() ? evt.target : evt.srcElement;
+          if( e.className == "remove-site" ) {
+            this.row_remove( row );
+            d.config.remove_site( data );
+            if( data.name == c.last_site.name ) {
+              d.config.set('last_site', { name : "" } );
+            }
+          }
+        }
+      });
+    
+      
+    },
+    on_close : function() {
+      delete wayixia.dlg_manage_sites;
+      wayixia.dlg_manage_sites = null;
+      return true;
+    }
+
+  });
+</script>

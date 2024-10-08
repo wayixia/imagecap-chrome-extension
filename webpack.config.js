@@ -85,7 +85,7 @@ module.exports = {
 			use:[{
         		loader:'url-loader', //指定使用的loader和loader的配置参数
         		options:{
-            		limit:5*1024,  //是把小于5KB的文件打成Base64的格式，写入JS
+            		limit:30*1024,  //是把小于5KB的文件打成Base64的格式，写入JS
             		outputPath: path.resolve( __dirname, 'images')  //打包后的图片放到img文件夹下
             	}
       }]

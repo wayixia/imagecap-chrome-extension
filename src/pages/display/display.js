@@ -235,6 +235,7 @@ function initialize () {
     } );
   }
 
+  /*
   Q.$('wayixia-tocloud').onclick = function( evt ) {
     evt = evt || window.event;
     wayixia_track_button_click(this);
@@ -257,6 +258,7 @@ function initialize () {
       
     } );
   }
+  */
 
   wayixia_images_filter =  new ImageFilter({}); 
   Q.$( 'wayixia-filter-icon' ).onclick = (function(t, e) { return function(evt) { 
@@ -442,7 +444,7 @@ function initialize () {
 
   /** initialize title of buttons */
   Q.$( 'wayixia-local-download' ).title = Q.locale_text( 'toolSave' );
-  Q.$( 'wayixia-tocloud' ).title = Q.locale_text( 'toolSaveToCloud' );
+  //Q.$( 'wayixia-tocloud' ).title = Q.locale_text( 'toolSaveToCloud' );
   Q.$( 'wayixia-select-all' ).title = Q.locale_text( 'selectAll' );
   Q.$( 'wayixia-add-block' ).title = Q.locale_text( 'addBlock' );
   Q.$( 'wayixia-show-block' ).title = Q.locale_text( 'haveBlocked' );
