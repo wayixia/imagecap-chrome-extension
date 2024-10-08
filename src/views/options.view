@@ -217,7 +217,7 @@
          // save settings
          d.config.set('save_path', Q.$('save_path').value);
          d.config.set('date_folder', (d.date_folder.checked())?1:0);
-         d.config.set_save_lastconfig( d.save_lastconfig.checked() );
+         d.config.set('save_lastconfig', d.save_lastconfig.checked() );
          if( !d.save_lastconfig.checked() ) {
            // reset default value
            d.config.set('filter_width', 0 );

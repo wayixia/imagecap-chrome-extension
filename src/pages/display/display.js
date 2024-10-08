@@ -47,9 +47,12 @@ __init__ : function( json ) {
           wayixia_images_box.check_size(item, _this.g_min_width, _this.g_min_height);
       });
       Q.$('wayixia-min-width').innerText = _this.g_min_width + 'px';
-      if( config.save_lastconfig() ) {
-        config.set_filter_width( _this.g_min_width );
-      }
+      config.getall2( 'save_lastconfig', (c) => {
+        if( c.save_lastconfig )
+        {
+          config.set_filter_width( _this.g_min_width );
+        }
+      });
     }
   });
   
@@ -66,9 +69,12 @@ __init__ : function( json ) {
       
       Q.$('wayixia-min-height').innerText = _this.g_min_height + 'px';
       
-      if( config.save_lastconfig() ) {
-        config.set_filter_height( _this.g_min_height );
-      }
+      config.getall2( 'save_lastconfig', (c) => {
+        if( c.save_lastconfig )
+        {
+          config.set_filter_height( _this.g_min_height );
+        }
+      });
     }
   });
 
@@ -85,7 +91,6 @@ function initialize () {
   var _this = t = this;
   var blocked_images = [];
   var accept_length  = 0;
-  //var config = chrome.config.getBackgroundPage();
   
   // Image box
   wayixia_images_box = new Q.ImagesBox({id: 'wayixia-list',
@@ -606,7 +611,7 @@ Q.ready(function() {
   //Q.set_locale_text(locale_text);
   initialize();
 
-  chrome.tabs.getCurrent( async function( tab ) {
+  chrome.tabs.getCurrent( function( tab ) {
     /** initialize images data*/
     chrome.runtime.sendMessage(
       {action: "get_display_cache", tabid: tab.id}, 

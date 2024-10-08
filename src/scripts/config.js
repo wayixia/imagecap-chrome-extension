@@ -52,7 +52,9 @@ class config
   }
 
   set(key, value) {
-    chrome.storage.local.set({key, value});
+    var c = {};
+    c[key] = value;
+    chrome.storage.local.set(c);
   }
 
   async get(key) {
