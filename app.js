@@ -156,7 +156,7 @@ function back2page() {
 }
 
 
-function dismiss(d) {
+window.dismiss = function(d){
   (new Q.Animate({ 
     tween: 'cubic', ease: 'easyin',
     max: 1000, begin: 0, duration: 100,

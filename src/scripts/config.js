@@ -195,8 +195,6 @@ filter_rule_set(rules) {
 
     this.set('filter_rules', rules_config);
   });
-  //var rules_config = await get_filter_rule();
-  //this.set('filter_rules', JSON.stringify(rules_config));
 }
 
 
@@ -229,34 +227,29 @@ last_site() {
 }
 
 set_last_site( site ) {
-  this.set( "site.last", JSON.stringify( site ) );
+  this.set( "site.last", site );
 }
 
-is_site_exists( site ) {
-  var sites = this.get( 'site.items' ) || "[]";
-	try {
-		sites = JSON.parse( sites );
-	} catch( e ) {
-		sites = [];
-	}
-  for( var i=0; i < sites.length; i++ ) {
-    if( sites[i].name == site.name ) {
-      return true;
+site_is_exists( site, fn ) {
+  var sites = this.getall2( 'site.items', (sites)=>{
+    sites = sites || [];
+    for( var i=0; i < sites.length; i++ ) {
+      if( sites[i].name == site.name ) {
+        fn(true);
+        return;
+      }
     }
-  } 
-
-  return false;
+    fn(false);
+  } );
 }
 
 add_site( site ) {
-  var sites = this.get( 'site.items' ) || "[]";
-	try {
-  	sites = JSON.parse( sites );
-  } catch( e ) {
-		sites = [];
-	}
-  sites.push( site );
-  this.set( "site.items", JSON.stringify( sites ) );
+  var self = this;
+  var sites = this.getall2( 'site.items', (sites)=>{
+    sites = sites || [];
+    sites.push( site );
+    self.set( "site.items", sites );
+  } );
 }
 
 
@@ -278,7 +271,7 @@ remove_site( site ) {
   this.set( "site.items", JSON.stringify( sites ) );
 
 }
-
+*/
 
 filter_width() {
   var width = this.get( "filter.width" ) || "0";

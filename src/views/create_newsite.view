@@ -49,23 +49,24 @@
     },
 
     on_ok : function() {
+      var d = this;
       var album_name = this.item( 'site-name' ).value;
       if(!album_name) {
         this.item('msg').innerText = Q.locale_text('stringNameEmpty');
         return false;
       }
 
-      var extension = chrome.extension.getBackgroundPage();
       var newsite = { id: 0, name: album_name };
-      if( extension.is_site_exists( newsite ) ) {
-        this.item('msg').innerText = Q.locale_text('stringNameExists');
-      } else {
-        extension.add_site( newsite );
-        extension.set_last_site( newsite );
-        f( newsite );
-        extension.saveconfig();
-        dismiss( dlg );
-      }
+      this.config.site_is_exists( newsite, (yes)=>{
+        if( yes) {
+          d.item('msg').innerText = Q.locale_text('stringNameExists');
+        } else {
+          d.config.add_site( newsite );
+          d.config.set('last_site', newsite );
+          d.on_createok( newsite );
+          dismiss(d); 
+        }
+      } );
       return false;
     }
   });
