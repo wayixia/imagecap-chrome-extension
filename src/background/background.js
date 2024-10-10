@@ -221,6 +221,7 @@ function wayixia_logout( fn ) {
 
 
 function wayixia_statics_images( item, pageurl ) {
+  return;
   var re = /data:(.+?);(\w+?),(.+)/;
   var url;
   var mime;
@@ -456,7 +457,7 @@ function get_date_path() {
   var day = date.getDate();   
   month = month>9?month:('0'+month);
   day   = day>9?day:('0'+day);
-  var date_path = date.getFullYear()+month+day;
+  var date_path = date.getFullYear()+month.toString(10)+day.toString(10);
   return date_path;
 }
 
