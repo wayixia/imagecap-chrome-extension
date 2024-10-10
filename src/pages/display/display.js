@@ -12,6 +12,7 @@ import config from "../../scripts/config.js"
 
 import {wayixia_track_button_click} from "../../scripts/tracker.js"
 import {urls_filter} from "../../scripts/urls_filter.js"
+import worker from "../../scripts/worker.js";
 
 var t = {};
 var checkbox_show_block = null;
@@ -213,7 +214,7 @@ function initialize () {
     } } )( config.last_site() ) );
 
     if( selected_items == 0 ) {
-      message_box( { content: Q.locale_text('stringSelectNone'), icon: 'info' } ); 
+      wayixia.message_box( { content: Q.locale_text('stringSelectNone'), icon: 'info' } ); 
     }
   }
 
@@ -230,7 +231,7 @@ function initialize () {
         }
       });
       if( selected_items == 0 ) {
-        message_box( { content: Q.locale_text('stringSelectNone'), icon: 'info' } ); 
+        wayixia.message_box( { content: Q.locale_text('stringSelectNone'), icon: 'info' } ); 
       }
     } );
   }
@@ -253,7 +254,7 @@ function initialize () {
         }
       })
       if( selected_items == 0 ) {
-        message_box( { content: Q.locale_text('stringSelectNone'), icon: 'info' } ); 
+        wayixia.message_box( { content: Q.locale_text('stringSelectNone'), icon: 'info' } ); 
       }
       
     } );
@@ -326,7 +327,7 @@ function initialize () {
       if( folder && folder.name ) {
         name = folder.name;
       }
-      config.download_image(url, window, name );
+      worker.download_image(url, window, name, "" );
       Q.addClass(item, 'downloaded');
       item.style.display = 'none';
     //}
@@ -334,7 +335,7 @@ function initialize () {
 
   function edit_item( item ) {
     //var config = chrome.config.getBackgroundPage();
-    config.edit_image( item.getAttribute('data-url'), window );
+    worker.edit_image( item.getAttribute('data-url'), window );
   }
 
   function tocloud_item( item, album_id ) {
@@ -575,7 +576,7 @@ function album_player_display( url, imgs ) {
         
         download : function(src) {
           //var config = chrome.config.getBackgroundPage();
-          config.download_image(src, window, config.last_site().name );
+          worker.download_image(src, window, config.last_site().name, "" );
         }
       }); 
       g_album_player.render(url, imgs); 

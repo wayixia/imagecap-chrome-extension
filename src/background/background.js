@@ -428,23 +428,26 @@ function edit_image( url, view ) {
 var download_items = {};
 
 function download_image(url, view, folder, pageurl ) {
-  var options = {url: url};
-  chrome.downloads.download( options, ( function( u, v, f ) { return function(id) {
-    if(!id) {
-      v.background_warning({
-        error: chrome.runtime.lastError,
-        page: v.location,
-        url: u
-      });
-    } else {
-      download_items[id] = {
-        url: u,
-        view: v,
-        folder: f,
-        pageurl: pageurl
-      };
-    }
-  } } )( url, view, folder ) ); 
+  get_save_path(folder, (save_path)=>{
+    var options = {url: url};
+    chrome.downloads.download( options, ( function( u, v, f ) { return function(id) {
+      if(!id) {
+        v.background_warning({
+          error: chrome.runtime.lastError,
+          page: v.location,
+          url: u
+        });
+      } else {
+        download_items[id] = {
+          url: u,
+          view: v,
+          save_path: f,
+          pageurl: pageurl
+        };
+      }
+    } } )( url, view, save_path ) ); 
+  })
+ 
 }
 
 function get_date_path() {
@@ -457,27 +460,30 @@ function get_date_path() {
   return date_path;
 }
 
-async function get_save_path( folder ) {
-  var save_path = "wayixia/" + ( await config.user_config_get('save_path') || "" );
-  var date_folder = (await config.user_config_get('date_folder') != '0');
-  
-  if( save_path != "" ) {
-    save_path += "/";
-  }
-
-  if( folder != "" ) {
-    save_path += folder + "/";
-  }
-
-  if(date_folder) {
-    var date_path = get_date_path();
-    if(date_path != "") {
-      save_path += "/" + date_path + "/";
+function get_save_path( folder, fn) {
+  config.getall2(['save_path', 'date_folder'], (c)=>{
+    var spath = c.save_path || "";
+    var save_path = "wayixia/" + spath;
+    var date_folder = !!c.date_folder;
+    
+    if( save_path != "" ) {
+      save_path += "/";
     }
-  }
-  save_path = save_path.replace(/[\\\/]+/g, '/');
-
-  return save_path;
+  
+    if( folder != "" ) {
+      save_path += folder + "/";
+    }
+  
+    if(date_folder) {
+      var date_path = get_date_path();
+      if(date_path != "") {
+        save_path += "/" + date_path + "/";
+      }
+    }
+    save_path = save_path.replace(/[\\\/]+/g, '/');
+    fn(save_path);
+    //return save_path;
+  });
 }
 
 function create_tab( json ) {
@@ -532,7 +538,7 @@ chrome.downloads.onDeterminingFilename.addListener(async function(item, suggest)
   if(item.byExtensionId == chrome.runtime.id) {
     console.log(item.id + ":" + item.state)
     var cfg = download_items[item.id];
-    const save_path = await get_save_path( cfg.folder );
+    const save_path = cfg.save_path; //await get_save_path( cfg.folder );
     var filename = "";
     var re = /data:(.+?);(\w+?),(.+)/;
     if(re.test(item.url)) { // data
@@ -654,6 +660,10 @@ chrome.runtime.onMessage.addListener( function( o, sender, res ) {
     });
 
     res( configs );
+    break;
+  case "download_image":
+    download_image(o.url, o.view, o.folder, o.pageurl);
+    res({});
     break;
   }
 

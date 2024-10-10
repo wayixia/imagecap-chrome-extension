@@ -198,8 +198,8 @@ filter_rule_set(rules) {
 }
 
 
-save_lastconfig() {
-  return this.get( "save_lastconfig" ) != '0';
+save_lastconfig(fn) {
+  this.getall2( "save_lastconfig", fn );
 }
 
 set_save_lastconfig( enabled ) {
@@ -207,23 +207,15 @@ set_save_lastconfig( enabled ) {
 }
 
 
-sites() {
-  var sites = this.get( 'site.items' ) || "[]";
-	try {
-  	sites = JSON.parse( sites );
-	} catch(e) {
-		return [];
-	}
-  return sites;
+sites(fn) {
+  var sites = this.getall2( 'site.items', (c)=>{
+    var sites = c.sites || [];
+    fn(c.sites);
+  } );
 }
 
-last_site() {
-  var site = this.get( "site.last" ) || "{ name: '' }";
-	try {
-		return JSON.parse( site );
-	} catch(e) {
-		return  { name: "" };
-	}
+last_site(fn) {
+  this.getall2( "site.last", fn(c) );
 }
 
 set_last_site( site ) {
@@ -231,8 +223,7 @@ set_last_site( site ) {
 }
 
 site_is_exists( site, fn ) {
-  var sites = this.getall2( 'site.items', (sites)=>{
-    sites = sites || [];
+  this.sites( (sites)=>{
     for( var i=0; i < sites.length; i++ ) {
       if( sites[i].name == site.name ) {
         fn(true);
@@ -245,8 +236,7 @@ site_is_exists( site, fn ) {
 
 add_site( site ) {
   var self = this;
-  var sites = this.getall2( 'site.items', (sites)=>{
-    sites = sites || [];
+  this.sites( (sites)=>{
     sites.push( site );
     self.set( "site.items", sites );
   } );
@@ -254,24 +244,16 @@ add_site( site ) {
 
 
 remove_site( site ) {
-  var sites = this.get( 'site.items' ) || "[]";
-  try {
-  	sites = JSON.parse( sites );
-  } catch( e ) {
-		sites = [];
-	}
- 
-  for( var i=0; i < sites.length; i++ ) {
-    if( sites[i].name == site.name ) {
-      sites.splice( i, 1 );
-      break;
+  this.sites( (sites)=>{
+    for( var i=0; i < sites.length; i++ ) {
+      if( sites[i].name == site.name ) {
+        sites.splice( i, 1 );
+        this.set( "site.items", sites );
+        break;
+      }
     }
-  } 
- 
-  this.set( "site.items", JSON.stringify( sites ) );
-
+  });
 }
-*/
 
 filter_width() {
   var width = this.get( "filter.width" ) || "0";
