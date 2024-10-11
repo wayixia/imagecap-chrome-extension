@@ -399,7 +399,7 @@ function manage_sites_folder() {
   });
   
   wayixia.dlg_manage_sites.domodal();
-  wayixia.dlg_manage_sites.table.autosize();
+  //wayixia.dlg_manage_sites.table.autosize();
 }
 
 

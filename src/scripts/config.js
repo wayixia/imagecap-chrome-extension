@@ -41,7 +41,7 @@ class config
 
 
   user_config_tostring() {
-    var config_names = ['save_path', 'date_folder', 'view_type', 'save_lastconfig', 'site.items', 'site.last', 'filter.width', 'filter.height'];
+    var config_names = ['save_path', 'date_folder', 'view_type', 'save_lastconfig', 'sites', 'last_site', 'filter_width', 'filter_height'];
     var config = {};
     for(var i=0; i<config_names.length; i++) {
       var name = config_names[i];
@@ -203,23 +203,23 @@ save_lastconfig(fn) {
 }
 
 set_save_lastconfig( enabled ) {
-  this.set( "save_lastconfig", enabled ? '1':'0' );
+  this.set( "save_lastconfig", enabled);
 }
 
 
 sites(fn) {
-  var sites = this.getall2( 'site.items', (c)=>{
+  var sites = this.getall2( 'sites', (c)=>{
     var sites = c.sites || [];
-    fn(c.sites);
+    fn(sites);
   } );
 }
 
 last_site(fn) {
-  this.getall2( "site.last", fn(c) );
+  this.getall2( "last_site", fn(c) );
 }
 
 set_last_site( site ) {
-  this.set( "site.last", site );
+  this.set( "last_site", site );
 }
 
 site_is_exists( site, fn ) {
@@ -238,7 +238,7 @@ add_site( site ) {
   var self = this;
   this.sites( (sites)=>{
     sites.push( site );
-    self.set( "site.items", sites );
+    self.set( "sites", sites );
   } );
 }
 
@@ -248,30 +248,28 @@ remove_site( site ) {
     for( var i=0; i < sites.length; i++ ) {
       if( sites[i].name == site.name ) {
         sites.splice( i, 1 );
-        this.set( "site.items", sites );
+        this.set( "sites", sites );
         break;
       }
     }
   });
 }
 
-filter_width() {
-  var width = this.get( "filter.width" ) || "0";
-  return parseInt( width, 10 );
+filter_width(fn) {
+  this.getall2('filter_width', (c)=>{ fn(c.filter_width?c.filter_width:0)});
 }
 
 set_filter_width( width ) {
-  this.set( "filter.width", width );
+  this.set( "filter_width", width );
 }
 
 
 filter_height() {
-  var height = this.get( "filter.height" ) || "0";
-  return parseInt( height, 10 );
+  this.getall2('filter_height', (c)=>{ fn(c.filter_height?c.filter_height:0)});
 }
 
 set_filter_height( height ) {
-  this.set( "filter.height", height );
+  this.set( "filter_height", height );
 }
 
 

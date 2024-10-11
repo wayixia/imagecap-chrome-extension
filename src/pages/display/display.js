@@ -595,6 +595,8 @@ function display_all_valid_images( data, extension ) {
 //  var filter_rule_is_enabled = extension.filter_rule_is_enabled();
   //const filter_rules = await config.filter_rule_get();
   //const block_images = await config.block_images_all();
+  if( !data )
+    return;
   wayixia_block_images = extension.block_images||{};
   wayixia.source_tab_id = data.ctx_tab_id;
   var packet = data.data || {};

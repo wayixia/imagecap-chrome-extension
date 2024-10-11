@@ -11,7 +11,7 @@
 }
 </style>
 <template>
-  <div id="wndx-sites" style="position:absolute; left:0; top:0; right:0;bottom:0;">
+  <div qid="wndx-sites" style="position:absolute; left:0; top:0; right:0;bottom:0;">
     <table>
     <tr>
     </tr>
@@ -37,7 +37,7 @@
     },
     on_create: function() {
       var d = this;
-      d.config.getall2([], (c)=>{
+      d.config.getall2(['sites','last_site'], (c)=>{
         d.init_view(c); 
       });
     },
@@ -60,11 +60,11 @@
         columns: columns,  
         store: store,
         row_height: 21,
-        row_onclick : function( row, evt ) {
+        item_onclick : function( row, evt ) {
           var data = this.getRecord(row);
           var e = Q.isNS6() ? evt.target : evt.srcElement;
           if( e.className == "remove-site" ) {
-            this.row_remove( row );
+            this.item_remove( row );
             d.config.remove_site( data );
             if( data.name == c.last_site.name ) {
               d.config.set('last_site', { name : "" } );
@@ -73,7 +73,7 @@
         }
       });
     
-      
+      this.table.autosize();
     },
     on_close : function() {
       delete wayixia.dlg_manage_sites;
