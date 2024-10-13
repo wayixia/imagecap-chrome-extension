@@ -604,9 +604,9 @@ function display_all_valid_images( data, extension ) {
   packet.data = packet.data || {};
   wayixia.request_data.imgs = packet.imgs;
   wayixia.request_data.data = packet.data;
-  
+  var filter_rules =extension.filter_rules || {rules:{}};
   if(wayixia.request_data.imgs) {
-    window.display_valid_images(extension.filter_rule_is_enabled, extension.filter_rules, wayixia.request_data.imgs, wayixia.request_data.data)();
+    window.display_valid_images(extension.filter_rule_is_enabled, filter_rules, wayixia.request_data.imgs, wayixia.request_data.data)();
   }
 }
 

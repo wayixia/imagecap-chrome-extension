@@ -25,6 +25,11 @@ class worker {
     chrome.runtime.sendMessage( {action: "get_display_cache", tabid: tab.id}, fn );
   }
 
+  get_all_images( track_from, tab, fn ) {
+    chrome.runtime.sendMessage( { action: "wa_all", 
+      track_from: track_from, tab: tab}, fn );
+  }
+
 }
 
 

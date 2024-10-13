@@ -1,4 +1,5 @@
-
+import worker from "../scripts/worker.js";
+import config from "../scripts/config.js";
 
 function deactive() {
   window.close();
@@ -13,7 +14,7 @@ function init(){
   Q.$('wayixia-all-images').onclick = function() {
     chrome.tabs.query({'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT},
       function(tabs){
-        send_message_with_noreply( 'wa_all', { track_from: 'from_popup', tab:tabs[0]} );
+        worker.get_all_images( "from_popup", tabs[0], (res)=>{} );
       }
     );
     deactive();
@@ -67,11 +68,10 @@ function init(){
   }  
 
   //extension = chrome.extension.getBackgroundPage();
-
-  chrome.runtime.sendMessage({action:'get_nickname'}, function(res) {
+  config.nickname( (nickname) => {
      
-    if( res.nickname != "" ) {
-      Q.$('wayixia-login-text').innerHTML = res.nickname.toUpperCase();
+    if( nickname != "" ) {
+      Q.$('wayixia-login-text').innerHTML = nickname.toUpperCase();
       Q.$('wayixia-login-text').onclick = function() {
         deactive();
         window.open("https://www.wayixia.com/?mod=user&action=home");

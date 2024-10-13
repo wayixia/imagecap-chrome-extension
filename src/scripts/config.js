@@ -264,7 +264,7 @@ set_filter_width( width ) {
 }
 
 
-filter_height() {
+filter_height(fn) {
   this.getall2('filter_height', (c)=>{ fn(c.filter_height?c.filter_height:0)});
 }
 
@@ -272,6 +272,12 @@ set_filter_height( height ) {
   this.set( "filter_height", height );
 }
 
+
+nickname(fn) {
+  this.getall2('nickname', (res)=>{
+    fn( res.nickname || '' );
+  })
+}
 
 };
 
