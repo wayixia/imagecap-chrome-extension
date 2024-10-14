@@ -9,24 +9,30 @@ function send_message_with_noreply( action, data ) {
   chrome.runtime.sendMessage( { action: action, data: data||{}});
 }
 
+function get_current_tab( fn ) {
+  chrome.tabs.query({'active': true, 
+    'windowId': chrome.windows.WINDOW_ID_CURRENT},
+    (tabs) => { 
+      fn(tabs[0]); 
+    }
+  );
+}
+
 function init(){
   // wayixia
   Q.$('wayixia-all-images').onclick = function() {
-    chrome.tabs.query({'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT},
-      function(tabs){
-        worker.get_all_images( "from_popup", tabs[0], (res)=>{} );
-      }
-    );
+    get_current_tab( (currenttab) => { 
+      worker.get_all_images( "from_popup", currenttab, (res)=>{} );
+    } );
     deactive();
   }
   
   Q.$('wayixia-screenshot').onclick = function() {
-    
-    chrome.tabs.query({'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT},
-     function(tabs){
-       send_message_with_noreply( 'screenshot', { tab: tabs[0] } );
-     }
-    );
+    get_current_tab( (currenttab) => {
+      worker.screenshot(currenttab);
+      //send_message_with_noreply( 'screenshot', { tab: tabs[0] } );
+    } )
+    /// send_message_with_noreply( 'screenshot', { tab: tabs[0] } );
     deactive();
   }
   
@@ -67,11 +73,11 @@ function init(){
     send_message_with_noreply('open_about', {});
   }  
 
-  //extension = chrome.extension.getBackgroundPage();
   config.nickname( (nickname) => {
-     
+    nickname = nickname || ""; 
+    console.log( nickname );
     if( nickname != "" ) {
-      Q.$('wayixia-login-text').innerHTML = nickname.toUpperCase();
+      Q.$('wayixia-login-text').innerHTML = nickname;
       Q.$('wayixia-login-text').onclick = function() {
         deactive();
         window.open("https://www.wayixia.com/?mod=user&action=home");

@@ -30,6 +30,11 @@ class worker {
       track_from: track_from, tab: tab}, fn );
   }
 
+  screenshot( tab, fn ) {
+    chrome.runtime.sendMessage( { action: "screenshot",  
+      tab: tab }, fn );
+  }
+
 }
 
 

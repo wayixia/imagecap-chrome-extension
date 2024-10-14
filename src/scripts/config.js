@@ -74,10 +74,9 @@ class config
    * add block image
    */
   block_image_add(url) {
-    chrome.storage.local.get('block_images', (data)=>{
-      var images = JSON.parse() || {};
-      images[url] = 1;
-      chrome.storage.local.set('block_images', JSON.stringify(images));
+    this.getall2( { block_images:{} }, (c)=>{
+      c.block_images[url] = 1;
+      chrome.storage.local.set('block_images', c.block_images);
     });
   }
 
@@ -85,26 +84,27 @@ class config
  * remove block image
  */
 block_image_remove(url) {
-  var images = JSON.parse(localStorage.getItem('block_images')) || {};
-  delete images[url];
-  localStorage.setItem('block_images', JSON.stringify(images));
+  this.getall2( { block_images:{} }, (c)=>{
+    delete c.block_images[url];
+    chrome.storage.local.set('block_images', c.block_images);
+  });
 }
 
 /*!
  * check image is blocked
  * @param url {string} - image url
  */
-async is_block_image(url) {
-  const images = await this.get('block_images');
-  //var images = JSON.parse(localStorage.getItem('block_images')) || {};
-  return !!images[url];
+is_block_image(url, fn) {
+  this.getall2( { block_images:{} }, (c)=>{
+    fn(!!c.block_images[url]);
+  });
 }
 
 /*!
  * get all block images
  */
-get_block_images(f) {
-  this.getall2(['block_images'], f);
+get_block_images(fn) {
+  this.getall2({block_images:{}}, fn);
 }
 
 /*!
@@ -209,7 +209,7 @@ set_save_lastconfig( enabled ) {
 
 sites(fn) {
   var sites = this.getall2( 'sites', (c)=>{
-    var sites = c.sites || [];
+    var sites = c || [];
     fn(sites);
   } );
 }
@@ -256,16 +256,16 @@ remove_site( site ) {
 }
 
 filter_width(fn) {
-  this.getall2('filter_width', (c)=>{ fn(c.filter_width?c.filter_width:0)});
+  this.getall2({filter_width:0}, (c)=>{ fn(c.filter_width)});
 }
 
 set_filter_width( width ) {
-  this.set( "filter_width", width );
+  this.set( 'filter_width', width );
 }
 
 
 filter_height(fn) {
-  this.getall2('filter_height', (c)=>{ fn(c.filter_height?c.filter_height:0)});
+  this.getall2({filter_height:0}, (c)=>{ fn(c.filter_height)});
 }
 
 set_filter_height( height ) {
@@ -274,9 +274,7 @@ set_filter_height( height ) {
 
 
 nickname(fn) {
-  this.getall2('nickname', (res)=>{
-    fn( res.nickname || '' );
-  })
+  this.getall2({nickname:''}, (c)=>{fn(c.nickname);});
 }
 
 };
