@@ -74,9 +74,10 @@ class config
    * add block image
    */
   block_image_add(url) {
+    var self = this;
     this.getall2( { block_images:{} }, (c)=>{
       c.block_images[url] = 1;
-      chrome.storage.local.set('block_images', c.block_images);
+      self.set('block_images', c.block_images);
     });
   }
 
@@ -84,9 +85,10 @@ class config
  * remove block image
  */
 block_image_remove(url) {
+  var self = this;
   this.getall2( { block_images:{} }, (c)=>{
     delete c.block_images[url];
-    chrome.storage.local.set('block_images', c.block_images);
+    self.set('block_images', c.block_images);
   });
 }
 
@@ -199,7 +201,7 @@ filter_rule_set(rules) {
 
 
 save_lastconfig(fn) {
-  this.getall2( "save_lastconfig", fn );
+  this.getall2( {save_lastconfig:false}, (c)=>{ fn(c.save_lastconfig)} );
 }
 
 set_save_lastconfig( enabled ) {

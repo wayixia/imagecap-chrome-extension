@@ -496,17 +496,16 @@ window.init_options = function() {
 };
 
 window.display_block_images = function() {
+  if( wayixia.options_block_window )
+  {
+    delete wayixia.options_block_window;
+    wayixia.options_block_window = null;
+  }
   wayixia.options_block_window = require('./src/views/options_block_images.view')({
     parent: wayixia.option_window,
     config: config,
     title: Q.locale_text('haveBlocked'),
-    buttons: [
-      { text: locale_text('btnUnblock'), onclick: function() { block_images_remove(); return false; }  },
-      { text: locale_text('qCancel'), style:'q-syscancelbtn', onclick: function() { return true; } 
-      },
-    ]
   });
-  //Q.$('layer-block-images').style.visibility = 'visible';
   wayixia.options_block_window.domodal();
 }
 

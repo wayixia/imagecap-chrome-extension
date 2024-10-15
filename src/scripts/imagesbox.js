@@ -1,5 +1,5 @@
 /*-------------------------------------------------------
- $ file:  images_box.js
+ $ file:  imagesbox.js
  $ powered by wayixia.com
  $ date: 2014-12-09
  $ author: Q 

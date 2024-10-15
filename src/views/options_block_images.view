@@ -2,9 +2,9 @@
 
 </style>
 <template>
-  <div id="layer-block-images"> 
-    <div id="wayixia-container">
-      <div id="wayixia-list"></div>
+  <div qid="layer-block-images"> 
+    <div qid="wayixia-container">
+      <div qid="wayixia-list"></div>
     </div>
   </div>
 
@@ -18,6 +18,10 @@
       json.width = 800;
       json.height = 600;
       json.content = '{#template}';
+      json.buttons = [
+        { text: Q.locale_text('btnUnblock'), onclick: Q.bind_handler(this, this.block_images_remove)  },
+        //{ text: Q.locale_text('qCancel'), style:'q-syscancelbtn', onclick: function() { return true; } },
+      ];
       json.on_create = Q.bind_handler(this, this.on_create);
       json.on_close = Q.bind_handler(this, this.on_close);
       Q.Dialog.prototype.__init__.call(this, json); 
@@ -26,10 +30,29 @@
     on_create: function() {
       var d = this;
       //wayixia.i18n(Q.$('wayixia-list'));
-      d.imagebox = new Q.ImagesBox({id: 'wayixia-list'});
+      d.imagebox = new Q.ImagesBox({id: d.item('wayixia-list')});
       d.config.get_block_images( (res) => {
-        d.imagebox.display_images(res, {})(); 
+        d.imagebox.display_images(res.block_images, {})(); 
+        d.item('layer-block-images').style.visibility = 'visible';
       });
+    },
+
+    block_images_remove: function() { 
+      var d = this; 
+      var remove_items = []; 
+      d.imagebox.each_item(function(item) { 
+        if((item.className.indexOf("mouseselected") != -1) && item.style.display == '') { 
+          var url = item.getAttribute('data-url'); 
+          d.config.block_image_remove(url); 
+          remove_items.push(item); 
+        } 
+      });
+      
+      for(var i=0; i < remove_items.length; i++) { 
+        var item = remove_items[i]; 
+        item.parentNode.removeChild(item); 
+      } 
+      return false;
     },
 
     on_close: function() {
