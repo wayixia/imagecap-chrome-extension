@@ -265,7 +265,7 @@ function on_click_open_about() {
 } 
 
 function on_click_screenshot(tab) {
-  chrome.tabs.captureVisibleTab( null, {format:'png'}, function(screenshotUrl) {  
+  chrome.tabs.captureVisibleTab( null, {}, function(screenshotUrl) {  
     create_display_screenshot(tab.id, screenshotUrl, tab.url); 
   });
 }
@@ -576,7 +576,7 @@ chrome.downloads.onChanged.addListener(function(download) {
 });
 
 chrome.runtime.onMessage.addListener( function( o, sender, res ) {
-  //console.log(o.action);
+  console.log(o.action);
   switch( o.action ) {
   case "userstatus":
     //if( wayixia.nickname == ""  ) {
@@ -633,18 +633,23 @@ chrome.runtime.onMessage.addListener( function( o, sender, res ) {
 
   case "wa_all":
     on_click_wa_all( o, o.tab );
+    res({});
     break;
   case "full_screenshot":
     on_click_full_screenshot(o.tab);
+    res({});
     break;
   case "screenshot":
     on_click_screenshot(o.tab);
+    res({});
     break;
   case "open_options":
     on_click_open_options();
+    res({});
     break;
   case "open_about":
     on_click_open_about();
+    res({});
     break;
   case "get":
     var configs = {};

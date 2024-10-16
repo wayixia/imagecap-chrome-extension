@@ -22,7 +22,7 @@ class worker {
   }
 
   get_display_cache(tabid, fn) {
-    chrome.runtime.sendMessage( {action: "get_display_cache", tabid: tab.id}, fn );
+    chrome.runtime.sendMessage( {action: "get_display_cache", tabid: tabid}, fn );
   }
 
   get_all_images( track_from, tab, fn ) {

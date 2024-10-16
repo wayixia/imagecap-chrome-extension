@@ -23,17 +23,19 @@ function init(){
   Q.$('wayixia-all-images').onclick = function() {
     get_current_tab( (currenttab) => { 
       worker.get_all_images( "from_popup", currenttab, (res)=>{} );
+      deactive();
     } );
-    deactive();
+
   }
   
   Q.$('wayixia-screenshot').onclick = function() {
     get_current_tab( (currenttab) => {
       worker.screenshot(currenttab);
+      deactive();
       //send_message_with_noreply( 'screenshot', { tab: tabs[0] } );
     } )
     /// send_message_with_noreply( 'screenshot', { tab: tabs[0] } );
-    deactive();
+    //deactive();
   }
   
   Q.$('wayixia-full-screenshot').onclick = function() {

@@ -5,8 +5,6 @@
  $ author: Q 
 ---------------------------------------------------------*/
 
-//import * as Q from "../../scripts/app.bundle.js"
-
 
 import config from "../../scripts/config.js"
 
@@ -622,22 +620,36 @@ Q.ready(function() {
   initialize();
 
   chrome.tabs.getCurrent( function( tab ) {
+
+    worker.get_display_cache(tab.id, (data)=>{
+      var names = {
+        filter_rule_is_enabled: false, 
+        filter_rules:[], 
+        block_images:{}, 
+        filter_width:0, 
+        filter_height:0 
+      };
+      config.getall2( names, (extension)=>{
+        display_all_valid_images(data, extension);
+      });
+    });
+
     /** initialize images data*/
-    chrome.runtime.sendMessage(
-      {action: "get_display_cache", tabid: tab.id}, 
-      (data)=>{
-        var names = {
-          filter_rule_is_enabled: false, 
-          filter_rules:[], 
-          block_images:{}, 
-          filter_width:0, 
-          filter_height:0 
-        };
-        config.getall2( names, (extension)=>{
-            display_all_valid_images(data, extension);
-        });
-      }
-    );
+//    chrome.runtime.sendMessage(
+      //{action: "get_display_cache", tabid: tab.id}, 
+      //(data)=>{
+        //var names = {
+          //filter_rule_is_enabled: false, 
+          //filter_rules:[], 
+          //block_images:{}, 
+          //filter_width:0, 
+          //filter_height:0 
+        //};
+        //config.getall2( names, (extension)=>{
+            //display_all_valid_images(data, extension);
+        //});
+      //}
+    //);
   } );
 });
 
