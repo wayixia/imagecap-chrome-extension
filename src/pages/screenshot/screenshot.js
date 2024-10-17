@@ -292,7 +292,7 @@ initToolbar : function() {
     
   Q.$( 'wayixia-screenshot-color' ).onclick = (function(t, e) { return function(evt) { 
     t.colorTable.showElement(e);
-    wayixia_track_event( 'toolbar.clicked', 'colortable' );
+    wayixia.track_event( 'toolbar.clicked', 'colortable' );
   } } )(this, Q.$( 'wayixia-screenshot-color' ));
 
   /**
