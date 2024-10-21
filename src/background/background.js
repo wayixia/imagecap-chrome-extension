@@ -265,7 +265,7 @@ function on_click_open_about() {
 } 
 
 function on_click_screenshot(tab) {
-  chrome.tabs.captureVisibleTab( null, {}, function(screenshotUrl) {  
+  chrome.tabs.captureVisibleTab( null, {format:"png"}, function(screenshotUrl) {  
     create_display_screenshot(tab.id, screenshotUrl, tab.url); 
   });
 }
@@ -376,7 +376,7 @@ var cache_display = {};
 
 function get_display_cache( tab_id ) {
   var obj = cache_display[tab_id];
-  //delete cache_display[tab_id];
+  delete cache_display[tab_id];
   return obj;
 }
 
@@ -397,7 +397,6 @@ function create_display_screenshot(context_tab_id,  res, url) {
       url : url,
       type : "screenshot"
     };
-    //view.display_screenshot(id, res, url);
   } } )( context_tab_id, res ) } );
 }
 
