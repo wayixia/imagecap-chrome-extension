@@ -287,26 +287,17 @@ function copy_canvasinfo( canvas ) {
 }
 
 function on_click_full_screenshot(tab) {
+  chrome.tabs.sendMessage(tab.id, { type : "screenshot-begin"}, function(res) {
+    if(!res)
+      return;
 
-  //chrome.tabs.sendRequest(tab.id, { type : "screenshot-ismax", maxheight: wayixia.maxheight }, function(res) {
-  //  // check max screenshot
-  //  if( !res.acceptable ) {
-  //    return;
-  //  }
-
-    chrome.tabs.sendMessage(tab.id, { type : "screenshot-begin"}, function(res) {
-      if(!res)
-        return;
-
-      var cols = Math.ceil(res.full_width*1.0 / res.page_width);
-      var rows = Math.ceil(res.full_height*1.0 / res.page_height);
-      var max_pos = { rows: rows, cols:cols };
-      var canvas  = { guid: guid(), size: res, table: max_pos, screenshots: []};
-      var current_pos = { row: 0, col: 0 };
-      capture_page_task(tab, max_pos, current_pos, canvas);
-    }); 
-  
-  //} ); 
+    var cols = Math.ceil(res.full_width*1.0 / res.page_width);
+    var rows = Math.ceil(res.full_height*1.0 / res.page_height);
+    var max_pos = { rows: rows, cols:cols };
+    var canvas  = { guid: guid(), size: res, table: max_pos, screenshots: []};
+    var current_pos = { row: 0, col: 0 };
+    capture_page_task(tab, max_pos, current_pos, canvas);
+  }); 
 }
 
   
@@ -408,8 +399,6 @@ function create_display_full_screenshot(context_tab_id,  res, url) {
       url : url,
       type : "full_screenshot"
     };
-
-    // view.display_full_screenshot(id, res, url);
   } } )( context_tab_id, res ) } );
 }
 
@@ -482,7 +471,6 @@ function get_save_path( folder, fn) {
     }
     save_path = save_path.replace(/[\\\/]+/g, '/');
     fn(save_path);
-    //return save_path;
   });
 }
 
