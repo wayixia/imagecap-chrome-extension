@@ -179,8 +179,7 @@ chrome.runtime.sendMessage( { action:"userstatus" } );
 
 
 // listener
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) 
-{
+chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
   switch (request.type) {
   case "display-all-images": 
     sendResponse(generate_response(get_all_images()));
@@ -223,6 +222,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
     sendResponse({});
     break;
   }
+
+  //return true;
 });
 
 //( function(d) { return function() {
