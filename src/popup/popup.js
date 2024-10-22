@@ -39,29 +39,29 @@ function init(){
   }
   
   Q.$('wayixia-full-screenshot').onclick = function() {
-    chrome.tabs.query( {'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT}, function(tabs) { 
-      chrome.tabs.sendRequest(tabs[0].id, { type : "bodysize" }, function(res) {
+    get_current_tab( (currenttab) => { chrome.tabs.sendMessage(currenttab.id, { type : "bodysize" }, function(res) {
       // not support contentscript
       if( !res ) {
-        extension.on_click_full_screenshot(tabs[0]);
+        worker.full_screenshot( currenttab );
         return;
       }
 
-      if( extension.is_max_screenshot( res.width, res.height )  ) {
+      //res.width, res.height
+      if( res.height > 5000 ) {
         extension.wayixia_assistant_isalive( function( supported ) {
           if( supported ) {
             show_tips_full_screenshot();
-            extension.on_click_full_screenshot(tabs[0]);
+            worker.full_screenshot(currenttab);
           } else {
             // tell the page page is too large need install assistant of wayixia
-	          chrome.tabs.sendRequest(tabs[0].id, { type : "screenshot-ismax", maxheight: extension.wayixia_screenshot_maxsize().height }, function(res) {} );
+	          chrome.tabs.sendMessage( currenttab.id, { type : "screenshot-ismax", maxheight: 5000 }, function(res) {} );
             deactive();
           }
         } );
       } else {
         // acceptable body size
         show_tips_full_screenshot();
-        extension.on_click_full_screenshot(tabs[0]);
+        worker.full_screenshot(currenttab);
       } 
     } ); } );
   }

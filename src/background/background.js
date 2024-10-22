@@ -90,12 +90,12 @@ function wayixia_assistant_isalive( fn ) {
 
 function wayixia_screenshot_maxsize()
 {
-  return { height: wayixia.maxheight };
+  return { height: 5000 };
 }
 
 function is_max_screenshot( width, height ) {
   //return ( width * height ) > ( 200 * 160 );
-  return height > wayixia.maxheight;
+  return height > 5000;
 }
 
 
@@ -294,7 +294,7 @@ function on_click_full_screenshot(tab) {
   //    return;
   //  }
 
-    chrome.tabs.sendRequest(tab.id, { type : "screenshot-begin"}, function(res) {
+    chrome.tabs.sendMessage(tab.id, { type : "screenshot-begin"}, function(res) {
       if(!res)
         return;
 
@@ -312,7 +312,7 @@ function on_click_full_screenshot(tab) {
   
 function capture_page_task(tab, max, pos, canvas) {
   console.log('capture page (row='+pos.row+', col='+pos.col + ')' );
-  chrome.tabs.sendRequest(tab.id, { type : "screenshot-page", row:pos.row, col:pos.col}, function(res) {
+  chrome.tabs.sendMessage(tab.id, { type : "screenshot-page", row:pos.row, col:pos.col}, function(res) {
     setTimeout(function() {
       chrome.tabs.captureVisibleTab( null, {format:'png'}, function(screenshotUrl) {
         canvas.screenshots.push({row: pos.row, col: pos.col, data_url: screenshotUrl});
@@ -342,7 +342,7 @@ function capture_page_task(tab, max, pos, canvas) {
 
 function screenshot_end(tab, canvas) {
   console.log('capture end');
-  chrome.tabs.sendRequest( tab.id, { type : "screenshot-end" }, function(res) {
+  chrome.tabs.sendMessage( tab.id, { type : "screenshot-end" }, function(res) {
     // if size is too large then process with server
     var size = canvas.size;
     if( is_max_screenshot( size.full_width, size.full_height ) ) {

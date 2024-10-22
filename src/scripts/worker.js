@@ -35,6 +35,11 @@ class worker {
       tab: tab }, fn );
   }
 
+  full_screenshot(tab, fn) {
+    chrome.runtime.sendMessage( { action: "full_screenshot",  
+      tab: tab }, fn );
+  }
+
 }
 
 
