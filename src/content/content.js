@@ -189,21 +189,6 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
     sendResponse(generate_response([{src: request.src}]));    
     break; 
 
-  case "screenshot-ismax":
-    // Check page size
-    if( document.body.scrollHeight > request.maxheight ) {
-      //Q.alert( { wstyle: "q-attr-no-icon", title: "Wayixia.com", content: "<div style='padding: 5px;'>page is too large ( " + document.body.scrollWidth + "," + document.body.scrollHeight +" ), please download caputre assistant from <a href='http://www.wayixia.com/download/assistant'>here</a> </div>" } );  
-      Q.alert( { wstyle: "q-window w-window", title: "ImageCap", content: "<div style='padding: 10px'>" +  locale_text("stringLongPageTips") + " ( " + document.body.scrollWidth + "," + document.body.scrollHeight +" )</div>"} );  
-      sendResponse({ acceptable: false });
-    } else {
-      sendResponse({ acceptable: true });
-    }
-    break;
-
-  case "bodysize":
-    sendResponse( { width: document.body.scrollWidth, height: document.body.scrollHeight } );
-    break;
-
   case "screenshot-begin":
     sendResponse(g_fullscreen_capture.start());
     break; 
@@ -225,13 +210,4 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
 
   //return true;
 });
-
-//( function(d) { return function() {
-  var e = document.getElementById("wayixia_chrome_extension_identity_label");
-  if( e ) {
-    e.innerHTML = "Extension of Wayixia(id:" + chrome.runtime.id+ ") is installed. Connect OK!";
-    chrome.extension.sendMessage( { action:"assistant", port: location.port } );
-    window.close();
-  }
-//} } )(document)
 

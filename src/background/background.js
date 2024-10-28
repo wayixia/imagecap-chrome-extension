@@ -271,97 +271,12 @@ function on_click_screenshot(tab) {
 }
 
 
-// Generate four random hex digits.  
-function S4() {  
-   return (((1+Math.random())*0x10000)|0).toString(16).substring(1);  
-}; 
-
-// Generate a pseudo-GUID by concatenating random hexadecimal.  
-function guid() {  
-   return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());  
-};  
 
 
 function copy_canvasinfo( canvas ) {
   return { guid: canvas.guid, size: canvas.size, table: canvas.table, screenshots: []};
 }
 
-function on_click_full_screenshot(tab) {
-  chrome.tabs.sendMessage(tab.id, { type : "screenshot-begin"}, function(res) {
-    if(!res)
-      return;
-
-    var cols = Math.ceil(res.full_width*1.0 / res.page_width);
-    var rows = Math.ceil(res.full_height*1.0 / res.page_height);
-    var max_pos = { rows: rows, cols:cols };
-    var canvas  = { guid: guid(), size: res, table: max_pos, screenshots: []};
-    var current_pos = { row: 0, col: 0 };
-    capture_page_task(tab, max_pos, current_pos, canvas);
-  }); 
-}
-
-  
-function capture_page_task(tab, max, pos, canvas) {
-  console.log('capture page (row='+pos.row+', col='+pos.col + ')' );
-  chrome.tabs.sendMessage(tab.id, { type : "screenshot-page", row:pos.row, col:pos.col}, function(res) {
-    setTimeout(function() {
-      chrome.tabs.captureVisibleTab( null, {format:'png'}, function(screenshotUrl) {
-        canvas.screenshots.push({row: pos.row, col: pos.col, data_url: screenshotUrl});
-        pos.col++;
-        pos.col = pos.col % max.cols; 
-        if(pos.col == 0) {
-          pos.row++;
-	        canvas.row = pos.row;
-          if(pos.row % max.rows == 0) {
-            screenshot_end(tab, canvas);
-            return;
-          } else {
-            if( is_max_screenshot( canvas.size.full_width, canvas.size.full_height ) ) {
-              merge_images_with_client( canvas );
-              canvas = copy_canvasinfo( canvas );
-            }
-          }
-        }
-
-        // Process with client
-        capture_page_task(tab, max, pos, canvas);
-      });
-    }, 1000);
-  }); 
-}
-
-
-function screenshot_end(tab, canvas) {
-  console.log('capture end');
-  chrome.tabs.sendMessage( tab.id, { type : "screenshot-end" }, function(res) {
-    // if size is too large then process with server
-    var size = canvas.size;
-    if( is_max_screenshot( size.full_width, size.full_height ) ) {
-      // process with server
-      merge_images_with_client( canvas, function() {
-        // download image
-        download_image( wayixia_assistant() + "/" + canvas.guid + ".png", null, "" );
-      } );
-    } else {
-      create_display_full_screenshot(tab.id, canvas, tab.url); 
-    }
-  });
-}
-
-function merge_images_with_client( canvas, fn ) {
-  /*
-  Q.ajaxc( { command: wayixia_assistant() + "/merge?rid=" + canvas.row,
-    queue: true,
-    data: canvas,
-    oncomplete: function( xmlhttp ) {
-      if( fn ) {
-        fn();
-      }
-      console.log( xmlhttp.responseText );
-    }
-  } );
-   */
-}
 
 var cache_display = {};
 

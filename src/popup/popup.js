@@ -18,6 +18,104 @@ function get_current_tab( fn ) {
   );
 }
 
+
+// Generate four random hex digits.  
+function S4() {  
+  return (((1+Math.random())*0x10000)|0).toString(16).substring(1);  
+}; 
+
+// Generate a pseudo-GUID by concatenating random hexadecimal.  
+function guid() {  
+  return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());  
+};  
+
+
+function on_click_full_screenshot(tab) {
+  let wasmSupported = (typeof WebAssembly === "object");
+ 
+  if (wasmSupported) {
+    //const go = new Go(); // Go is a namespace defined by the emcc compiler
+    WebAssembly.instantiateStreaming(fetch("../scripts/imagecap.wasm"), {}).then(module => {
+      const wasmExports = module.instance.exports;
+      console.log(wasmExports.hello()); // Logs "Hello, WebAssembly!"
+    }).catch(e => {
+      console.error(e);
+    });
+  } else {
+    console.error("Your browser does not support WebAssembly.");
+  }
+}
+
+function on_click_full_screenshot_begin(tab, wasmimg ) {
+  chrome.tabs.sendMessage(tab.id, { type : "screenshot-begin"}, function(res) {
+    if(!res)
+      return;
+
+    var cols = Math.ceil(res.full_width*1.0 / res.page_width);
+    var rows = Math.ceil(res.full_height*1.0 / res.page_height);
+    var max_pos = { rows: rows, cols:cols };
+    var canvas  = { guid: guid(), size: res, table: max_pos, screenshots: []};
+    var current_pos = { row: 0, col: 0 };
+    capture_page_task(tab, max_pos, current_pos, canvas);
+  }); 
+}
+
+  
+function capture_page_task(tab, max, pos, canvas) {
+  console.log('capture page (row='+pos.row+', col='+pos.col + ')' );
+  chrome.tabs.sendMessage(tab.id, { type : "screenshot-page", row:pos.row, col:pos.col}, function(res) {
+    setTimeout(function() {
+      chrome.tabs.captureVisibleTab( null, {format:'png'}, function(screenshotUrl) {
+        canvas.screenshots.push({row: pos.row, col: pos.col, data_url: screenshotUrl});
+        pos.col++;
+        pos.col = pos.col % max.cols; 
+        if(pos.col == 0) {
+          pos.row++;
+	        canvas.row = pos.row;
+          if(pos.row % max.rows == 0) {
+            screenshot_end(tab, canvas);
+            return;
+          } else {
+            if( is_max_screenshot( canvas.size.full_width, canvas.size.full_height ) ) {
+              merge_images_with_client( canvas );
+              canvas = copy_canvasinfo( canvas );
+            }
+          }
+        }
+
+        // Process with client
+        capture_page_task(tab, max, pos, canvas);
+      });
+    }, 1000);
+  }); 
+}
+
+
+function screenshot_end(tab, canvas) {
+  console.log('capture end');
+  chrome.tabs.sendMessage( tab.id, { type : "screenshot-end" }, function(res) {
+    merge_images_with_client( canvas, function() {
+      create_display_full_screenshot(tab.id, canvas, tab.url); 
+    });
+  });
+}
+
+function merge_images_with_client( canvas, fn ) {
+  /*
+  Q.ajaxc( { command: wayixia_assistant() + "/merge?rid=" + canvas.row,
+    queue: true,
+    data: canvas,
+    oncomplete: function( xmlhttp ) {
+      if( fn ) {
+        fn();
+      }
+      console.log( xmlhttp.responseText );
+    }
+  } );
+   */
+}
+
+
 function init(){
   // wayixia
   Q.$('wayixia-all-images').onclick = function() {
@@ -37,35 +135,15 @@ function init(){
   }
   
   Q.$('wayixia-full-screenshot').onclick = function() {
-    get_current_tab( (currenttab) => { chrome.tabs.sendMessage(currenttab.id, { type : "bodysize" }, function(res) {
-      // not support contentscript
-      if( !res ) {
-        worker.full_screenshot( currenttab, (res)=>{
-
-        } );
-        return;
-      }
-
-      //res.width, res.height
-      if( res.height > 5000 ) {
-        extension.wayixia_assistant_isalive( function( supported ) {
-          if( supported ) {
-            show_tips_full_screenshot();
-            worker.full_screenshot(currenttab);
-          } else {
-            // tell the page page is too large need install assistant of wayixia
-	          chrome.tabs.sendMessage( currenttab.id, { type : "screenshot-ismax", maxheight: 5000 }, function(res) {
-              deactive();
-            } );
-            //deactive();
-          }
-        } );
-      } else {
-        // acceptable body size
-        show_tips_full_screenshot();
-        worker.full_screenshot(currenttab);
-      } 
-    } ); } );
+    get_current_tab( (currenttab) => {
+      show_tips_full_screenshot();
+      on_click_full_screenshot(currenttab);
+      //worker.full_screenshot( currenttab, (res)=>{
+        // do full screen capture
+        
+      //  console.log("do full screen shot");
+      //} );
+    } );
   }
 
   Q.$('wayixia-options').onclick = function() {

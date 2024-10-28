@@ -30,7 +30,7 @@
      } 
    ],
    "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'; script-src-elem 'self' 'unsafe-inline' ;"
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; script-src-elem 'self' 'unsafe-inline' ;"
    },
    "icons": {
       "128": "assets/icons/icon128.png",
