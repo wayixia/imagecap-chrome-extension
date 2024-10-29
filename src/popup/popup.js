@@ -34,8 +34,17 @@ function on_click_full_screenshot(tab) {
   let wasmSupported = (typeof WebAssembly === "object");
  
   if (wasmSupported) {
+    var wasmPath = chrome.runtime.getURL("scripts/imagecap.wasm");
+    var importObject = {
+      imports: {
+          imported_func: function(arg) {
+            console.log(arg);
+          }
+        },
+        env: { foo: () => 42, bar: () => 3.14 }
+      };
     //const go = new Go(); // Go is a namespace defined by the emcc compiler
-    WebAssembly.instantiateStreaming(fetch("../scripts/imagecap.wasm"), {}).then(module => {
+    WebAssembly.instantiateStreaming(fetch(wasmPath), importObject).then(module => {
       const wasmExports = module.instance.exports;
       console.log(wasmExports.hello()); // Logs "Hello, WebAssembly!"
     }).catch(e => {
