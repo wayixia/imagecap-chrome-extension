@@ -45,8 +45,23 @@ function on_click_full_screenshot(tab) {
       };
     //const go = new Go(); // Go is a namespace defined by the emcc compiler
     WebAssembly.instantiateStreaming(fetch(wasmPath), importObject).then(module => {
+      function AsciiToString(ptr, heapu8) {
+        let str = '';
+ 
+        while (1) {
+          let ch = heapu8[ptr++];
+          if (!ch) return str;
+          str += String.fromCharCode(ch);
+        }
+      }
+ 
       const wasmExports = module.instance.exports;
-      console.log(wasmExports.hello()); // Logs "Hello, WebAssembly!"
+      // 结构化数据
+      const HEAP8 = new Int8Array(wasmExports.memory.buffer);
+      // get string from wasm
+      const wasm_str_ptr = wasmExports.hello();
+      const wasm_str = AsciiToString(wasm_str_ptr, HEAP8);
+      console.log(wasm_str); // Logs "Hello, WebAssembly!"
     }).catch(e => {
       console.error(e);
     });
@@ -69,6 +84,11 @@ function on_click_full_screenshot_begin(tab, wasmimg ) {
   }); 
 }
 
+
+function copy_canvasinfo( canvas ) {
+  return { guid: canvas.guid, size: canvas.size, table: canvas.table, screenshots: []};
+}
+
   
 function capture_page_task(tab, max, pos, canvas) {
   console.log('capture page (row='+pos.row+', col='+pos.col + ')' );
@@ -85,10 +105,8 @@ function capture_page_task(tab, max, pos, canvas) {
             screenshot_end(tab, canvas);
             return;
           } else {
-            if( is_max_screenshot( canvas.size.full_width, canvas.size.full_height ) ) {
-              merge_images_with_client( canvas );
-              canvas = copy_canvasinfo( canvas );
-            }
+            merge_images_with_client( canvas );
+            canvas = copy_canvasinfo( canvas );
           }
         }
 

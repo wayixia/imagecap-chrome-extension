@@ -273,9 +273,6 @@ function on_click_screenshot(tab) {
 
 
 
-function copy_canvasinfo( canvas ) {
-  return { guid: canvas.guid, size: canvas.size, table: canvas.table, screenshots: []};
-}
 
 
 var cache_display = {};
