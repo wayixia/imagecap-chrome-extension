@@ -88,18 +88,6 @@ function wayixia_assistant_isalive( fn ) {
   }
 }
 
-function wayixia_screenshot_maxsize()
-{
-  return { height: 5000 };
-}
-
-function is_max_screenshot( width, height ) {
-  //return ( width * height ) > ( 200 * 160 );
-  return height > 5000;
-}
-
-
-
 function saveconfig() {
   /*
  Q.ajaxc( { command: "https://www.wayixia.com/?mod=user&action=do-save-config&inajax=true",
