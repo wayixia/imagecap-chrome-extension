@@ -30,7 +30,8 @@ function guid() {
 };  
 
 
-function on_click_full_screenshot(tab) {
+function async_load_module( fn )
+{
   let wasmSupported = (typeof WebAssembly === "object");
  
   if (wasmSupported) {
@@ -62,12 +63,21 @@ function on_click_full_screenshot(tab) {
       const wasm_str_ptr = wasmExports.hello();
       const wasm_str = AsciiToString(wasm_str_ptr, HEAP8);
       console.log(wasm_str); // Logs "Hello, WebAssembly!"
+      fn(wasmExports);
+      
     }).catch(e => {
       console.error(e);
     });
   } else {
     console.error("Your browser does not support WebAssembly.");
   }
+}
+
+function on_click_full_screenshot(tab) {
+  async_load_module( (module) => {
+    let guid = module.createImage();
+    console.log(guid);
+  });
 }
 
 function on_click_full_screenshot_begin(tab, wasmimg ) {
