@@ -1,5 +1,6 @@
 import worker from "../scripts/worker.js";
 import config from "../scripts/config.js";
+//import { createImagecap } from "../scripts/imagecap.js"
 
 function deactive() {
   window.close();
@@ -29,19 +30,23 @@ function guid() {
   return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());  
 };  
 
-
+/*
 function async_load_module( fn )
 {
   let wasmSupported = (typeof WebAssembly === "object");
  
   if (wasmSupported) {
     var wasmPath = chrome.runtime.getURL("scripts/imagecap.wasm");
+    var importwasm = {
+
+    }
     var importObject = {
-      imports: {
+        imports: {
           imported_func: function(arg) {
             console.log(arg);
           }
         },
+        "wasi_snapshot_preview1" : importwasm,
         env: { foo: () => 42, bar: () => 3.14 }
       };
     //const go = new Go(); // Go is a namespace defined by the emcc compiler
@@ -72,15 +77,21 @@ function async_load_module( fn )
     console.error("Your browser does not support WebAssembly.");
   }
 }
+  */
+//async function async_load_module(fn) {
+//  const imagecap = Module.wasmExport;
+//  fn( imagecap );
+//}
 
 function on_click_full_screenshot(tab) {
-  async_load_module( (module) => {
-    let guid = module.createImage();
+  //async_load_module( (module) => {
+    let guid = Module._createImage();
     console.log(guid);
-  });
+    on_click_full_screenshot_begin(tab, guid);
+  //});
 }
 
-function on_click_full_screenshot_begin(tab, wasmimg ) {
+function on_click_full_screenshot_begin(tab, guid ) {
   chrome.tabs.sendMessage(tab.id, { type : "screenshot-begin"}, function(res) {
     if(!res)
       return;
@@ -88,9 +99,9 @@ function on_click_full_screenshot_begin(tab, wasmimg ) {
     var cols = Math.ceil(res.full_width*1.0 / res.page_width);
     var rows = Math.ceil(res.full_height*1.0 / res.page_height);
     var max_pos = { rows: rows, cols:cols };
-    var canvas  = { guid: guid(), size: res, table: max_pos, screenshots: []};
+    var canvas  = { size: res, table: max_pos, screenshots: []};
     var current_pos = { row: 0, col: 0 };
-    capture_page_task(tab, max_pos, current_pos, canvas);
+    capture_page_task(tab, max_pos, current_pos, guid, canvas);
   }); 
 }
 
@@ -100,44 +111,51 @@ function copy_canvasinfo( canvas ) {
 }
 
   
-function capture_page_task(tab, max, pos, canvas) {
+function capture_page_task(tab, max, pos, guid, canvas) {
   console.log('capture page (row='+pos.row+', col='+pos.col + ')' );
   chrome.tabs.sendMessage(tab.id, { type : "screenshot-page", row:pos.row, col:pos.col}, function(res) {
     setTimeout(function() {
       chrome.tabs.captureVisibleTab( null, {format:'png'}, function(screenshotUrl) {
         canvas.screenshots.push({row: pos.row, col: pos.col, data_url: screenshotUrl});
+        //canvas.screenshots.push({row: pos.row, col: pos.col});
         pos.col++;
         pos.col = pos.col % max.cols; 
         if(pos.col == 0) {
           pos.row++;
 	        canvas.row = pos.row;
           if(pos.row % max.rows == 0) {
-            screenshot_end(tab, canvas);
+            screenshot_end(tab, guid, canvas );
             return;
           } else {
-            merge_images_with_client( canvas );
+            merge_images_with_client( guid, canvas );
             canvas = copy_canvasinfo( canvas );
           }
         }
 
         // Process with client
-        capture_page_task(tab, max, pos, canvas);
+        capture_page_task(tab, max, pos, guid, canvas);
       });
     }, 1000);
   }); 
 }
 
 
-function screenshot_end(tab, canvas) {
+function screenshot_end(tab, guid, canvas ) {
   console.log('capture end');
   chrome.tabs.sendMessage( tab.id, { type : "screenshot-end" }, function(res) {
-    merge_images_with_client( canvas, function() {
+    merge_images_with_client( guid, canvas, function() {
       create_display_full_screenshot(tab.id, canvas, tab.url); 
     });
   });
 }
 
-function merge_images_with_client( canvas, fn ) {
+function merge_images_with_client( guid, canvas, fn ) {
+
+  //canvas.screenshots.push({row: pos.row, col: pos.col, data_url: screenshotUrl});
+  Module._drawImage(guid, JSON.stringify(canvas) );
+  if(fn) {
+    fn();
+  }
   /*
   Q.ajaxc( { command: wayixia_assistant() + "/merge?rid=" + canvas.row,
     queue: true,
@@ -228,5 +246,8 @@ Q.ready(function() {
   document.body.ondragstart  =function() { return false; }
   document.body.onselectstart=function() { return false; }
   init();
+  Module.onRuntimeInitialized = function() {
+    console.log("imagecap wasm module loaded.");
+  }
 });
 
