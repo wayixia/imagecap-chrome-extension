@@ -3689,6 +3689,19 @@ var tempI64;
       return wasmTable.get(funcPtr);
     };
 
+  
+  
+  
+  /** @suppress {duplicate } */
+  var stringToNewUTF8 = (str) => {
+      var size = lengthBytesUTF8(str) + 1;
+      var ret = _malloc(size);
+      if (ret) stringToUTF8(str, ret, size);
+      return ret;
+    };
+  var allocateUTF8 = stringToNewUTF8;
+  Module['allocateUTF8'] = allocateUTF8;
+
   FS.createPreloadedFile = FS_createPreloadedFile;
   FS.staticInit();
   // Set module methods based on EXPORTED_RUNTIME_METHODS
