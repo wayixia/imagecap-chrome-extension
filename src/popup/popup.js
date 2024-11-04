@@ -158,15 +158,10 @@ function stringToUTF8(str) {
 function merge_images_with_client( guid, canvas, fn ) {
 
   //canvas.screenshots.push({row: pos.row, col: pos.col, data_url: screenshotUrl});
-  //const info = Module.allocateUTF8( JSON.stringify(canvas) );
   const info = JSON.stringify(canvas);
-  const str_ptr = Module._malloc(info.length);
-  const HEAP8 = new Int8Array(Module.memory.buffer);
-
-  // 1 byte 1 byte 
-  info.split('').forEach((char, index) => {
-    HEAP8[(str_ptr + index) >> 0] = char.charCodeAt(0);
-  });
+  const bytes = new TextEncoder().encode(info);
+  const str_ptr = Module._malloc(bytes.length);
+  Module.HEAP8.set(bytes, str_ptr);
 
   Module._drawImage(guid, str_ptr );
   if(fn) {
