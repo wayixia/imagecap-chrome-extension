@@ -144,16 +144,17 @@ function screenshot_end(tab, guid, canvas ) {
   console.log('capture end');
   chrome.tabs.sendMessage( tab.id, { type : "screenshot-end" }, function(res) {
     merge_images_with_client( guid, canvas, function() {
-      create_display_full_screenshot(tab.id, canvas, tab.url); 
+      let imageurl_ptr = Module._getImageUrl(guid);
+      //Module.HEAP8.set(imageurl_ptr,1024)
+      //const imageurl = new TextDecoder("utf8").decode(Module.HEAP8);
+      Module._free(imageurl_ptr);
+      //console.log(imageurl);
+      //worker.create_display_screenshot(tab.id, imageurl, tab.url); 
     });
   });
 }
 
-// 将字符串转换为UTF-8编码的Uint8Array
-function stringToUTF8(str) {
-  //const utf8 = unescape(encodeURIComponent(str));
-  return new Uint8Array(str.split('').map(char => char.charCodeAt(0)));
-}
+
 
 function merge_images_with_client( guid, canvas, fn ) {
 
@@ -167,6 +168,7 @@ function merge_images_with_client( guid, canvas, fn ) {
   if(fn) {
     fn();
   }
+  Module._free(str_ptr);
   /*
   Q.ajaxc( { command: wayixia_assistant() + "/merge?rid=" + canvas.row,
     queue: true,

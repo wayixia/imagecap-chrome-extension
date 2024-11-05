@@ -40,6 +40,10 @@ class worker {
       tab: tab }, fn );
   }
 
+  create_display_screenshot( tab, imageUrl, fn ) {
+    chrome.runtime.sendMessage( { action: "display_screenshot", 
+      tab:tab, imageUrl: imageUrl }, fn );
+  }
 }
 
 

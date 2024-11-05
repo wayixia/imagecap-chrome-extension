@@ -558,6 +558,10 @@ chrome.runtime.onMessage.addListener( function( o, sender, res ) {
     download_image(o.url, o.view, o.folder, o.pageurl);
     res({});
     break;
+  case "display_screenshot":
+    //create_display_full_screenshot(o.tab_id, )
+    res({});
+    break;
   }
 
   return true;
