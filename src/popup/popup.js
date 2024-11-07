@@ -140,14 +140,18 @@ function capture_page_task(tab, max, pos, guid, canvas) {
 }
 
 
+window.call_output_image = function( guid, imageurl, len)
+{
+  console.log( "guid: " + guid + ", len:" + len);
+}
+
 function screenshot_end(tab, guid, canvas ) {
   console.log('capture end');
   chrome.tabs.sendMessage( tab.id, { type : "screenshot-end" }, function(res) {
     merge_images_with_client( guid, canvas, function() {
-      let imageurl_ptr = Module._getImageUrl(guid);
+      Module._getImageUrl(guid);
       //Module.HEAP8.set(imageurl_ptr,1024)
       //const imageurl = new TextDecoder("utf8").decode(Module.HEAP8);
-      Module._free(imageurl_ptr);
       //console.log(imageurl);
       //worker.create_display_screenshot(tab.id, imageurl, tab.url); 
     });
@@ -262,5 +266,6 @@ Q.ready(function() {
   Module.onRuntimeInitialized = function() {
     console.log("imagecap wasm module loaded.");
   }
+
 });
 
