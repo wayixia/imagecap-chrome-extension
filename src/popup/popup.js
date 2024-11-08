@@ -115,8 +115,9 @@ function capture_page_task(tab, max, pos, guid, canvas) {
   console.log('capture page (row='+pos.row+', col='+pos.col + ')' );
   chrome.tabs.sendMessage(tab.id, { type : "screenshot-page", row:pos.row, col:pos.col}, function(res) {
     setTimeout(function() {
-      chrome.tabs.captureVisibleTab( null, {format:'png'}, function(screenshotUrl) {
+      chrome.tabs.captureVisibleTab( tab.windowId, {format:'png'}, function(screenshotUrl) {
         canvas.screenshots.push({row: pos.row, col: pos.col, data_url: screenshotUrl});
+        console.log( screenshotUrl );
         //canvas.screenshots.push({row: pos.row, col: pos.col});
         pos.col++;
         pos.col = pos.col % max.cols; 
@@ -140,9 +141,11 @@ function capture_page_task(tab, max, pos, guid, canvas) {
 }
 
 
-window.call_output_image = function( guid, imageurl, len)
+window.outputImage = function( guid, imageurl, len)
 {
-  console.log( "guid: " + guid + ", len:" + len);
+  const ptr = new Uint8Array(wasmMemory.buffer, imageurl, len );
+  var url = (new TextDecoder()).decode( ptr );
+  console.log( "guid: " + guid + ", len:" + len + ", url: \ndata:image/png;base64," + url);
 }
 
 function screenshot_end(tab, guid, canvas ) {

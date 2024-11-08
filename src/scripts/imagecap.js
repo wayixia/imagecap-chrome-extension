@@ -869,7 +869,7 @@ function dbg(...args) {
 // === Body ===
 
 var ASM_CONSTS = {
-  42648: ($0, $1, $2) => { outputImage($0, $1, $2); }
+  42632: ($0, $1, $2) => { outputImage($0, $1, $2); }
 };
 
 // end include: preamble.js
