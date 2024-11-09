@@ -160,7 +160,12 @@ var g_fullscreen_capture = {
   fixed_disabled : function() {
     for( var i=0; i < document.all.length; i++) {
       var e = document.all[i];
-      if( e.currentStyle.position == "fixed" && !( e.currentStyle.display == "none" || e.currentStyle.visibility == "hidden" )) {
+
+      if( e.currentStyle && 
+          e.currentStyle.position && 
+          e.currentStyle.position == "fixed" && 
+          !( e.currentStyle.display == "none" || e.currentStyle.visibility == "hidden" )) 
+      {
         e.style.position = "relative";
         this.fixed_elements.push( e );
       }

@@ -869,7 +869,7 @@ function dbg(...args) {
 // === Body ===
 
 var ASM_CONSTS = {
-  42632: ($0, $1, $2) => { outputImage($0, $1, $2); }
+  42616: ($0, $1, $2) => { outputImage($0, $1, $2); }
 };
 
 // end include: preamble.js
@@ -4335,7 +4335,6 @@ var wasmImports = {
 };
 var wasmExports = createWasm();
 var ___wasm_call_ctors = createExportWrapper('__wasm_call_ctors', 0);
-var _hello = Module['_hello'] = createExportWrapper('hello', 0);
 var _createImage = Module['_createImage'] = createExportWrapper('createImage', 0);
 var _destroyImage = Module['_destroyImage'] = createExportWrapper('destroyImage', 1);
 var _drawImage = Module['_drawImage'] = createExportWrapper('drawImage', 2);
