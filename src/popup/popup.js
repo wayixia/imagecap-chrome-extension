@@ -30,6 +30,24 @@ function guid() {
   return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());  
 };  
 
+function getScrollbarWidth() {
+  const outer = document.createElement('div'); 
+  outer.className = 'el-scrollbar__wrap';
+  outer.style.visibility = 'hidden'; 
+  outer.style.width = '100px';
+  outer.style.position = 'absolute'; 
+  outer.style.top = '-9999px'; document.body.appendChild(outer);
+  const widthNoScroll = outer.offsetWidth;
+  outer.style.overflow = 'scroll';
+  const inner = document.createElement('div');
+  inner.style.width = '100%';
+  outer.appendChild(inner);
+  const widthWithScroll = inner.offsetWidth;
+  outer.parentNode.removeChild(outer);
+  var scrollBarWidth = widthNoScroll - widthWithScroll;
+
+  return scrollBarWidth;
+};
 /*
 function async_load_module( fn )
 {
@@ -99,7 +117,7 @@ function on_click_full_screenshot_begin(tab, guid ) {
     var cols = Math.ceil(res.full_width*1.0 / res.page_width);
     var rows = Math.ceil(res.full_height*1.0 / res.page_height);
     var max_pos = { rows: rows, cols:cols };
-    var canvas  = { size: res, table: max_pos, screenshots: []};
+    var canvas  = { size: res, table: max_pos, scrollbarwidth: getScrollbarWidth(), deviceratio: window.devicePixelRatio, screenshots: []};
     var current_pos = { row: 0, col: 0 };
     capture_page_task(tab, max_pos, current_pos, guid, canvas);
   }); 
@@ -107,7 +125,7 @@ function on_click_full_screenshot_begin(tab, guid ) {
 
 
 function copy_canvasinfo( canvas ) {
-  return { guid: canvas.guid, size: canvas.size, table: canvas.table, screenshots: []};
+  return { scrollbarwidth: canvas.scrollbarwidth, deviceratio: canvas.deviceratio, size: canvas.size, table: canvas.table, screenshots: []};
 }
 
   
