@@ -89,8 +89,8 @@ var g_fullscreen_capture = {
 
     this.scroll_top  = this.body_scroll_top(); //document.body.scrollTop;
     this.scroll_left = this.body_scroll_left(); //document.body.scrollLeft;
-    this.overflow    = document.body.style.overflow;
-    document.body.style.overflow='hidden';
+    //this.overflow    = document.body.style.overflow;
+    //document.body.style.overflow='hidden';
     this.set_body_scroll_top( 0 ); //document.body.scrollTop = 0;
     this.set_body_scroll_left( 0 );  //document.body.scrollLeft= 0;
     this.page_width  = document.documentElement.clientWidth;
@@ -113,7 +113,7 @@ var g_fullscreen_capture = {
   },
 
   stop : function() {
-    document.body.style.overflow = this.overflow;
+    //document.body.style.overflow = this.overflow;
     //document.body.scrollTop = this.scroll_top;
     //document.body.scrollLeft= this.scroll_left;
     this.set_body_scroll_top( this.scroll_top );
