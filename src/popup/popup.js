@@ -163,7 +163,7 @@ window.outputImage = function( guid, imageurl, len)
 {
   const ptr = new Uint8Array(wasmMemory.buffer, imageurl, len );
   var url = (new TextDecoder()).decode( ptr );
-  console.log( "guid: " + guid + ", len:" + len + ", url: \ndata:image/png;base64," + url);
+  //console.log( "guid: " + guid + ", len:" + len + ", url: \ndata:image/png;base64," + url);
 }
 
 function screenshot_end(tab, guid, canvas ) {
@@ -185,6 +185,7 @@ function merge_images_with_client( guid, canvas, fn ) {
 
   //canvas.screenshots.push({row: pos.row, col: pos.col, data_url: screenshotUrl});
   const info = JSON.stringify(canvas);
+  console.log(info);
   const bytes = new TextEncoder().encode(info);
   const str_ptr = Module._malloc(bytes.length);
   Module.HEAP8.set(bytes, str_ptr);
