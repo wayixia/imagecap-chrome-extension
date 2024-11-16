@@ -75,6 +75,47 @@ function generate_response(imgs) {
   };
 }
 
+function getScrollbarWidth() {
+  const outer = document.createElement('div'); 
+  outer.className = 'el-scrollbar__wrap';
+  outer.style.visibility = 'hidden'; 
+  outer.style.width = '100px';
+  outer.style.position = 'absolute'; 
+  outer.style.top = '-9999px'; document.body.appendChild(outer);
+  const widthNoScroll = outer.offsetWidth;
+  outer.style.overflow = 'scroll';
+  const inner = document.createElement('div');
+  inner.style.width = '100%';
+  outer.appendChild(inner);
+  const widthWithScroll = inner.offsetWidth;
+  outer.parentNode.removeChild(outer);
+  var scrollBarWidth = widthNoScroll - widthWithScroll;
+
+  return scrollBarWidth;
+};
+
+
+
+function get_hscrollbarwidth()
+{
+  if( document.documentElement.scrollWidth == document.documentElement.clientWidth ) {
+    return 0;
+  } else {
+    return getScrollbarWidth();
+  }
+}
+
+function get_vscrollbarwidth()
+{
+  if( document.documentElement.scrollHeight == document.documentElement.clientHeight ) {
+    return 0;
+  } else {
+    return getScrollbarWidth();
+  }
+}
+
+
+
 var g_fullscreen_capture = {
   scroll_top : 0,
   scroll_left : 0,
@@ -97,27 +138,32 @@ var g_fullscreen_capture = {
     this.page_height = document.documentElement.clientHeight;
   
     return {
-      full_width : document.body.scrollWidth, 
-      full_height: document.body.scrollHeight,
-      page_width : this.page_width,  
-      page_height: this.page_height,
+      full_width : document.body.scrollWidth * window.devicePixelRatio, 
+      full_height: document.body.scrollHeight * window.devicePixelRatio,
+      page_width : this.page_width * window.devicePixelRatio,  
+      page_height: this.page_height * window.devicePixelRatio,
+      hscrollbarwidth: get_hscrollbarwidth()*window.devicePixelRatio, 
+      vscrollbarwidth: get_vscrollbarwidth()*window.devicePixelRatio, 
     };
   }, 
 
   capture_page : function(row, col) {
     //document.body.scrollTop  = row * this.page_height;
     //document.body.scrollLeft = col * this.page_width;
-    this.set_body_scroll_top( row * this.page_height );
-    this.set_body_scroll_left( col * this.page_width );
+    //this.set_body_scroll_top(  );
+    //this.set_body_scroll_left(  );
     //this.fixed_disabled();
+    window.scrollTo( col * this.page_width, row * this.page_height);
+
   },
 
   stop : function() {
     //document.body.style.overflow = this.overflow;
     //document.body.scrollTop = this.scroll_top;
     //document.body.scrollLeft= this.scroll_left;
-    this.set_body_scroll_top( this.scroll_top );
-    this.set_body_scroll_left( this.scroll_left );
+    //this.set_body_scroll_top( this.scroll_top );
+    //this.set_body_scroll_left( this.scroll_left );
+    window.scrollTo( this.scroll_left, this.scroll_top);
     
     this.fixed_enabled();
   },
@@ -136,6 +182,8 @@ var g_fullscreen_capture = {
     } else {
       document.body.scrollTop = v; 
     }
+
+    console.log("set scroll top " + v);
   },
 
 
@@ -158,6 +206,20 @@ var g_fullscreen_capture = {
 
 
   fixed_disabled : function() {
+    var elems = document.body.getElementsByTagName("*");
+    var len = elems.length
+
+    for (var i=0;i<len;i++) {
+
+      var position = window.getComputedStyle(elems[i],null).getPropertyValue('position');
+      if( ( position == 'fixed') || (position=="sticky") ) {
+        var e = elems[i];
+        e.style.position = "absolute";
+        e.__imagecap_position = position;
+        this.fixed_elements.push( e );
+      }
+    }
+    /*
     for( var i=0; i < document.all.length; i++) {
       var e = document.all[i];
 
@@ -170,11 +232,13 @@ var g_fullscreen_capture = {
         this.fixed_elements.push( e );
       }
     }
+      */
   },
 
   fixed_enabled: function() {
     for( var i=0; i < this.fixed_elements.length; i++ ) {
-      this.fixed_elements[i].style.position = "fixed";
+      var e = this.fixed_elements[i];
+      e.style.position = e.__imagecap_position;
     }
   }
 };
