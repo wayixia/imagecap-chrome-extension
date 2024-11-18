@@ -5,7 +5,11 @@
 
 import config from "../scripts/config.js"
 import Q from "./background_ajax.js"
-//import "./background_ajax.js"
+
+
+//importScripts("./imagecap.js")
+//import screenshot from "./screenshot.js";
+
 
 var plugin_name  = chrome.i18n.getMessage('menuDigImages');
 var wayixia = {};
