@@ -271,7 +271,7 @@ var cache_display = {};
 
 function get_display_cache( tab_id ) {
   var obj = cache_display[tab_id];
-  delete cache_display[tab_id];
+  //delete cache_display[tab_id];
   return obj;
 }
 

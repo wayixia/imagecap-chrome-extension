@@ -53,7 +53,6 @@ function initialize () {
     evt = evt || window.event;
     wayixia.track_button_click(this);
     event.cancelBubble = true;
-    var extension = chrome.extension.getBackgroundPage();
     popup_save_menu( Q.$('wayixia-screenshot-download'), evt, function( folder ) {
       worker.download_image( get_screenshot().toDataURL( 'image/png' ), window, folder.name, g_pageurl );
     } );
@@ -709,8 +708,6 @@ Q.ready(function() {
       wayixia.source_tab_id = data.ctx_tab_id;
       if( data.type == "screenshot" ) {
         display_screenshot(data.ctx_tab_id, data.data, data.url);
-      } else if( data.type == "full_screenshot" ) {
-        display_full_screenshot(data.ctx_tab_id, data.data, data.url);
       }
     } );
   });
@@ -760,13 +757,6 @@ function drag_screen_images_end() {
 }
 
 
-function display_full_screenshot(tab_id, canvas_data, url) {
-  wayixia.track_event("display_full_screenshot", "from_menu");  
-  wayixia.source_tab_id = tab_id;
-  wayixia.request_data.data.pageUrl = url;
-  merge_images(canvas_data);
-}
-
 function display_screenshot(tab_id, image_data, url) {
   wayixia.track_event("display_screenshot", "from_menu");  
   wayixia.source_tab_id = tab_id;
@@ -781,6 +771,9 @@ function display_screenshot(tab_id, image_data, url) {
     wayixia_canvas.width = this.width; 
     wayixia_canvas.height= this.height; 
     var draw_context = wayixia_canvas.getContext("2d");
+    //wayixia_canvas.width = this.width/window.devicePixelRatio; 
+    //wayixia_canvas.height= this.height/window.devicePixelRatio; 
+    //draw_context.scale( 1.0/window.devicePixelRatio, 1.0/window.devicePixelRatio );
     draw_context.drawImage(this, 0, 0);
 
     drag_screen_images_end();
