@@ -284,24 +284,13 @@ function create_display_page(context_tab_id,  res) {
   } } )( context_tab_id, res ) } ) ;
 }
 
-function create_display_screenshot(context_tab_id,  res, url) {  
+function create_display_screenshot(context_tab_id,  res, taburl) {  
   create_tab( { url : chrome.runtime.getURL("pages/screenshot/screenshot.html"), callback : ( function( id, res ) { return function( tab_id ) { 
     cache_display[tab_id] = {
       ctx_tab_id : id,
       data : res,
-      url : url,
+      url : taburl,
       type : "screenshot"
-    };
-  } } )( context_tab_id, res ) } );
-}
-
-function create_display_full_screenshot(context_tab_id,  res, url) {  
-  create_tab( { url : chrome.runtime.getURL("pages/screenshot/screenshot.html"), callback : ( function( id, res ) { return function( tab_id ) { 
-    cache_display[tab_id] = {
-      ctx_tab_id : id,
-      data : res,
-      url : url,
-      type : "full_screenshot"
     };
   } } )( context_tab_id, res ) } );
 }
@@ -395,7 +384,7 @@ function create_tab( json ) {
     //} ); 
   });
   
-  chrome.tabs.create( { "url" : json.url, "selected" : true }, function on_tab_created( tab ) {
+  chrome.tabs.create( { "url" : json.url, "selected" : true }, ( tab ) => {
     display_tab_id = tab.id; 
     json.callback( tab.id ); 
   } );
@@ -526,10 +515,7 @@ chrome.runtime.onMessage.addListener( function( o, sender, res ) {
     on_click_wa_all( o, o.tab );
     res({});
     break;
-  case "full_screenshot":
-    on_click_full_screenshot(o.tab);
-    res({});
-    break;
+
   case "screenshot":
     on_click_screenshot(o.tab);
     res({});
@@ -563,7 +549,7 @@ chrome.runtime.onMessage.addListener( function( o, sender, res ) {
     res({});
     break;
   case "display_screenshot":
-    //create_display_full_screenshot(o.tab_id, )
+    create_display_screenshot(o.tab.id, o.imageUrl, o.tab.url  );
     res({});
     break;
   }

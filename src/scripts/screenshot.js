@@ -4,22 +4,12 @@
 //
 
 
-window.outputImage = function( guid, imageurl, len)
-{
-  console.log( "outputImage called guid " + guid);
-  //const ptr = new Uint8Array(imagecap.wasmMemory.buffer, imageurl, len );
-  //var url = (new TextDecoder()).decode( ptr );
-  //console.log( "guid: " + guid + ", len:" + len + ", url: \ndata:image/png;base64," + url);
-}
-
-
 let imagecap=Module;
 
 class screenshot {
   constructor() {
 
   }
-
 
   createTask(tab)
   {
@@ -116,13 +106,13 @@ class screenshot {
     const str_ptr = imagecap._malloc(bytes.length);
     imagecap.HEAP8.set(bytes, str_ptr);
 
-    //imagecap._drawImage(guid, str_ptr );
+    imagecap._drawImage(guid, str_ptr );
     if(fn) {
       fn();
     }
     imagecap._free(str_ptr);
   }
-} // end class Screenshot
 
+} // end class screenshot
 
 export default new screenshot;

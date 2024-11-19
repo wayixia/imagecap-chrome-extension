@@ -1,6 +1,5 @@
 import worker from "../scripts/worker.js";
 import config from "../scripts/config.js";
-//import { createImagecap } from "../scripts/imagecap.js"
 import screenshot from "../scripts/screenshot.js"
 
 function deactive() {
@@ -20,6 +19,20 @@ function get_current_tab( fn ) {
   );
 }
 
+
+window.outputImage = function( guid, imageurl, len)
+{
+  console.log( "outputImage called guid " + guid);
+  const ptr = new Uint8Array(wasmMemory.buffer, imageurl, len );
+  var imgdata = (new TextDecoder()).decode( ptr );
+  var url = "data:image/png;base64, " + imgdata;
+  get_current_tab( (tab) => {
+    worker.create_display_screenshot( tab, url, (res)=>{
+      console.log("create display screenshot end.");
+    });
+  });
+  //console.log( "guid: " + guid + ", len:" + len + ", url: \ndata:image/png;base64," + url);
+}
 
 
 
@@ -101,6 +114,7 @@ Q.ready(function() {
   Module.onRuntimeInitialized = function() {
     console.log("imagecap wasm module loaded.");
   }
+  screenshot.setworker(Module);
 
 });
 
