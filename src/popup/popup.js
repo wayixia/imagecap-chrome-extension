@@ -114,8 +114,6 @@ Q.ready(function() {
   Module.onRuntimeInitialized = function() {
     console.log("imagecap wasm module loaded.");
   }
-  screenshot.setworker(Module);
-
 });
 
 

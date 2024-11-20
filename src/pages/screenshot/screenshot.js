@@ -225,6 +225,7 @@ is_moved : false,
 tmr : null,
 logs : null,
 index : -1,
+dpr: 1.0,
 __init__ : function(config) {
   config = config || {};
   this.canvas = config.id;
@@ -233,6 +234,7 @@ __init__ : function(config) {
   this.container = Q.$(config.container);
   this.logs = [];
   this.index = 0;
+  this.dpr = window.devicePixelRatio || window.webkitDevicePixelRatio || window.mozDevicePixelRatio || 1;
   // init toolbar
   var toolbars = {};
   var  toolbars_onchange = (function(t) { return function(checked) {
@@ -337,6 +339,10 @@ createInterface : function() {
   this.contextI = this.canvasI.getContext('2d');
   this.contextC.strokeStyle = this.contextI.strokeStyle = 
   this.contextC.fillStyle = this.contextI.fillStyle = "#FF0033";
+
+  
+  this.contextC.scale(this.dpr, this.dpr);
+  this.contextI.scale(this.dpr, this.dpr);
 },
 
 setColor : function( color ) {
@@ -347,9 +353,9 @@ setColor : function( color ) {
 },
 
 setLineWidth : function( width ) {
-  this.context.lineWidth = this.contextI.lineWidth = this.contextC.lineWidth = width;
-  Q.$( 'wayixia-screenshot-line-width' ).style.height = width + 'px';
-  Q.$( 'wayixia-screenshot-line-text' ).innerText = width + 'px';
+  this.context.lineWidth = this.contextI.lineWidth = this.contextC.lineWidth = width*this.dpr;
+  Q.$( 'wayixia-screenshot-line-width' ).style.height = width*this.dpr + 'px';
+  Q.$( 'wayixia-screenshot-line-text' ).innerText = width*this.dpr + 'px';
 },
 
 zoom : function(v) {
@@ -359,6 +365,8 @@ zoom : function(v) {
 },
 
 zoomxy : function(pnt) {
+  pnt.x = pnt.x * this.dpr;
+  pnt.y = pnt.y * this.dpr;
   if(this.canvasC.style.zoom) {
     var z = parseFloat(this.canvasC.style.zoom);
     return {x: parseInt(pnt.x*1.0 / z, 10), y: parseInt(pnt.y*1.0/z, 10)}
@@ -533,10 +541,11 @@ drawText : function(pntFrom, pntTo, context) {
   if(pntTo.y < pntFrom.y) 
     top = pntTo.y;
 
-  left += this.canvasC.offsetLeft;
-  top  += this.canvasC.offsetTop;
-  var width = Math.abs(pntTo.x-pntFrom.x);
-  var height = Math.abs(pntTo.y-pntFrom.y);
+  left += this.canvasC.offsetLeft*this.dpr;
+  top  += this.canvasC.offsetTop*this.dpr;
+  var width = Math.abs(pntTo.x-pntFrom.x) / this.dpr;
+  var height = Math.abs(pntTo.y-pntFrom.y) / this.dpr;
+  
   ta.style.cssText = "overflow: hidden;position:absolute; background-color: transparent; "
     + "font-size: " + this.font_size + "px; line-height: " + (this.font_size+2) + "px; " 
     + "border: 0px solid red; left:"+left+"px; top:"+top+";px; color: "+ context.fillStyle +"; width:"+width+"px; height:"+height+";";
@@ -771,9 +780,20 @@ function display_screenshot(tab_id, image_data, url) {
     wayixia_canvas.width = this.width; 
     wayixia_canvas.height= this.height; 
     var draw_context = wayixia_canvas.getContext("2d");
+    var dpr = window.devicePixelRatio || window.webkitDevicePixelRatio || window.mozDevicePixelRatio || 1;
     //wayixia_canvas.width = this.width/window.devicePixelRatio; 
     //wayixia_canvas.height= this.height/window.devicePixelRatio; 
-    //draw_context.scale( 1.0/window.devicePixelRatio, 1.0/window.devicePixelRatio );
+
+    var oldWidth = this.width;
+    var oldHeight = this.height;
+    // Give the canvas pixel dimensions of their CSS
+    // size * the device pixel ratio.
+    wayixia_canvas.width = Math.round(oldWidth * dpr);
+    wayixia_canvas.height = Math.round(oldHeight * dpr);
+    wayixia_canvas.style.width = oldWidth/dpr + 'px';
+    wayixia_canvas.style.height = oldHeight/dpr + 'px';
+
+    draw_context.scale( dpr, dpr);
     draw_context.drawImage(this, 0, 0);
 
     drag_screen_images_end();
@@ -786,61 +806,5 @@ function display_screenshot(tab_id, image_data, url) {
     });
   };
   img.src = image_data;
-}
-
-/* call background script end */
-
-function merge_images(canvas_data) {
-  // initialize canvas
-  var canvas = Q.$('wayixia-canvas'); //  document.createElement("canvas");
-	canvas.width = canvas_data.size.full_width;
-	canvas.height = canvas_data.size.full_height;
- 
-  draw_image(canvas, canvas_data, 0);
-}
-
-function draw_image(canvas, canvas_data, n) {
-  var screenshots = canvas_data.screenshots;
-  if(n == 0) {
-       drag_screen_images_begin();
-  }
-  drag_screen_images_update(n+1, screenshots.length);
-  if(n >= screenshots.length ) {
-    // draw completed
-    //image_element.src = canvas.toDataURL('image/png');
-    drag_screen_images_end();
-    g_canvas_editor = new Q.CanvasEditor({
-      id : canvas,
-      container: Q.$( 'wayixia-container' )
-    });
-  } else {
-    console.log('draw '+n+' image');
-    var draw_context = canvas.getContext("2d");
-    var s = screenshots[n];
-    var row = s.row;
-    var col = s.col;
-    var x=0, y=0;
-    if(row < canvas_data.table.rows-1) {
-      y = row*canvas_data.size.page_height;
-    } else { // last row
-      y = canvas.height - canvas_data.size.page_height; 
-    }
-
-    if(col < canvas_data.table.cols-1) {
-      x = col*canvas_data.size.page_width;
-    } else { // last column
-      x = canvas.width - canvas_data.size.page_width; 
-    }
-    //console.log('x:' + x + ', y=' + y); 
-    var memory_image = new Image();
-    memory_image.onload =  (function(ctx, m, l, t) { 
-      return function() {
-        console.log('image load ok');
-        ctx.drawImage(m,l,t);
-        draw_image(canvas, canvas_data, ++n);
-      }
-    })(draw_context, memory_image, x, y);
-    memory_image.src = s.data_url;
-  }
 }
 
