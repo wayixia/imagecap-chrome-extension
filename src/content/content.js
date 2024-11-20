@@ -210,37 +210,19 @@ var g_fullscreen_capture = {
     var len = elems.length
 
     for (var i=0;i<len;i++) {
-
       var position = window.getComputedStyle(elems[i],null).getPropertyValue('position');
       var e = elems[i];
       if( position == 'fixed' ) {
-        if(e.parentElement)
-        {
+        if(e.parentElement) {
           e.parentElement.style.transform = "rotateX(0deg)";
         }
-        
         this.fixed_elements.push( e );
       } else if( position=="sticky" ) {
         e.style.position = "static";
         e.__imagecap_sticky = true;
         this.fixed_elements.push( e );
       }
-
     }
-    /*
-    for( var i=0; i < document.all.length; i++) {
-      var e = document.all[i];
-
-      if( e.currentStyle && 
-          e.currentStyle.position && 
-          e.currentStyle.position == "fixed" && 
-          !( e.currentStyle.display == "none" || e.currentStyle.visibility == "hidden" )) 
-      {
-        e.style.position = "relative";
-        this.fixed_elements.push( e );
-      }
-    }
-      */
   },
 
   fixed_enabled: function() {
