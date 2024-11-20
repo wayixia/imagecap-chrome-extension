@@ -212,12 +212,20 @@ var g_fullscreen_capture = {
     for (var i=0;i<len;i++) {
 
       var position = window.getComputedStyle(elems[i],null).getPropertyValue('position');
-      if( ( position == 'fixed') || (position=="sticky") ) {
-        var e = elems[i];
-        e.style.position = "absolute";
-        e.__imagecap_position = position;
+      var e = elems[i];
+      if( position == 'fixed' ) {
+        if(e.parentElement)
+        {
+          e.parentElement.style.transform = "rotateX(0deg)";
+        }
+        
+        this.fixed_elements.push( e );
+      } else if( position=="sticky" ) {
+        e.style.position = "static";
+        e.__imagecap_sticky = true;
         this.fixed_elements.push( e );
       }
+
     }
     /*
     for( var i=0; i < document.all.length; i++) {
@@ -238,7 +246,13 @@ var g_fullscreen_capture = {
   fixed_enabled: function() {
     for( var i=0; i < this.fixed_elements.length; i++ ) {
       var e = this.fixed_elements[i];
-      e.style.position = e.__imagecap_position;
+      if( e.__imagecap_sticky ) {
+        e.style.position = "sticky";
+      } else {
+        if(e.parentElement) {
+          e.parentElement.style.transform = "";
+        }
+      }
     }
   }
 };
