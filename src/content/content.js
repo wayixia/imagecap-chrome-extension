@@ -204,6 +204,26 @@ var g_fullscreen_capture = {
     }
   },
 
+  hide_element: function(element) {
+    this.fixed_elements.push({
+        e: element,
+        opacity: element.style.getPropertyValue("opacity"),
+        animation: element.style.getPropertyValue("animation"),
+        transitionDuration: element.style.getPropertyValue("transition-duration")
+    });
+    element.style.setProperty("opacity", "0", "important");
+    element.style.setProperty("animation", "unset", "important");
+    element.style.setProperty("transition-duration", "0s", "important");
+    element.__imagecap_ignore = true; 
+  },
+
+  show_element: function(item) {
+   if( item ) { 
+      item.e.style.setProperty("transition-duration", item.transitionDuration);
+      item.e.style.setProperty("opacity", item.opacity);
+      item.e.style.setProperty("animation", item.animation);
+    }
+  },
 
   fixed_disabled : function() {
     var elems = document.body.getElementsByTagName("*");
@@ -213,14 +233,9 @@ var g_fullscreen_capture = {
       var position = window.getComputedStyle(elems[i],null).getPropertyValue('position');
       var e = elems[i];
       if( position == 'fixed' ) {
-        if(e.parentElement) {
-          e.parentElement.style.transform = "rotateX(0deg)";
-        }
-        this.fixed_elements.push( e );
+        this.hide_element(e); 
       } else if( position=="sticky" ) {
-        e.style.position = "static";
-        e.__imagecap_sticky = true;
-        this.fixed_elements.push( e );
+        this.hide_element(e);
       }
     }
   },
@@ -228,13 +243,7 @@ var g_fullscreen_capture = {
   fixed_enabled: function() {
     for( var i=0; i < this.fixed_elements.length; i++ ) {
       var e = this.fixed_elements[i];
-      if( e.__imagecap_sticky ) {
-        e.style.position = "sticky";
-      } else {
-        if(e.parentElement) {
-          e.parentElement.style.transform = "";
-        }
-      }
+      this.show_element(e);
     }
   }
 };
