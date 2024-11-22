@@ -148,23 +148,13 @@ var g_fullscreen_capture = {
   }, 
 
   capture_page : function(row, col) {
-    //document.body.scrollTop  = row * this.page_height;
-    //document.body.scrollLeft = col * this.page_width;
-    //this.set_body_scroll_top(  );
-    //this.set_body_scroll_left(  );
-    //this.fixed_disabled();
+    this.fixed_disabled();
     window.scrollTo( col * this.page_width, row * this.page_height);
 
   },
 
   stop : function() {
-    //document.body.style.overflow = this.overflow;
-    //document.body.scrollTop = this.scroll_top;
-    //document.body.scrollLeft= this.scroll_left;
-    //this.set_body_scroll_top( this.scroll_top );
-    //this.set_body_scroll_left( this.scroll_left );
     window.scrollTo( this.scroll_left, this.scroll_top);
-    
     this.fixed_enabled();
   },
 
@@ -225,6 +215,29 @@ var g_fullscreen_capture = {
     }
   },
 
+  isinviewport : function(element) {
+    const viewHeight = window.innerHeight || document.documentElement.clientHeight;
+    const viewWidth = window.innerWidth || document.documentElement.clientWidth;
+    // 当滚动条滚动时，top, left, bottom, right时刻会发生改变。
+    const {
+      top,
+      right,
+      bottom,
+      left
+    } = element.getBoundingClientRect();
+    return (top >= 0 && left >= 0 && right <= viewWidth && bottom <= viewHeight);
+  },
+
+  ishide_element : function(e) {
+    for( var i=0; i < this.fixed_elements.length; i++ ) {
+      if( this.fixed_elements[i].e == e ) {
+        return true;
+      }
+    }
+
+    return false;
+  },
+
   fixed_disabled : function() {
     var elems = document.body.getElementsByTagName("*");
     var len = elems.length
@@ -232,10 +245,18 @@ var g_fullscreen_capture = {
     for (var i=0;i<len;i++) {
       var position = window.getComputedStyle(elems[i],null).getPropertyValue('position');
       var e = elems[i];
-      if( position == 'fixed' ) {
-        this.hide_element(e); 
-      } else if( position=="sticky" ) {
-        this.hide_element(e);
+      if( position == 'fixed' || position=="sticky") {
+        if( !this.ishide_element(e)) {
+        //  if( this.isinviewport(e) ) {
+            console.log( "fixed item: " + e.className + ", id:" + e.id );
+            this.hide_element(e);
+        //}
+        }
+        //console.log( "fixed item: " + e.className );
+        //this.hide_element(e); 
+      //} else if( position=="sticky" ) {
+        //this.hide_element(e);
+        //console.log( "sticky item: " + e.className );
       }
     }
   },
