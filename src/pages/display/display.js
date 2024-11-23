@@ -265,7 +265,7 @@ function initialize () {
   wayixia_images_filter =  new ImageFilter({}); 
   Q.$( 'wayixia-filter-icon' ).onclick = (function(t, e) { return function(evt) { 
     wayixia_images_filter.showElement(e);
-    wayixia_track_event( 'toolbar', 'filtersize' );
+    wayixia.track_event( 'toolbar', 'filtersize' );
   } } )(this, Q.$( 'wayixia-filter-icon' ));
 
   // Initialize gotop button

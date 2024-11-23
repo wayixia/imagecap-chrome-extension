@@ -53,7 +53,7 @@ function wayixia_ui_init()
   //var evt = evt || window.event;
   //var kcode = evt.which || evt.keyCode;
   //if(kcode == 27) {// ESC
-  //  wayixia_track_event('deactive', 'shortcut-ESC');
+  //  wayixia.track_event('deactive', 'shortcut-ESC');
   //  deactive();
   //}
 //});
@@ -414,7 +414,7 @@ window.clear_errors = function() {
 }
 
 window.report_a_bug = function( evt ) {
-  wayixia_track_event('report_a_bug', 'report_a_bug');
+  wayixia.track_event('report_a_bug', 'report_a_bug');
   wayixia.report_window = require('./src/views/report_a_bug.view')( {
     app: this,
     title:  Q.locale_text('extReportABug'), 

@@ -123,19 +123,24 @@ var g_fullscreen_capture = {
   page_width : 0,
   page_height : 0,
   fixed_elements: [],
+  fixed_elements_start: [],
+  started: false,
+
 
   start : function() {
-
-    this.fixed_disabled();
-
+    //this.fixed_disabled();
     this.scroll_top  = this.body_scroll_top(); //document.body.scrollTop;
     this.scroll_left = this.body_scroll_left(); //document.body.scrollLeft;
-    //this.overflow    = document.body.style.overflow;
-    //document.body.style.overflow='hidden';
-    this.set_body_scroll_top( 0 ); //document.body.scrollTop = 0;
-    this.set_body_scroll_left( 0 );  //document.body.scrollLeft= 0;
+    this.overflow    = document.body.style.overflow;
+    document.body.style.overflow='hidden';
+    //this.set_body_scroll_top( 0 ); //document.body.scrollTop = 0;
+    //this.set_body_scroll_left( 0 );  //document.body.scrollLeft= 0;
+    window.scrollTo(0,0);
     this.page_width  = document.documentElement.clientWidth;
     this.page_height = document.documentElement.clientHeight;
+
+    this.fixed_disabled();
+    this.started = true;
   
     return {
       full_width : document.body.scrollWidth * window.devicePixelRatio, 
@@ -148,14 +153,14 @@ var g_fullscreen_capture = {
   }, 
 
   capture_page : function(row, col) {
-    this.fixed_disabled();
     window.scrollTo( col * this.page_width, row * this.page_height);
-
+    this.fixed_disabled();
   },
 
   stop : function() {
     window.scrollTo( this.scroll_left, this.scroll_top);
     this.fixed_enabled();
+    document.body.style.overflow=this.overflow;
   },
 
   body_scroll_top : function() {
@@ -237,6 +242,15 @@ var g_fullscreen_capture = {
 
     return false;
   },
+  isstart_element : function(e) {
+    for( var i=0; i < this.fixed_elements_start.length; i++ ) {
+      if( this.fixed_elements_start[i] == e ) {
+        return true;
+      }
+    }
+
+    return false;
+  },
 
   fixed_disabled : function() {
     var elems = document.body.getElementsByTagName("*");
@@ -246,17 +260,22 @@ var g_fullscreen_capture = {
       var position = window.getComputedStyle(elems[i],null).getPropertyValue('position');
       var e = elems[i];
       if( position == 'fixed' || position=="sticky") {
-        if( !this.ishide_element(e)) {
-        //  if( this.isinviewport(e) ) {
+        if( !this.started )
+        {
+          this.fixed_elements_start.push(e);
+        }
+        else
+        {
+          if(!this.isstart_element(e) ) {
+            this.hide_element(e);
+          }
+          if(!this.ishide_element(e)) {
+            //  if( this.isinviewport(e) ) {
             console.log( "fixed item: " + e.className + ", id:" + e.id );
             this.hide_element(e);
-        //}
+            //}
+          }
         }
-        //console.log( "fixed item: " + e.className );
-        //this.hide_element(e); 
-      //} else if( position=="sticky" ) {
-        //this.hide_element(e);
-        //console.log( "sticky item: " + e.className );
       }
     }
   },
