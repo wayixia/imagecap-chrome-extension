@@ -124,23 +124,30 @@ var g_fullscreen_capture = {
   page_height : 0,
   fixed_elements: [],
   fixed_elements_start: [],
-  started: false,
-
+  fnscroll:null,
 
   start : function() {
     //this.fixed_disabled();
     this.scroll_top  = this.body_scroll_top(); //document.body.scrollTop;
     this.scroll_left = this.body_scroll_left(); //document.body.scrollLeft;
-    this.overflow    = document.body.style.overflow;
-    document.body.style.overflow='hidden';
+    //this.overflow    = document.body.style.overflow;
+    //document.body.style.overflow='hidden';
+    console.log("[imagecap] full screenshot start");
+
+    if( !this.fnscroll ) {
+      this.fnscroll = window.addEventListener('scroll', ( function(self) {
+        return function() {
+          self.fixed_disabled();
+        } } )(this)
+      );
+    }
+
     //this.set_body_scroll_top( 0 ); //document.body.scrollTop = 0;
     //this.set_body_scroll_left( 0 );  //document.body.scrollLeft= 0;
     window.scrollTo(0,0);
     this.page_width  = document.documentElement.clientWidth;
     this.page_height = document.documentElement.clientHeight;
-
-    this.fixed_disabled();
-    this.started = true;
+    this.fixed_make_elements();
   
     return {
       full_width : document.body.scrollWidth * window.devicePixelRatio, 
@@ -153,14 +160,16 @@ var g_fullscreen_capture = {
   }, 
 
   capture_page : function(row, col) {
+    console.log("[imagecap] full screenshot capture row => " + row );
     window.scrollTo( col * this.page_width, row * this.page_height);
-    this.fixed_disabled();
+    //this.fixed_disabled();
   },
 
   stop : function() {
+    window.removeEventListener('scroll', this.fnscroll);
     window.scrollTo( this.scroll_left, this.scroll_top);
     this.fixed_enabled();
-    document.body.style.overflow=this.overflow;
+    //document.body.style.overflow=this.overflow;
   },
 
   body_scroll_top : function() {
@@ -252,7 +261,8 @@ var g_fullscreen_capture = {
     return false;
   },
 
-  fixed_disabled : function() {
+  fixed_make_elements: function() {
+    console.log( "[imagecap] make start elements list" );
     var elems = document.body.getElementsByTagName("*");
     var len = elems.length
 
@@ -260,21 +270,30 @@ var g_fullscreen_capture = {
       var position = window.getComputedStyle(elems[i],null).getPropertyValue('position');
       var e = elems[i];
       if( position == 'fixed' || position=="sticky") {
-        if( !this.started )
-        {
-          this.fixed_elements_start.push(e);
+        this.fixed_elements_start.push(e);
+      }
+    }
+  },
+
+  fixed_disabled : function() {
+    console.log( "[imagecap] check fixed element" );
+    var elems = document.body.getElementsByTagName("*");
+    var len = elems.length
+
+    for (var i=0;i<len;i++) {
+      var position = window.getComputedStyle(elems[i],null).getPropertyValue('position');
+      var e = elems[i];
+      if( position == 'fixed' || position=="sticky") {
+        console.log( "current item => " + e.id );
+        if(!this.isstart_element(e) ) {
+          console.log( e.id + " is not in start elements");
+          this.hide_element(e);
         }
-        else
-        {
-          if(!this.isstart_element(e) ) {
-            this.hide_element(e);
-          }
-          if(!this.ishide_element(e)) {
-            //  if( this.isinviewport(e) ) {
-            console.log( "fixed item: " + e.className + ", id:" + e.id );
-            this.hide_element(e);
-            //}
-          }
+        if(!this.ishide_element(e)) {
+          //  if( this.isinviewport(e) ) {
+          console.log( "fixed item: " + e.className + ", id:" + e.id );
+          this.hide_element(e);
+          //}
         }
       }
     }

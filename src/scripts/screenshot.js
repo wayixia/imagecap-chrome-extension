@@ -72,7 +72,7 @@ class screenshot {
               self.screenshot_end(tab, guid, canvas );
               return;
             } else {
-              self.merge_images_with_client( guid, canvas );
+              self.merge_images_with_client( guid, canvas, function() {} );
               canvas = self.copy_canvasinfo( canvas );
             }
           }
@@ -80,20 +80,16 @@ class screenshot {
           // Process with client
           self.capture_page_task(tab, max, pos, guid, canvas);
         });
-      }, 1000);
+      }, 500);
     }); 
   }
 
   screenshot_end(tab, guid, canvas ) {
     console.log('capture end');
     var self = this;
-    chrome.tabs.sendMessage( tab.id, { type : "screenshot-end" }, (res) => {
-      self.merge_images_with_client( guid, canvas, function() {
-        imagecap._getImageUrl(guid);
-        //Module.HEAP8.set(imageurl_ptr,1024)
-        //const imageurl = new TextDecoder("utf8").decode(Module.HEAP8);
-        //console.log(imageurl);
-        //worker.create_display_screenshot(tab.id, imageurl, tab.url); 
+    self.merge_images_with_client( guid, canvas, function() {
+      imagecap._getImageUrl(guid);
+      chrome.tabs.sendMessage( tab.id, { type : "screenshot-end" }, (res) => {
       });
     });
   }
@@ -107,10 +103,10 @@ class screenshot {
     imagecap.HEAP8.set(bytes, str_ptr);
 
     imagecap._drawImage(guid, str_ptr );
+    imagecap._free(str_ptr);
     if(fn) {
       fn();
     }
-    imagecap._free(str_ptr);
   }
 
 } // end class screenshot
