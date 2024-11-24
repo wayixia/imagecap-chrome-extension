@@ -7,6 +7,7 @@ const { times } = require('lodash');
 import "libq.js/dist/libq.js"
 import "./src/plugins/imagesbox.js"
 import "./src/plugins/dropwindows.js"
+import "./src/plugins/album_player/album_player.js"
 import {locale_text, extract_document} from "./src/scripts/i18n.js"
 import {wayixia_track_event, wayixia_track_button_click} from "./src/scripts/tracker.js"
 //import "./src/scripts/i18n.js"
@@ -19,7 +20,7 @@ import config from "./src/scripts/config.js"
 
 
 
-
+//import './src/plugins/album_player/album_player.css'
 //import {app_service} from "./service";
 import  "./src/assets/scss/style.scss";
 

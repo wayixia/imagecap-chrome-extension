@@ -1,6 +1,16 @@
 @import "~libq.js/assets/css/ui.css";
+@import url(../../plugins/album_player/album_player.css);
 
-button.wayixia-toolbar-button {
+
+/** \brief wayixia style css
+ *
+ */
+
+/**
+ toolbar button css style
+ */
+
+ button.wayixia-toolbar-button {
   background: transparent url(../images/canvas-toolbar.png) left top no-repeat;
   height: 40px;
   width:45px;
@@ -90,14 +100,7 @@ button.wayixia-toolbar-button {
   background-position:  -405px top;
 }
 
-/*
-.wayixia-toolbar-button.save {
-  background-image: none;
-  background-color: transparent;
-  position: relative;
-  background: transparent url(../images/dropdown.png) right 16px no-repeat;
-}
-*/
+
 
 .wayixia-toolbar-button.color {
   background-image: none;
@@ -128,11 +131,6 @@ button.wayixia-toolbar-button {
   background-position: -91px -45px;
 }
 
-/*
-.eraser-cur {
-  cursor: url(../images/eraser.cur), default;
-}
-  */
 
 .wayixia-toolbar-button.showblock {
   background-position: -180px -45px;
@@ -487,14 +485,12 @@ button#wayixia-bugs {
 
 .q-window.w-window {
   background-color: white;
+  background-repeats: repeat-x;
+  borders: 10px solid rgb(31, 30, 30);
   border: 1px solid #999;
+  border-top-widths: 5px;
   border-radius: 5px;
   border-radius: 5px;
-}
-
-.q-window.w-window .q-icon {
-  top: 19px;
-  left: 10px;
 }
 
 .q-window.w-window .q-title {
@@ -592,13 +588,11 @@ button#wayixia-bugs {
   font-size: 14px;
 }
 
-/*
 .q-contextmenu.wayixia-menu .q-item:hover, 
 .q-contextmenu.wayixia-menu .q-item.q-active 
 {
-
+  background-color: #2d26fd;
 }
-*/
 
 .q-select.wayixia-menu {
   height: 42px;
@@ -641,6 +635,8 @@ button#wayixia-bugs {
 }
 
 .q-images-box .q-box-item {
+  borders: transparent 2px solid;
+  box-shadows: 0 1px 9px rgba(0,0,0,.1);
 -moz-box-shadows: 0 1px 9px rgba(0,0,0,.1);
 -webkit-box-shadows: 0 1px 9px rgba(0,0,0,.1);
  z-index: auto;
@@ -839,6 +835,5 @@ button#wayixia-bugs {
 .q-alert-content.q-alert-ok {
   background-image: url(../images/sprite_ok.png);
 }
-
 
 

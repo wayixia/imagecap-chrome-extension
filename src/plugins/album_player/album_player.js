@@ -1,12 +1,5 @@
-/**
- * 图片展示模块
- * @module album_player
- */
-
-/**
- * 查找parentNode节点是否包含childNode
- * @params {Node} - 父节点
- * @params {Node} - 子节点
+/* @file album_player.js 
+ * @author Q
  */
 function contains(parentNode, childNode) {
     if (parentNode.contains) {
@@ -25,11 +18,56 @@ function checkHover(e,target) {
   }
 }
 
-/** IE浏览器旋转方法 */
+/**
+ * 复制内容到粘贴板
+ * content : 需要复制的内容
+ * message : 复制完后的提示，不传则默认提示"复制成功"
+ */
+function copyToClipboard(content, message) {
+    var aux = document.createElement("input"); 
+    aux.setAttribute("value", content); 
+    document.body.appendChild(aux); 
+    aux.select();
+    document.execCommand("copy"); 
+    document.body.removeChild(aux);
+    if (message == null) {
+        alert("复制成功");
+    } else{
+        alert(message);
+    }
+}
+        //全屏
+function enterFullScreen() {
+  var element = document.documentElement;
+        if (element.requestFullscreen) {
+          element.requestFullscreen();
+        } else if (element.msRequestFullscreen) {
+          element.msRequestFullscreen();
+        } else if (element.mozRequestFullScreen) {
+          element.mozRequestFullScreen();
+        } else if (element.webkitRequestFullscreen) {
+          element.webkitRequestFullscreen();
+        }
+}
+
+//退出全屏 
+function exitFullScreen() {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+}
+
+//IE浏览器旋转方法
 function ie_trans(o,d){  
   o.style.fileter=d
 }
-/** 非IE浏览器旋转方法 */
+//非IE浏览器旋转方法
 function notie_trans(o,d){
   o.style.MozTransform = d;
   o.style.webkitTransform = d;
@@ -38,7 +76,7 @@ function notie_trans(o,d){
   o.style.transform = d;
 }
 
-/** 图片顺时针旋转 */
+//图片顺时针旋转
 function right_rotate(o){
   if(Q.isIE()){
       var currentFilter = o.currentStyle.filter;
@@ -64,7 +102,6 @@ function right_rotate(o){
     }
 }
 
-/** 恢复默认方向 */
 function reset_rotate(o) {
   if(Q.isIE()) {
     delete o.style.filter;
@@ -78,12 +115,6 @@ function reset_rotate(o) {
   } 
 }
 
-
-/**
- * album player
- * @constructor 
- */
-
 Q.album_player = Q.extend({
   hwnd: null,
   display: false,
@@ -93,38 +124,108 @@ Q.album_player = Q.extend({
   width: 0,
   old_overflow: null,
   old_scrolltop: 0,
+  album_id: 0,
+  //current_image_id : 0,
+  current_image_url : 0,
+  image_origin_width: 0,
+  image_origin_height: 0,
   images_data : null,
+  album_list_api: null,
+  fullscreen: false,
   __init__ : function(config) {
     config = config || {};
+
+    this.hwnd = document.createElement( 'div' );
+    this.hwnd.id = "album-view";
+    this.hwnd.innerHTML = ' \
+  <div id="album-transparent-layer"></div> \
+  <div id="album-top"> \
+    <div id="album-close-button"></div> \
+    <div id="image-info"> \
+      <div id="toolbar"> \
+        <a id="toolbar-1" > &nbsp;</a> \
+        <a id="toolbar-direction"> &nbsp; </a> \
+        <a id="toolbar-share"> &nbsp; </a> \
+        <a id="toolbar-download"> &nbsp; </a> \
+        <a id="toolbar-restore" > &nbsp;</a> \
+        <a id="toolbar-copy" > &nbsp;</a> \
+      </div> \
+      <div style="display: none;;"> \
+        <p id="image-title" class="text">标题:</p> \
+        <p id="image-url" class="text">地址:</p> \
+        <p id="image-size" class="text">大小:</p> \
+      </div> \
+    </div>    \
+  </div> \
+  <div id="album-bottom"> \
+    <div id="image-container"> \
+      <img id="image-view" class="image-ani"/> \
+      <div id="image-list-bar"> \
+        <div id="image-list-alpha" class="alpha_6"></div>  \
+        <div id="image-list-container"> \
+        <ul id="image-list"> \
+          <!--li class="item selected">1</li> \
+          <li class="item">2</li--> \
+        </ul> \
+        </div> \
+      </div> \
+      <div id="image-loadding"> 正在努力加载图片中...</div> \
+      <div id="image-next" class="btn-prev-next"> </div> \
+      <div id="image-prev" class="btn-prev-next"> </div> \
+    </div> \
+  </div> \
+    ';
+    document.body.appendChild( this.hwnd );
+
+
+    this.album_list_api = config.album_list_api;
     // main view
-    this.hwnd = Q.$('album-view');
     this.image_container = Q.$('image-container');
     this.image_view = Q.$('image-view');
     this.image_list_container = Q.$('image-list-container');
     this.image_list = Q.$('image-list');
     this.images_data = {};
     // init draging objects 
-    Q.drag( { id: this.image_view, self: true } );
+    Q.drag({id: this.image_view, self: true});
      
     // init data
     this.width = this.hwnd.offsetWidth;
     this.height= this.hwnd.offsetHeight;
     this.move(this.width);
-    this.image_view.onload = Q.bind_handler(this, function() { this.image_ok(); });
+    this.image_view.onload = Q.bind_handler(this, function(e) { this.image_ok(e); });
     this.image_view.onerror= Q.bind_handler(this, function() { this.image_error(); });
     Q.$('image-next').onclick= Q.bind_handler(this, function() { this.image_next(); });
     Q.$('image-prev').onclick= Q.bind_handler(this, function() { this.image_prev(); });
     Q.$('album-close-button').onclick= Q.bind_handler(this, function() { this.close(); });
-    Q.$('toolbar-restore').onclick   = Q.bind_handler(this, function() { this.image_view.style.zoom = 1});
+    this.image_container.onclick= Q.bind_handler(this, function(evt) {
+      var evt = evt || window.event;
+      var srcElement = evt.srcElement || evt.target;
+      if( srcElement.id && srcElement == this.image_container ) {
+        //this.close(); 
+      }
+    });
+    Q.$('toolbar-restore').onclick   = Q.bind_handler(this, function() { 
+      //fullScreen()和exitScreen()有多种实现方式，此处只使用了其中一种
+      if( this.fullscreen ) {
+        exitFullScreen();
+      } else {
+        enterFullScreen();
+      }
+      this.fullscreen = !this.fullscreen;
+    });
+
+    Q.$('toolbar-1').onclick   = Q.bind_handler(this, function() { this.image_view.style.zoom = 1});
     Q.$('toolbar-direction').onclick = Q.bind_handler(this, function() { right_rotate(this.image_view); });
-    //Q.$('toolbar-favorite').onclick  = Q.bind_handler(this, function() { 
-        //var o = Q.$('toolbar-favorite');
-        //var add = (o.className != "checked");
-        //api_image_favorite(this.current_image_id, add?"add":"remove", function(ok) {
-        //  o.className=(ok && add)?"checked":"";
-        //});
+    //Q.$('toolbar-download').onclick  = Q.bind_handler(this, function() { 
+    //    var o = Q.$('toolbar-download');
+    //    window.open( this.current_image_url );
+    //    //var add = (o.className != "checked");
+    //    //api_image_favorite(this.current_image_id, add?"add":"remove", function(ok) {
+    //    //  o.className=(ok && add)?"checked":"";
+    //    //});
     //});
-    Q.$('toolbar-share').onclick = (function(z, f) { return function(evt) {
+
+     Q.$('toolbar-share').onclick = (function(z, f) { return function(evt) {
       if(typeof f === 'function') {
         f(z.image_view.src);
       }
@@ -135,7 +236,12 @@ Q.album_player = Q.extend({
         f(z.image_view.src);
       }
     }})(this, config.download);
-    
+
+    Q.$('toolbar-copy').onclick  = Q.bind_handler(this, function() { 
+      copyToClipboard( this.current_image_url, '已复制URL' );
+    });
+
+    //Q.$('toolbar-share').onclick      = Q.bind_handler(this, function() { api_share2sina(this.current_image_url)});
     Q.addEvent(window, 'resize', Q.bind_handler(this, this.on_resize));
     Q.addEvent(this.image_container, 'mousewheel', Q.bind_handler(this, this.on_mousewheel));
     Q.addEvent(document, 'keyup', Q.bind_handler(this, this.on_keyup));
@@ -163,6 +269,10 @@ Q.album_player = Q.extend({
       this.image_view.style.zoom = zoom/100.0;  //重新设置比例
     //this.on_resize(); 
     Q.$('toolbar-restore').disabled = (zoom == 1);
+
+    // Prevent parent scroll bar
+    evt.stopPropagation();
+    evt.preventDefault();
   },
  
   on_keyup : function(evt) {
@@ -174,7 +284,7 @@ Q.album_player = Q.extend({
     } else if(kcode === 37) {
       this.image_prev();
     } else if(kcode === 27) {
-      //this.close();
+      this.close();
     }
   },
 
@@ -214,11 +324,31 @@ Q.album_player = Q.extend({
       })).play();
   },
 
-  image_ok : function() {
-    var pos_left = -(this.image_view.width - this.image_container.offsetWidth)/2;
-    var pos_top  = -(this.image_view.height - (this.image_container.offsetHeight-this.image_list_container.offsetHeight))/2;
-    this.image_view.style.left = pos_left + 'px';
-    this.image_view.style.top = pos_top + 'px';
+  image_ok : function(e) {
+    //Q.printf("width: "+this.image_view.width + ", height: " + this.image_view.height)          
+   // var pos_left = -(this.image_view.width - this.image_container.offsetWidth)/2;
+   // var pos_top  = -(this.image_view.height - (this.image_container.offsetHeight-this.image_list_container.offsetHeight))/2;
+   // this.image_view.style.left = pos_left + 'px';
+   // this.image_view.style.top = pos_top + 'px';
+   //Q.printf("image width " + this.)
+    this.image_view.width = 5;
+
+    var _this = this;
+    (new Q.Animate({
+        tween: 'cubic',
+        ease: 'easyin',
+        max: this.image_origin_width,
+        begin: 0,
+        duration: 25,
+        bind : function(x) {
+          _this.image_view.width = x; 
+          var pos_left = -(_this.image_view.width - _this.image_container.offsetWidth)/2;
+          var pos_top  = -(_this.image_view.height - (_this.image_container.offsetHeight-_this.image_list_container.offsetHeight))/2;
+          _this.image_view.style.left = pos_left + 'px';
+          _this.image_view.style.top = pos_top + 'px';
+        }
+    })).play();
+    this.image_view.style.visibility = 'visible';
     Q.$('image-loadding').style.visibility = 'hidden';
   },
 
@@ -226,20 +356,28 @@ Q.album_player = Q.extend({
     Q.$('image-loadding').style.visibility = 'hidden';
   },
 
-  render_ : function(id) {
+  /*
+  render : function(url, images ) {
     var _this = this;
-    var url = this.images_data[id].src;
+    
+
     if(this.image_view.src ==  url)
       return;
+
+    this.image_view.style.visibility = 'hidden';
+    Q.removeClass( this.image_view, "image-ani");
+    //this.current_image_id = id;
+    this.current_image_url = url;
     this.image_view.style.zoom = 1; 
-    this.image_view.src = url;
+    //this.image_view.src = url;
+  
     reset_rotate(this.image_view);
     Q.$('image-loadding').style.visibility = 'visible';
     if(!_this.display) {
-      _this.select_album_item(id);
       _this.display = true;
       _this.hwnd.style.visibility = 'visible';
       _this.move(_this.width);
+      _this.load_album_images(album_id, id);
       (new Q.Animate({
         tween: 'cubic',
         ease: 'easyin',
@@ -254,51 +392,7 @@ Q.album_player = Q.extend({
       _this.select_album_item(id);
     }
   },
-
-  update_image_info : function(id) {
-    var img = this.images_data[id];
-    if(!img)
-      return;
-    var update_size = new Image();
-    
-    update_size.onload = function() {
-      //Q.printf(this.width+":"+this.height);
-      Q.$('image-title').innerText = Q.locale_text("stringTitle", "标题") + ": " + img.title;
-      Q.$('image-title').title = img.title;
-      Q.$('image-url').title = this.src;
-      Q.$('image-url').innerText = Q.locale_text("stringAddress", "地址") + ": " + this.src;
-      Q.$('image-size').innerText= Q.locale_text("stringSize", "大小") + ": " + this.width + " x " + this.height + " pixels";
-    }
-    update_size.src = img.src;       
-  },
-
-  close : function() {
-    var _z = this;
-    this.display = !this.display;
-    this.move(this.width);
-    (new Q.Animate({
-      tween: 'Cubic',
-      ease: 'easyIn',
-      max: _z.width,
-      begin: 0,
-      duration: 25,
-      bind : (function(z) { return function(x) {
-        z.move(x);
-        if(x >= z.width) {
-          z.image_view.src = '';
-        }
-      }})(this)
-    })).play();
-  },
-
-  onclose : function() {
-  
-  },
-  
-  move : function(x) {
-    this.hwnd.style.left  = x + 'px';
-    this.hwnd.style.right = -x + 'px'
-  },
+  */
 
   render : function(url, imgs) {
     this.image_selected = null;
@@ -345,24 +439,126 @@ Q.album_player = Q.extend({
     this.images_data[i] = item;
   },
 
+
+  render_ : function(id) {
+    var _this = this;
+    var url = this.images_data[id].src;
+    if(this.image_view.src ==  url)
+      return;
+    this.image_view.style.zoom = 1; 
+    this.image_view.src = url;
+    this.current_image_url = url;
+    reset_rotate(this.image_view);
+    Q.$('image-loadding').style.visibility = 'visible';
+    if(!_this.display) {
+      _this.select_album_item(id);
+      _this.display = true;
+      _this.hwnd.style.visibility = 'visible';
+      _this.move(_this.width);
+      (new Q.Animate({
+        tween: 'cubic',
+        ease: 'easyin',
+        max: _this.width,
+        begin: 0,
+        duration: 25,
+        bind : function(x) {
+          _this.move(_this.width-x);
+        }
+      })).play();
+    } else {
+      _this.select_album_item(id);
+    }
+  },
+
+
+  update_image_info : function(id) {
+    var img = this.images_data[id];
+    if(!img)
+      return;
+    var update_size = new Image();
+    
+    update_size.onload = ( function( t ) { return function() {
+      //Q.printf(this.width+":"+this.height);
+      Q.$('image-title').innerText = "标题: " + img.title;
+      Q.$('image-title').title = img.title;
+      Q.$('image-url').title = this.src;
+      Q.$('image-url').innerText = "地址: " + this.src;
+      Q.$('image-size').innerText= "大小: " + this.width + " x " + this.height + " pixels";
+      t.image_origin_width = this.width;
+      t.image_origin_height = this.height;
+      t.image_view.src = this.src;
+    } } )( this );
+    update_size.src = img.src;       
+  },
+
+  close : function() {
+    var _this = this;
+    if( !this.display )
+      return;
+    _this.display = false;
+    _this.move(_this.width);
+    (new Q.Animate({
+      tween: 'Cubic',
+      ease: 'easyIn',
+      max: _this.width,
+      begin: 0,
+      duration: 25,
+      bind : function(x) {
+        _this.move(x);
+        if(x >= _this.width) {
+          _this.image_view.src = '';
+        }
+      }
+    })).play();
+  },
+
+  onclose : function() {
+  
+  },
+  
+  move : function(x) {
+    this.hwnd.style.left  = x + 'px';
+    this.hwnd.style.right = -x + 'px'
+  },
+
   select_album_item : function(id) {
     this.update_image_info(id);
-    var box_item = Q.$('album-item-'+id);
-    if(box_item == this.image_selected)
+    //console.log("album list scrollWidth == offsetWidth: " + this.image_list.scrollWidth + ', ' +this.image_list.offsetWidth);
+
+    var item = Q.$('album-item-'+id);
+    if(item == this.image_selected)
       return;
 
     if(this.image_selected) 
       this.image_selected.className = "item";
     
-    this.image_selected = box_item;
-    box_item.className = 'item selected';
+    this.image_selected = item;
+    item.className = 'item selected';
     // load image info
     this.load_image_info();
+
+    if( this.image_selected.nextElementSibling == null ) {
+      Q.$('image-next').style.display = "none";       
+    } else {
+      if( Q.$('image-next').style.display == "none" ) {
+        Q.$('image-next').style.display = "";       
+      }
+    }
+
+    if( this.image_selected.previousElementSibling == null ) {
+      Q.$('image-prev').style.display = "none";       
+    } else {
+      if( Q.$('image-prev').style.display == "none" ) {
+        Q.$('image-prev').style.display = "";       
+      }
+    }
+
+
 
     if(this.image_list_container.scrollWidth > this.image_list_container.offsetWidth) {
       var _this = this;
       var scroll_left = _this.image_list_container.scrollLeft;
-      var width = (box_item.offsetLeft-scroll_left) - (this.image_list_container.offsetWidth-box_item.offsetWidth)/2;
+      var width = (item.offsetLeft-scroll_left) - (this.image_list_container.offsetWidth-item.offsetWidth)/2;
       // scroll view
       (new Q.Animate({
         tween: 'Cubic',
@@ -381,30 +577,51 @@ Q.album_player = Q.extend({
                       
   },
 
+  get_first_child : function( node ) {
+    if( !node.childNodes ) {
+      return null;
+    }
+    
+    for( var i=0; i < node.childNodes.length; i++ ) {
+      var child = node.childNodes[i];
+      if( child.nodeType == Q.ELEMENT_NODE ) {
+        return child;
+      }
+    }
+  },  
+
   image_next : function() {
     var item = null;
     if(!this.image_selected) {
-      item = this.image_list_container.firstChild;
+      item = this.get_first_child( this.image_list );
     } else if(!this.image_selected.nextElementSibling) {
       return;
     } else {
       item = this.image_selected.nextElementSibling;
     }
     
-    item.click();
+    if( item ) {
+      
+      item.click();
+      
+    }
+    //if(!re.test(item.id))
+    //  return;
+    //this.select_album_item(RegExp.$1);
   },
 
   image_prev : function() {
     var item = null;
     if(!this.image_selected) {
-      item = _this.image_list_container.firstChild;
+      item = this.get_first_child( this.image_list );
     } else if(!this.image_selected.previousElementSibling) {
       return;
     } else {
       item = this.image_selected.previousElementSibling;
     }
     
-    item.click();
+    if( item )
+      item.click();
   }
 });
 
