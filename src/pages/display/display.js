@@ -369,7 +369,9 @@ function initialize () {
       if(!is_blocked) {
         accept_length++;
         update_ui_count();
-        wayixia_images_box.check_size( item, config.filter_width(), config.filter_height() );
+        config.getall2( {filter_width:1000, filter_height:1000}, (c) => {
+          wayixia_images_box.check_size( item, c.filter_width, c.filter_height );
+        });
       }
     }
   }
@@ -577,8 +579,9 @@ function album_player_display( url, imgs ) {
         },
         
         download : function(src) {
-          //var config = chrome.config.getBackgroundPage();
-          worker.download_image(src, window, config.last_site().name, "" );
+          config.last_site( (folder)=>{
+            worker.download_image(src, window, folder.name, "" );
+          });
         }
       }); 
       g_album_player.render(url, imgs); 

@@ -217,7 +217,7 @@ sites(fn) {
 }
 
 last_site(fn) {
-  this.getall2( "last_site", fn(c) );
+  this.getall2( {last_site: ''}, fn );
 }
 
 set_last_site( site ) {

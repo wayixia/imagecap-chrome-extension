@@ -4,37 +4,50 @@
 
 #album-view {
   position:fixed;
-  background:#525252;
-  top:38px;
+  backgrounds:#525252;
+  background: transparent;
+  
+  top:0px;
   left: 0;
   right:0;
   bottom:0;
   overflow:auto;
   visibility:hidden;
-  z-index: 3;
+  z-index: 9999;
 }
 
-#album-left {
-  margin-right:260px;
+#album-transparent-layer {
+  opacity: 0.75;
+  background-color: #000;
+  position: absolute;
+  left:0;top:0;
+  right:0;bottom:0;
+}
+
+#album-top {
+  background: #000;
+  position: absolute;
+  top:0;
+  right:0;
+  left:0;
+  height: 50px;
+  text-align: center;
+}
+
+#album-bottom {
   /*border-right: 1px solid #4c4c4c;*/
-  border-right: 1px solid transparent;
   background: transparent;
-  height: 100%;
-  position: relative;
+  position: absolute;
+  top: 50px;
+  bottom:0;
+  left:0;
+  right:0;
 }
 
-#album-right {
-  width: 259px;
-  float: right;
-  /*border-left: 1px solid #5f5f5f;*/
-  border-left: 1px solid transparent;
-  background: transparent;
-  height: 100%;
-  position:relative;
-}
+
 
 #image-container {
-  background: #5F5F5F;
+  backgrounds: #5F5F5F;
   position: absolute;
   top: 0px;
   left: 1px;
@@ -47,6 +60,7 @@
   position: absolute;
   -moz-user-select:none;
   -webkit-user-select: none; 
+  cursor:move;
 }
 
 #image-list-bar {
@@ -83,14 +97,14 @@
 
 #image-list-bar li {
   display:block;
-  width: 96px;
-  height: 64px;
+  width: 102px;
+  height: 70px;
   opacity: .7;
+  margin-left: 5px;
+  cursor: pointer;
 }
 
 #image-list-bar li img {
-  width: 96px;
-  height: 64px;
   box-shadow:0 1px 3px rgba(0,0,0,.3);
   -moz-box-shadow:0 1px 3px rgba(0,0,0,.3);
   -webkit-box-shadow:0 1px 3px rgba(0,0,0,.3) 
@@ -197,7 +211,11 @@
   position: absolute;
   top: 6px;
   right: 7px;
+  border-radius: 5px;;
+}
 
+#album-close-button:hover {
+  background-color: #222;
 }
 
 #toolbar {
@@ -238,12 +256,11 @@
   background: transparent url(images/album_toolbar.png) -62px -56px no-repeat;
 }
 
-#toolbar a#toolbar-favorite {
-  display: none;
+#toolbar a#toolbar-copy {
   background: transparent url(images/album_toolbar.png) -112px -6px no-repeat;
 }
 
-#toolbar a:hover#toolbar-favorite, #toolbar a#toolbar-favorite.checked {
+#toolbar a:hover#toolbar-copy, #toolbar a#toolbar-favorite.checked {
   background: transparent url(images/album_toolbar.png) -112px -56px no-repeat;
 }
 
@@ -263,8 +280,18 @@
   background: transparent url(images/album_toolbar.png) -212px -56px no-repeat;
 }
 
+#toolbar a#toolbar-1 {
+  background: transparent url(images/album_toolbar.png) -245px -6px no-repeat;
+}
+
+#toolbar a:hover#toolbar-1 {
+  background: transparent url(images/album_toolbar.png) -245px -56px no-repeat;
+}
+
+
+
 .user-profile{*zoom:1; display: none;}
-.user-profile .profile-basic{border-bottom:0px dotted #ccc;background:url() left top no-repeat;padding-top:5px;}
+.user-profile .profile-basic{border-bottom:0px dotted #ccc;background: transparent left top no-repeat;padding-top:5px;}
 .user-profile-gold .profile-basic{background-position:right top;}
 .user-profile .profile-basic dl{padding:10px 10px 5px 10px;*zoom:1;}
 .user-profile .profile-basic dl:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
