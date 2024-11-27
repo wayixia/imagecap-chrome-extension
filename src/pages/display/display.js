@@ -17,6 +17,7 @@ var checkbox_show_block = null;
 var wayixia_images_box = null;
 var wayixia_images_filter = null;
 var wayixia_block_images = {};
+var g_init = false;
 //var wayixia_source_tab_id = 0;
 
 window.is_block_image = function(url) {
@@ -47,6 +48,9 @@ __init__ : function( json ) {
           wayixia_images_box.check_size(item, _this.g_min_width, _this.g_min_height);
       });
       Q.$('wayixia-min-width').innerText = _this.g_min_width + 'px';
+
+
+      if( !g_init ) { return; }
       config.save_lastconfig((c) => {
         if( c )
         {
@@ -70,7 +74,7 @@ __init__ : function( json ) {
       });
       
       Q.$('wayixia-min-height').innerText = _this.g_min_height + 'px';
-      
+      if( !g_init ) { return; }
       config.save_lastconfig( (c) => {
         if( c )
         {
@@ -633,7 +637,10 @@ Q.ready(function() {
         filter_height:0 
       };
       config.getall2( names, (extension)=>{
+        wayixia_images_filter.e_width.setValue( extension.filter_width/10  );
+        wayixia_images_filter.e_height.setValue( extension.filter_height/10 );
         display_all_valid_images(data, extension);
+        g_init = true;
       });
     });
 
