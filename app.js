@@ -124,12 +124,12 @@ Q.$('wayixia-help').onclick = function(evt) {
 } // wayixia-help
 
 
-if( Q.$('wayixia-donate') ) {
-  Q.$('wayixia-donate').onclick = function() {
-    wayixia_track_button_click(this);
-    window.open( 'https://www.wayixia.com/extension/about#donate' );
-  }
-}
+//if( Q.$('wayixia-donate') ) {
+  //Q.$('wayixia-donate').onclick = function() {
+    //wayixia_track_button_click(this);
+    //window.open( 'https://www.wayixia.com/extension/about#donate' );
+  //}
+//}
 
 }
 

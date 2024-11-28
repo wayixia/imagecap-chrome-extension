@@ -615,9 +615,12 @@ button#wayixia-bugs {
 /* images-box style */
 
 .q-images-box {
-  sbackground-color: #F1F1F1;
   overflow-y:scroll;
   overflow-x:auto;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  background-color: #222;
 }
 
 .q-images-box.size_1 .q-box-item {
@@ -641,6 +644,7 @@ button#wayixia-bugs {
 -webkit-box-shadows: 0 1px 9px rgba(0,0,0,.1);
  z-index: auto;
  padding: 5px;
+ background-color: transparent;
 }
 
 .q-images-box .q-box-item .image {
