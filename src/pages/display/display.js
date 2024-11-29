@@ -304,7 +304,7 @@ function initialize () {
       btn.style.display = 'none';
       Q.removeClass( toolbar, 'dropshadow');
     }
-  } } )( wayixia_images_box.hwnd, Q.$('wayixia-gotop'), Q.$('wayixia-toolbar') ) ;
+  } } )( wayixia_images_box.hwnd, Q.$('wayixia-gotop'), Q.$('wayixia-title-bar') ) ;
  
   // Add event listener
   Q.addEvent( wayixia_images_box.hwnd, 'mousewheel', gotop_func );

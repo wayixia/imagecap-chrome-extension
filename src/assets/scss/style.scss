@@ -164,7 +164,6 @@
   bottom: 0;
   background: transparent url(../images/dropmenu.png) center center no-repeat;
   border-width:0;
-  border-lefts: 1px solid #EEE;
 }
 
 .wayixia-toolbar-button .dropdown:hover {
@@ -198,9 +197,11 @@
   background: rgb(45, 45, 45);
 }
 
+/*
 #wayixia-title-bar:active {
   outline:0;background-image:none;-webkit-box-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.325);box-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.325);
 }
+  */
 
 /* wayixia user menu */
 
@@ -303,7 +304,7 @@ button#wayixia-bugs {
 #wayixia-container {
   font-family: arial, 'helvetica neue', sans-serif;
   position: absolute;
-  top: 91px;
+  top: 50px;
   left: 0;
   right: 0;
   bottom: 0;
@@ -326,6 +327,7 @@ button#wayixia-bugs {
   z-index: 10;
   border-bottom: 1px solid #CCC;
   background-color: #FFF;
+  display: none;
 }
 
 #wayixia-toolbar.dropshadow, #wayixia-toolbar-screenshot.dropshadow {
