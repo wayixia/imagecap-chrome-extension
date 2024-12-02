@@ -120,6 +120,7 @@ module.exports = {
       { from:"./src/assets/icons", to:"assets/icons" },
       { from:"./src/assets/images", to:"assets/images" },
       { from:"./src/assets/images", to:"assets/images" },
+      { from:"./src/assets/iconfonts", to:"assets/iconfonts" },
       { from:"./src/scripts", to:"scripts" },
       //{ from:"./deps/libq.js/dist/assets", to:"assets/libqjs" },
     ]

@@ -1,0 +1,86 @@
+{
+  "id": "4765917",
+  "name": "imagecap-chrome-extension",
+  "font_family": "iconfont-imagecap",
+  "css_prefix_text": "icon-imagecap-",
+  "description": "图片下载网页截图",
+  "glyphs": [
+    {
+      "icon_id": "42075821",
+      "name": "halfselected",
+      "font_class": "halfselected",
+      "unicode": "e728",
+      "unicode_decimal": 59176
+    },
+    {
+      "icon_id": "38739",
+      "name": "unselect",
+      "font_class": "unselect",
+      "unicode": "e6d5",
+      "unicode_decimal": 59093
+    },
+    {
+      "icon_id": "38741",
+      "name": "selected",
+      "font_class": "selected",
+      "unicode": "e6d6",
+      "unicode_decimal": 59094
+    },
+    {
+      "icon_id": "76370",
+      "name": "download",
+      "font_class": "download",
+      "unicode": "e703",
+      "unicode_decimal": 59139
+    },
+    {
+      "icon_id": "2357037",
+      "name": "layout-two",
+      "font_class": "layout-two",
+      "unicode": "e826",
+      "unicode_decimal": 59430
+    },
+    {
+      "icon_id": "42172268",
+      "name": "visible-eye",
+      "font_class": "icon-visible-eye",
+      "unicode": "e693",
+      "unicode_decimal": 59027
+    },
+    {
+      "icon_id": "42282471",
+      "name": "color",
+      "font_class": "color",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "42319503",
+      "name": "folder",
+      "font_class": "wenjianjiaB",
+      "unicode": "101cd",
+      "unicode_decimal": 65997
+    },
+    {
+      "icon_id": "42535416",
+      "name": "save",
+      "font_class": "save",
+      "unicode": "101d0",
+      "unicode_decimal": 66000
+    },
+    {
+      "icon_id": "42172101",
+      "name": "filter",
+      "font_class": "filter",
+      "unicode": "e676",
+      "unicode_decimal": 58998
+    },
+    {
+      "icon_id": "42172141",
+      "name": "invisible-eye",
+      "font_class": "invisible-eye",
+      "unicode": "e67c",
+      "unicode_decimal": 59004
+    }
+  ]
+}

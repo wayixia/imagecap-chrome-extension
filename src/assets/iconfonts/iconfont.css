@@ -1,0 +1,59 @@
+@font-face {
+  font-family: "iconfont-imagecap"; /* Project id 4765917 */
+  src: url('iconfont.woff2?t=1733152879634') format('woff2'),
+       url('iconfont.woff?t=1733152879634') format('woff'),
+       url('iconfont.ttf?t=1733152879634') format('truetype');
+}
+
+.iconfont-imagecap {
+  font-family: "iconfont-imagecap" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-imagecap-halfselected:before {
+  content: "\e728";
+}
+
+.icon-imagecap-unselect:before {
+  content: "\e6d5";
+}
+
+.icon-imagecap-selected:before {
+  content: "\e6d6";
+}
+
+.icon-imagecap-download:before {
+  content: "\e703";
+}
+
+.icon-imagecap-layout-two:before {
+  content: "\e826";
+}
+
+.icon-imagecap-icon-visible-eye:before {
+  content: "\e693";
+}
+
+.icon-imagecap-color:before {
+  content: "\e603";
+}
+
+.icon-imagecap-wenjianjiaB:before {
+  content: "\101cd";
+}
+
+.icon-imagecap-save:before {
+  content: "\101d0";
+}
+
+.icon-imagecap-filter:before {
+  content: "\e676";
+}
+
+.icon-imagecap-invisible-eye:before {
+  content: "\e67c";
+}
+
