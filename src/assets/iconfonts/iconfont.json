@@ -6,6 +6,20 @@
   "description": "图片下载网页截图",
   "glyphs": [
     {
+      "icon_id": "14421186",
+      "name": "arrow",
+      "font_class": "arrow",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    },
+    {
+      "icon_id": "6612876",
+      "name": "block",
+      "font_class": "block",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
       "icon_id": "42075821",
       "name": "halfselected",
       "font_class": "halfselected",
@@ -43,7 +57,7 @@
     {
       "icon_id": "42172268",
       "name": "visible-eye",
-      "font_class": "icon-visible-eye",
+      "font_class": "visible-eye",
       "unicode": "e693",
       "unicode_decimal": 59027
     },

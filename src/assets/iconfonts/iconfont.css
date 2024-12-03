@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont-imagecap"; /* Project id 4765917 */
-  src: url('iconfont.woff2?t=1733152879634') format('woff2'),
-       url('iconfont.woff?t=1733152879634') format('woff'),
-       url('iconfont.ttf?t=1733152879634') format('truetype');
+  src: url('iconfont.woff2?t=1733239984867') format('woff2'),
+       url('iconfont.woff?t=1733239984867') format('woff'),
+       url('iconfont.ttf?t=1733239984867') format('truetype');
 }
 
 .iconfont-imagecap {
@@ -11,6 +11,14 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-imagecap-arrow:before {
+  content: "\e656";
+}
+
+.icon-imagecap-block:before {
+  content: "\e605";
 }
 
 .icon-imagecap-halfselected:before {
@@ -33,7 +41,7 @@
   content: "\e826";
 }
 
-.icon-imagecap-icon-visible-eye:before {
+.icon-imagecap-visible-eye:before {
   content: "\e693";
 }
 
