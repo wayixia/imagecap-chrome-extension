@@ -30,6 +30,11 @@
   content: "\e6d6";
 }
 
+.icon-imagecap-unselect.halfchecked::before
+{
+  content: "\e728";
+}
+
 .icon-imagecap-visible-eye.checked::before
 {
   content: "\e67c";

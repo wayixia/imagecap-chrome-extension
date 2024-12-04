@@ -120,11 +120,11 @@ each_item : function(callback) {
  
 },
 
-select_all : function(checked) {
-  this.each_item((function(o, state) { return function(item) { o.set_check(item, state); } })(this, checked));
+select_all : function(checked, noevent) {
+  this.each_item((function(o, state, ne) { return function(item) { o.set_check(item, state, ne); } })(this, checked, noevent));
 },
 
-set_check : function(item, checked) {
+set_check : function(item, checked, noevent) {
   if(!this.is_item_enabled(item))
       return;
 
@@ -136,7 +136,10 @@ set_check : function(item, checked) {
   else
     Q.removeClass(item, 'mouseselected');
 
-  this.on_item_changed(item, checked); 
+  if( !noevent )
+  {
+    this.on_item_changed(item, checked); 
+  }
 }, 
 
 set_style : function(new_class) {

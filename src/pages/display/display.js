@@ -17,6 +17,7 @@ var checkbox_show_block = null;
 var wayixia_images_box = null;
 var wayixia_images_filter = null;
 var wayixia_block_images = {};
+var wayixia_selectall_button = null;
 var g_init = false;
 //var wayixia_source_tab_id = 0;
 
@@ -93,6 +94,44 @@ __init__ : function( json ) {
 
 } );
 
+function update_selectall_state()
+{
+
+  var has_a_selected = false;
+  var has_a_none = false;
+  if( !wayixia_selectall_button )
+    return;
+  wayixia_images_box.each_item(function(item) {
+    if( item.style.display == 'none')
+    {
+      return;
+    }
+
+    if(Q.hasClass(item, 'mouseselected')) {
+      has_a_selected = true;      
+    } else {
+      has_a_none = true;
+    }
+  });
+  if( has_a_selected) {
+    if( !has_a_none) {
+      // selected all
+      wayixia_selectall_button.setCheck(true, true);
+    } else {
+      // halfselected
+      wayixia_selectall_button.setHalfCheck();
+    }
+  } else {
+    if( has_a_none ) {
+      // none selected
+      wayixia_selectall_button.setCheck(false, true);
+    } else {
+      // not reachable
+    }
+  }
+
+}
+
 function initialize () {
   var _this = t = this;
   var blocked_images = [];
@@ -102,8 +141,9 @@ function initialize () {
   wayixia_images_box = new Q.ImagesBox({id: 'wayixia-list',
     buttons : ['preview', 'edit', /*'tocloud',*/ 'save'],
     on_item_changed: function(item, check) {
-      if(item.style.display == '') { 
+      if(item.style.display != 'none') { 
         update_ui_count();
+        update_selectall_state();
       }
     },
     is_item_enabled: function(item) {
@@ -169,10 +209,10 @@ function initialize () {
     }
   });
 
-  var button_select_all = new Q.CheckBox({id: 'wayixia-select-all',
+  wayixia_selectall_button = new Q.CheckBox({id: 'wayixia-select-all',
     onchange: function(checked) {
       wayixia_track_button_click(Q.$('wayixia-select-all'));
-      wayixia_images_box.select_all(checked);
+      wayixia_images_box.select_all(checked, true);
     }  
   });
 
@@ -414,43 +454,6 @@ function initialize () {
     return wayixia_images_box.display_images(accept_images, data, init_filter_image_items( blocked_images));
   }
 
-
-  /*
-  this.g_min_width = 0;
-  this.g_min_height= 0; 
-  this.e_width = new Q.Slider({id: 'x-ctrl-mini-width', min: 0, max: 100, value: config.filter_width()/10, 
-    on_xscroll: function(v) {
-      g_min_width = v*10;
-      wayixia_images_box.each_item(function(item) {
-        if(!(checkbox_show_block.checked() && Q.hasClass(item, 'blocked')))
-          wayixia_images_box.check_size(item, t.g_min_width, t.g_min_height);
-      });
-      Q.$('wayixia-min-width').innerText = t.g_min_width + 'px';
-      if( config.save_lastconfig() ) {
-        config.set_filter_width( t.g_min_width );
-      }
-    }
-  });
-  
-  this.e_height = new Q.Slider({id: 'x-ctrl-mini-height', min: 0, max: 100, value: config.filter_height()/10, 
-    on_xscroll: function(v) {
-
-      t.g_min_height = v*10;
-      console.log( "eheight scroll " + t.g_min_height );
-      wayixia_images_box.each_item(function(item) {
-        if(!(checkbox_show_block.checked() && Q.hasClass(item, 'blocked')))
-          wayixia_images_box.check_size(item, t.g_min_width, t.g_min_height);
-      });
-      Q.$('wayixia-min-height').innerText = t.g_min_height + 'px';
-      
-      if( config.save_lastconfig() ) {
-        config.set_filter_height( t.g_min_height );
-      }
-    }
-  });
-  */
-
-
   /** initialize title of buttons */
   Q.$( 'wayixia-local-download' ).title = Q.locale_text( 'toolSave' );
   //Q.$( 'wayixia-tocloud' ).title = Q.locale_text( 'toolSaveToCloud' );
@@ -601,9 +604,6 @@ function clear_album_player() {
 
 
 function display_all_valid_images( data, extension ) {
-//  var filter_rule_is_enabled = extension.filter_rule_is_enabled();
-  //const filter_rules = await config.filter_rule_get();
-  //const block_images = await config.block_images_all();
   if( !data )
     return;
   wayixia_block_images = extension.block_images||{};
@@ -623,7 +623,6 @@ function display_all_valid_images( data, extension ) {
 
 /** 挖图界面初始化 */
 Q.ready(function() {  
-  //Q.set_locale_text(locale_text);
   initialize();
 
   chrome.tabs.getCurrent( function( tab ) {
@@ -643,23 +642,6 @@ Q.ready(function() {
         g_init = true;
       });
     });
-
-    /** initialize images data*/
-//    chrome.runtime.sendMessage(
-      //{action: "get_display_cache", tabid: tab.id}, 
-      //(data)=>{
-        //var names = {
-          //filter_rule_is_enabled: false, 
-          //filter_rules:[], 
-          //block_images:{}, 
-          //filter_width:0, 
-          //filter_height:0 
-        //};
-        //config.getall2( names, (extension)=>{
-            //display_all_valid_images(data, extension);
-        //});
-      //}
-    //);
   } );
 });
 
