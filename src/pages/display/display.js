@@ -94,9 +94,25 @@ __init__ : function( json ) {
 
 } );
 
+function show_op_views( isshow )
+{
+  if( isshow )
+  {
+    Q.removeClass(Q.$('wayixia-local-download'), 'hideit');
+    Q.removeClass(Q.$('wayixia-local-download-menu'), 'hideit');
+    Q.removeClass(Q.$('wayixia-add-block'), 'hideit');
+  }
+  else
+  {
+    Q.addClass(Q.$('wayixia-local-download'), 'hideit');
+    Q.addClass(Q.$('wayixia-local-download-menu'), 'hideit');
+    Q.addClass(Q.$('wayixia-add-block'), 'hideit');
+  }
+}
+
+
 function update_selectall_state()
 {
-
   var has_a_selected = false;
   var has_a_none = false;
   if( !wayixia_selectall_button )
@@ -121,10 +137,13 @@ function update_selectall_state()
       // halfselected
       wayixia_selectall_button.setHalfCheck();
     }
+
+    show_op_views(true);
   } else {
     if( has_a_none ) {
       // none selected
       wayixia_selectall_button.setCheck(false, true);
+      show_op_views(false);
     } else {
       // not reachable
     }
@@ -213,6 +232,7 @@ function initialize () {
     onchange: function(checked) {
       wayixia_track_button_click(Q.$('wayixia-select-all'));
       wayixia_images_box.select_all(checked, true);
+      show_op_views(checked);
     }  
   });
 

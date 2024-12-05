@@ -6,6 +6,13 @@
   "description": "图片下载网页截图",
   "glyphs": [
     {
+      "icon_id": "445409",
+      "name": "spliter",
+      "font_class": "spliter",
+      "unicode": "e680",
+      "unicode_decimal": 59008
+    },
+    {
       "icon_id": "14421186",
       "name": "arrow",
       "font_class": "arrow",
