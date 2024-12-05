@@ -130,7 +130,7 @@
     <ul>
       <li id="tab-basic"> __MSG_optBasic__ </li>
       <li id="tab-download"> __MSG_optImageDownload__ </li>
-      <li id="tab-screencapture" href="">__MSG_optWebCapture__ </li>
+      <!--li id="tab-screencapture" href="">__MSG_optWebCapture__ </li-->
       <li id="tab-shortcut"> __MSG_optShortcut__ </li>
     </ul>
   </div>
@@ -167,7 +167,7 @@
   </div>
   
   
-  <div id="panel-1-3" class="q-panel">
+  <!--div id="panel-1-3" class="q-panel">
     <b> __MSG_stringCaptureAssistant__</b>(<font color="#999">__MSG_stringLongPageCapture__</font>)<br>
     <div id="wayixia-assistant-ing" class="wayixia-assistant ing" style="display: none;">
       __MSG_stringChecking__...
@@ -178,7 +178,7 @@
     <div id="wayixia-assistant-error" class="wayixia-assistant error" style="display: none;">
       __MSG_stringDisconnected__ <a href="https://www.wayixia.com/extension/install" target="_blank">(__MSG_stringAssistantHelp__)</a>
     </div>
-  </div>
+  </div-->
   
   
   <div id="panel-1-4" class="q-panel">
@@ -262,7 +262,7 @@
         items: [
           {tab: Q.$('tab-basic'), content: Q.$('panel-1-1')}, 
           {tab: Q.$('tab-download'), content: Q.$('panel-1-2')}, 
-          {tab: Q.$('tab-screencapture'), content: Q.$('panel-1-3')}, 
+          //{tab: Q.$('tab-screencapture'), content: Q.$('panel-1-3')}, 
           {tab: Q.$('tab-shortcut'), content: Q.$('panel-1-4')}, 
         ]  
       });

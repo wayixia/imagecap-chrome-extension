@@ -158,7 +158,7 @@ function initialize () {
   
   // Image box
   wayixia_images_box = new Q.ImagesBox({id: 'wayixia-list',
-    buttons : ['preview', 'edit', /*'tocloud',*/ 'save'],
+    buttons : ['preview', /*'edit', 'tocloud',*/ 'save'],
     on_item_changed: function(item, check) {
       if(item.style.display != 'none') { 
         update_ui_count();
