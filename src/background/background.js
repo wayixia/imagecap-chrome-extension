@@ -13,9 +13,6 @@ import Q from "./background_ajax.js"
 
 var plugin_name  = chrome.i18n.getMessage('menuDigImages');
 var wayixia = {};
-
-
-var block_images = {};
 wayixia.nickname = "";
 wayixia.uid = 0;
 wayixia.albums = [];
@@ -30,31 +27,6 @@ if(config.user_config_is_new()) {
   setTimeout(create_upgrade_page(), 60*1000);
 }
 
-function user_is_login() {
-  return ( wayixia.nickname != "" );
-}
-
-function nickname() {
-  return wayixia.nickname;
-}
-
-
-function uid() {
-  return wayixia.uid;
-}
-
-
-function albums() {
-  return wayixia.albums;
-}
-
-function last_album() {
-  return wayixia.last_album;
-}
-
-function set_last_album( album ) {
-  wayixia.last_album = album;
-}
 
 function wayixia_assistant() {
   return wayixia.assistant;
@@ -111,63 +83,7 @@ function saveconfig() {
 }
 
 /*
-function ajax_execute( json ) {
-  var http_call = new XMLHttpRequest();
-  http_call.onreadystatechange = (function(callee) { return function() {
-    if (this.readyState==4) {  // 4 = "loaded"
-      if (this.status==200) { // 200 = OK
-        console.log(this.responseText);
-        json.oncomplete( this );
-      } else {
-        if( json.onerror ) {
-          json.onerror( this );
-        }
-        console.log("Problem retrieving data");
-      }
-    }
-  }})(arguments.callee); 
-  if( json.command.indexOf("?") == -1 ) {
-    http_call.open(json.method, json.command + "?rnd="+Math.floor(+new Date/1E7), true);
-  } else {
-    http_call.open(json.method, json.command + "&rnd="+Math.floor(+new Date/1E7), true);
-  }
-  http_call.send(null);
-}
 
-function ajax( json ) 
-{
-  var http_call = new XMLHttpRequest();
-  http_call.onreadystatechange = (function(callee) { return function() {
-    if (this.readyState==4) {  // 4 = "loaded"
-      if (this.status==200) { // 200 = OK
-        //console.log(this.responseText);
-        try {
-          var result = JSON.parse(this.responseText);
-          if( json.oncomplete ) {
-            json.oncomplete( result );
-          }
-        } catch(e) {
-          console.log(e);
-          if( json.onerror ) {
-            json.onerror( this );
-          }
-        }
-      } else {
-        if( json.onerror ) {
-          json.onerror( this );
-        }
-        console.log("Problem retrieving data");
-      }
-    }
-  }})(arguments.callee); 
-  if( json.command.indexOf("?") == -1 ) {
-    http_call.open(json.method, json.command + "?rnd="+Math.floor(+new Date/1E7), true);
-  } else {
-    http_call.open(json.method, json.command + "&rnd="+Math.floor(+new Date/1E7), true);
-  }
-  //http_call.open("GET", "https://www.wayixia.com/?mod=user&action=status&inajax=true&rnd="+Math.floor(+new Date/1E7), true);
-  http_call.send(null);
-}
 
 setTimeout(function() {
   // update per hour
@@ -455,13 +371,11 @@ chrome.downloads.onChanged.addListener(function(download) {
   }
 });
 
-chrome.runtime.onMessage.addListener( function( o, sender, res ) {
-  console.log(o.action);
-  switch( o.action ) {
-  case "userstatus":
-    //if( wayixia.nickname == ""  ) {
-    /*
-      ajax( { command: "https://www.wayixia.com/?mod=user&action=status&withalbums=true&inajax=true",
+function userstatus() {
+  config.nickname( ( nickname ) => {
+    if( nickname == ""  ) {
+      Q.ajax( { 
+        command: "https://www.wayixia.com/?mod=user&action=status&withalbums=true&inajax=true",
         method: "GET",
         oncomplete : function( r ) {
           //console.log( r );
@@ -497,7 +411,15 @@ chrome.runtime.onMessage.addListener( function( o, sender, res ) {
         }
       } );
     //}
-    */
+  });
+}
+
+chrome.runtime.onMessage.addListener( function( o, sender, res ) {
+  console.log(o.action);
+  switch( o.action ) {
+  case "userstatus":
+    userstatus();
+    res({});
     break;
   
   case "assistant":

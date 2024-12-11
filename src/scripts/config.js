@@ -34,7 +34,8 @@ class config
   user_config_load2(cfg) {
     if(cfg) {
       for(var name in cfg) {
-        localStorage.setItem(name, cfg[name]);
+        //localStorage.setItem(name, cfg[name]);
+        this.set( name, cfg[name] );
       }
     }
   }
