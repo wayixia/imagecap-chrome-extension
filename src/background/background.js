@@ -374,43 +374,17 @@ chrome.downloads.onChanged.addListener(function(download) {
 function userstatus() {
   config.nickname( ( nickname ) => {
     if( nickname == ""  ) {
-      Q.ajax( { 
+      Q.ajax({ 
         command: "https://www.wayixia.com/?mod=user&action=status&withalbums=true&inajax=true",
         method: "GET",
-        oncomplete : function( r ) {
-          //console.log( r );
-          wayixia.nickname = "";
-          wayixia.uid = 0;
-          wayixia.albums = [];
+        oncomplete : function( res ) {
+          var r = JSON.parse(res.responseText);
           if( r.header == 0 && r.data ) {
-            if( r.data.nickname ) {
-              wayixia.nickname = r.data.nickname;
-            }
-            if( r.data.uid ) {
-              wayixia.uid = r.data.uid;
-            }
-            
-            if( r.data.albums ) {
-              wayixia.albums = wayixia.albums.concat( r.data.albums );
-              // Clear old albums
-              var last_album = wayixia.last_album;
-              if( last_album.id && last_album.id > 0 ) {
-                for( var i=0; i < wayixia.albums.length; i++) {
-                  if( last_album.id == wayixia.albums[i].id ) {
-                    return;
-                  }
-                }
-                wayixia.last_album = {};
-              }
-            }
-
-            if( r.data.chrome_plugin ) {
-              config.user_config_load( r.data.chrome_plugin );
-            }
+            config.userinfo_set(r.data);
           }
         }
-      } );
-    //}
+      });
+    }
   });
 }
 

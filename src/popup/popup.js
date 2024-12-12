@@ -76,7 +76,7 @@ function init(){
     send_message_with_noreply('open_about', {});
   }  
 
-  config.nickname( (nickname) => {
+  worker.userstatus( config, (nickname) => {
     nickname = nickname || ""; 
     console.log( nickname );
     if( nickname != "" ) {

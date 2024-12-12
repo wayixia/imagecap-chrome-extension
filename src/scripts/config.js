@@ -22,24 +22,18 @@ class config
     this.set('wayixia_version', chrome.runtime.getManifest().version);
   }
 
-  user_config_load(data) {
+  chrome_plugin_sync(data) {
 	  try {
 	    var cfg = JSON.parse(data);
 		  this.user_config_load2( cfg );
-	  } catch( e ) {
-		  console.log(e);
-	  }
-  }
-
-  user_config_load2(cfg) {
-    if(cfg) {
       for(var name in cfg) {
         //localStorage.setItem(name, cfg[name]);
         this.set( name, cfg[name] );
       }
-    }
+	  } catch( e ) {
+		  console.log(e);
+	  }
   }
-
 
   user_config_tostring() {
     var config_names = ['save_path', 'date_folder', 'view_type', 'save_lastconfig', 'sites', 'last_site', 'filter_width', 'filter_height'];
@@ -279,6 +273,44 @@ set_filter_height( height ) {
 nickname(fn) {
   this.getall2({nickname:''}, (c)=>{fn(c.nickname);});
 }
+
+nickname_set( nickname ) {
+  this.set('nickname', nickname);
+}
+
+uid_set( uid ) {
+  this.set('uid', uid);
+}
+
+
+userinfo_set(info) {
+  if( info.nickname ) {
+    this.nickname_set(info.nickname);
+  }
+  if( info.uid ) {
+    this.uid_set(info.uid);
+  }
+  
+  if( r.data.albums ) {
+    wayixia.albums = wayixia.albums.concat( r.data.albums );
+    // Clear old albums
+    var last_album = wayixia.last_album || {};
+    if( last_album.id && last_album.id > 0 ) {
+      for( var i=0; i < wayixia.albums.length; i++) {
+        if( last_album.id == wayixia.albums[i].id ) {
+          return;
+        }
+      }
+      wayixia.last_album = {};
+    }
+  }
+
+  // init use info
+  if( info.chrome_plugin ) {
+    this.chrome_plugin_sync( info.chrome_plugin );
+  }
+}
+
 
 };
 

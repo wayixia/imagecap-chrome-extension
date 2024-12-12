@@ -43,11 +43,11 @@ body {
 }
 
 .wayixia-menu li td.menu-icon-users {
-  background: transparent url(images/icon-users-black-small.png) center center no-repeat;
+  background: transparent url('../assets/images/icon-users-black-small.png') center center no-repeat;
 }
 
 .wayixia-menu li td.menu-icon-options {
-  background: transparent url(images/icon-options-small.png) center top no-repeat;
+  background: transparent url('../assets/images/icon-options-small.png') center top no-repeat;
 }
 
 #wayixia-screen-capture {
@@ -71,7 +71,7 @@ div#wayixia-capture-progress {
 }
 
 div#wayixia-progress-bar {
-  background: url(images/capturing.gif) repeat-x left top;
+  background: url(../assets/images/capturing.gif) repeat-x left top;
   height: 13px;
   margin:0;
 }

@@ -278,20 +278,20 @@
 
     init_view: function( extension ) {
       var d = this;
-      var assistant_url = extension.wayixia_assistant; 
-      if( assistant_url != "" ) { 
-        Q.$('wayixia-assistant-ing').style.display = ''; 
-        Q.ajax( { command: assistant_url + '/keepalive', 
-          oncomplete: function(xml) { 
-            d.show_assistant( xml.responseText == "connected");
-          }, 
-          onerror: function(xml) { 
-            d.show_assistant(false);
-          } 
-        } ); 
-      } else { 
-        d.show_assistant(false);
-      }
+      // var assistant_url = extension.wayixia_assistant; 
+      // if( assistant_url != "" ) { 
+      //   Q.$('wayixia-assistant-ing').style.display = ''; 
+      //   Q.ajax( { command: assistant_url + '/keepalive', 
+      //     oncomplete: function(xml) { 
+      //       d.show_assistant( xml.responseText == "connected");
+      //     }, 
+      //     onerror: function(xml) { 
+      //       d.show_assistant(false);
+      //     } 
+      //   } ); 
+      // } else { 
+      //   d.show_assistant(false);
+      // }
 
       // save path
       Q.$('save_path').value = extension.save_path?extension.save_path:"wayixia";
@@ -349,15 +349,15 @@
 
     show_assistant: function(show)
     {
-      if( show ) { 
-        Q.$('wayixia-assistant-ing').style.display = 'none'; 
-        Q.$('wayixia-assistant-ok').style.display = ''; 
-        Q.$('wayixia-assistant-error').style.display = 'none'; 
-      } else { 
-        Q.$('wayixia-assistant-ing').style.display = 'none'; 
-        Q.$('wayixia-assistant-ok').style.display = 'none'; 
-        Q.$('wayixia-assistant-error').style.display = ''; 
-      }
+      // if( show ) { 
+      //   Q.$('wayixia-assistant-ing').style.display = 'none'; 
+      //   Q.$('wayixia-assistant-ok').style.display = ''; 
+      //   Q.$('wayixia-assistant-error').style.display = 'none'; 
+      // } else { 
+      //   Q.$('wayixia-assistant-ing').style.display = 'none'; 
+      //   Q.$('wayixia-assistant-ok').style.display = 'none'; 
+      //   Q.$('wayixia-assistant-error').style.display = ''; 
+      // }
     },
     on_close: function() { window.close(); },
   })

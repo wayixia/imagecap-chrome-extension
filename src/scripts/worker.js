@@ -44,6 +44,31 @@ class worker {
     chrome.runtime.sendMessage( { action: "display_screenshot", 
       tab:tab, imageUrl: imageUrl }, fn );
   }
+
+  userstatus(cfg, fn) {
+    cfg.nickname( ( nickname ) => {
+      if( nickname == ""  ) {
+        Q.ajax( { 
+          command: "https://www.wayixia.com/?mod=user&action=status&withalbums=true&inajax=true",
+          method: "GET",
+          oncomplete : function( res ) {
+            var r = JSON.parse(res.responseText);
+            if( r.header == 0 && r.data ) {
+              cfg.userinfo_set(r.data);
+              fn( r.data.nickname);
+              console.log( wayixia );
+            }
+          },
+
+          onerror: (r) => {
+            fn("");
+          }
+        } );
+      } else {
+        fn(nickname);
+      }
+    });
+  }
 }
 
 
