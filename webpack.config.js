@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 var path=require("path");
 var webpack = require("webpack");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const app = [
     './app.js',
@@ -26,9 +27,11 @@ module.exports = {
     rules: [
      {
       test: /\.(scss)$/,
-      use: [{
-        loader: 'style-loader', // inject CSS to page
-        }, 
+      use: [
+        //{
+        //loader: 'style-loader', // inject CSS to page
+        //}, 
+        MiniCssExtractPlugin.loader,
         {
         loader: 'css-loader', // translates CSS into CommonJS modules
         },
@@ -108,6 +111,9 @@ module.exports = {
         //inject: false,
       //}
     //),
+    new MiniCssExtractPlugin({
+      filename: 'assets/css/style.css' // 输出文件名
+    }),
     
 	  new CopyWebpackPlugin({
       patterns: [

@@ -13,6 +13,7 @@
     "install": "^0.13.0",
     "libq.js": "file:./deps/libq.js",
     "lodash": "^4.17.21",
+    "mini-css-extract-plugin": "^2.9.2",
     "npm": "^8.12.1",
     "postcss-loader": "^7.0.0",
     "sass": "^1.79.3",
