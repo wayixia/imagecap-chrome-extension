@@ -239,6 +239,8 @@
   /*text-shadow: 1px 1px #000;*/ 
   font-size: 18px; 
   background: rgb(45, 45, 45);
+  display: flex; 
+  flex-flow: row nowrap;
 }
 
 /*
@@ -352,7 +354,7 @@ button#wayixia-bugs {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #FFF;
+  background-color: #222;
   opacity: 1;
   hasLayout: -1;
   overflow:auto;
