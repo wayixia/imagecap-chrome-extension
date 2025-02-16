@@ -36,7 +36,7 @@ function initialize () {
     tmp_canvas.height = Q.$( 'wayixia-canvas' ).height;
     var context = tmp_canvas.getContext('2d');
     context.drawImage( Q.$( 'wayixia-canvas' ), 0, 0 );
-    context.drawImage( Q.$( 'cache-canvas' ), 0, 0 );
+    //context.drawImage( Q.$( 'cache-canvas' ), 0, 0 );
     return tmp_canvas;
   }
 
@@ -790,8 +790,11 @@ function display_screenshot(tab_id, image_data, url) {
     // size * the device pixel ratio.
     wayixia_canvas.width = Math.round(oldWidth * dpr);
     wayixia_canvas.height = Math.round(oldHeight * dpr);
-    wayixia_canvas.style.width = oldWidth/dpr + 'px';
-    wayixia_canvas.style.height = oldHeight/dpr + 'px';
+    
+    wayixia_canvas.style.width = '400px';
+    //wayixia_canvas.style.height = ;
+    //wayixia_canvas.style.width = oldWidth/dpr + 'px';
+    //wayixia_canvas.style.height = oldHeight/dpr + 'px';
 
     draw_context.scale( dpr, dpr);
     draw_context.drawImage(this, 0, 0);
@@ -799,11 +802,12 @@ function display_screenshot(tab_id, image_data, url) {
     drag_screen_images_end();
     //var imgData = draw_context.getImageData(0,0, wayixia_canvas.width, wayixia_canvas.height);
     //draw_context.putImageData(imgData,0,0);
+
     // init painter
-    g_canvas_editor = new Q.CanvasEditor({
-      id : Q.$('wayixia-canvas'),
-      container: Q.$('wayixia-container')
-    });
+    //g_canvas_editor = new Q.CanvasEditor({
+    //  id : Q.$('wayixia-canvas'),
+    //  container: Q.$('wayixia-container')
+    //});
   };
   img.src = image_data;
 }

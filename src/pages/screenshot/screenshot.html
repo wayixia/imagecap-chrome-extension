@@ -13,8 +13,8 @@
       __MSG_extShortName__     
     </div>
     <div class="func-buttons" style="flex-grow: 2;display: inline-flex; align-items: center;margin-left:20px;">
-      <span class="iconfont-imagecap icon-imagecap-save" id="wayixia-local-download"></span>
-      <em class="iconfont-imagecap icon-imagecap-arrow dropdown hideit" id="wayixia-local-download-menu" src="images/dropmenu.png"></em>
+      <span class="iconfont-imagecap icon-imagecap-save" id="wayixia-screenshot-download"></span>
+      <em class="iconfont-imagecap icon-imagecap-arrow dropdown" id="wayixia-screenshot-download-menu" src="images/dropmenu.png"></em>
       <!--span class="iconfont-imagecap icon-imagecap-spliter"></span-->
      
       <!--button id="wayixia-local-download" class="wayixia-toolbar-button download ext"> &nbsp; <em class="dropdown" id="wayixia-local-download-menu" src="images/dropmenu.png"></em></button-->
@@ -38,7 +38,7 @@
     </div>
   </div>
   <div id="wayixia-toolbar">
-    <button id="wayixia-screenshot-download" class="wayixia-toolbar-button download ext">&nbsp; <em class="dropdown" id="wayixia-screenshot-download-menu" src="images/dropmenu.png"></em></button>
+    <button id="wayixia-screenshot-download2" class="wayixia-toolbar-button download ext">&nbsp; <em class="dropdown" id="wayixia-screenshot-download-menu2" src="images/dropmenu.png"></em></button>
     <button id="wayixia-screenshot-tocloud" class="wayixia-toolbar-button tocloud" style="display:none;">&nbsp;<img class="split"/></button>
     <button id="wayixia-screenshot-undo" class="wayixia-toolbar-button undo"> &nbsp; </button>
     <button id="wayixia-screenshot-redo" class="wayixia-toolbar-button redo"> &nbsp; <img class="split"/></button>
@@ -71,8 +71,16 @@
     <a id="wayixia-screenshot-zoomtext" style="display:none;">100%</a>
   </div>
   <div id="wayixia-container">
-    <div id="wayixia-list">
-      <canvas id="wayixia-canvas" style="background: #555;margin: 15px;-webkit-box-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.225);box-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.225);">this browser not support canvas</canvas>
+    <div id="wayixia-list" style="height:100%;">
+      <div style="display: flex; align-items: center; height: 100%;">
+        <div style="flex:1; text-align: center;max-height: 100%; overflow-y:auto;">
+          <canvas id="wayixia-canvas" style="background: #555;margin: 15px;-webkit-box-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.225);box-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.225);">this browser not support canvas</canvas>
+        </div>
+        <div style="width:300px; height: 100%; background-color: #1d1d1d;">
+          <button class="btn-primary">test</button>
+          <button class="btn-primary">test</button>
+        </div>
+      </div>
     </div>
     <div id="wayixia-progress">
       <h4> __MSG_stringLoading__ </h4>
