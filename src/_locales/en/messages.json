@@ -578,7 +578,24 @@
   },
 
   
+  "screenshot_title" : {
+    "message": "Title",
+    "description" : ""
+  },
 
+  "screenshot_url" : {
+    "message": "URL",
+    "description" : ""
+  },
+  "screenshot_size" : {
+    "message": "Size",
+    "description" : ""
+  },
+
+  "screenshot_saveformat" : {
+    "message": "Save Format",
+    "description" : ""
+  },
  
   "dummy" : {
     "message": "",

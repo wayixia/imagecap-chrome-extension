@@ -791,7 +791,7 @@ function display_screenshot(tab_id, image_data, url) {
     wayixia_canvas.width = Math.round(oldWidth * dpr);
     wayixia_canvas.height = Math.round(oldHeight * dpr);
     
-    wayixia_canvas.style.width = '400px';
+    wayixia_canvas.style.width = '800px';
     //wayixia_canvas.style.height = ;
     //wayixia_canvas.style.width = oldWidth/dpr + 'px';
     //wayixia_canvas.style.height = oldHeight/dpr + 'px';

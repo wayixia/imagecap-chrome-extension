@@ -576,7 +576,24 @@
     "description" : ""
   },
 
+  "screenshot_title" : {
+    "message": "标题",
+    "description" : ""
+  },
 
+  "screenshot_url" : {
+    "message": "网址",
+    "description" : ""
+  },
+  "screenshot_size" : {
+    "message": "大小",
+    "description" : ""
+  },
+
+  "screenshot_saveformat" : {
+    "message": "保存格式",
+    "description" : ""
+  },
   "dummy" : {
     "message": "",
     "description": ""

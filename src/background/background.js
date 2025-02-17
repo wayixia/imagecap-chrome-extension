@@ -160,7 +160,7 @@ function on_click_wa_all(info, tab) {
   chrome.tabs.sendMessage(tab.id, { type : "display-all-images"}, function(res) {
     res = res || {};
     res.track_from = info.track_from;
-    create_display_page(tab.id, res); 
+    create_display_page(tab.id, tab.index, res); 
   });
 }
 
@@ -174,7 +174,7 @@ function on_click_open_about() {
 
 function on_click_screenshot(tab) {
   chrome.tabs.captureVisibleTab( null, {format:"png"}, function(screenshotUrl) {  
-    create_display_screenshot(tab.id, screenshotUrl, tab.url); 
+    create_display_screenshot(tab.id, tab.index, screenshotUrl, tab.url); 
   });
 }
 
@@ -191,8 +191,8 @@ function get_display_cache( tab_id ) {
   return obj;
 }
 
-function create_display_page(context_tab_id,  res) {  
-  create_tab( { url: chrome.runtime.getURL("pages/display/display.html"), callback : ( function( id, res ) { return function( tab_id ) { 
+function create_display_page(context_tab_id, context_tab_index, res) {  
+  create_tab( { url: chrome.runtime.getURL("pages/display/display.html"), index: context_tab_index, callback : ( function( id, res ) { return function( tab_id ) { 
     cache_display[tab_id] = {
       ctx_tab_id : id,
       data : res 
@@ -200,8 +200,8 @@ function create_display_page(context_tab_id,  res) {
   } } )( context_tab_id, res ) } ) ;
 }
 
-function create_display_screenshot(context_tab_id,  res, taburl) {  
-  create_tab( { url : chrome.runtime.getURL("pages/screenshot/screenshot.html"), callback : ( function( id, res ) { return function( tab_id ) { 
+function create_display_screenshot(context_tab_id, context_tab_index,  res, taburl) {  
+  create_tab( { url : chrome.runtime.getURL("pages/screenshot/screenshot.html"), index: context_tab_index, callback : ( function( id, res ) { return function( tab_id ) { 
     cache_display[tab_id] = {
       ctx_tab_id : id,
       data : res,
@@ -300,7 +300,7 @@ function create_tab( json ) {
     //} ); 
   });
   
-  chrome.tabs.create( { "url" : json.url, "selected" : true }, ( tab ) => {
+  chrome.tabs.create( { "url" : json.url, "index": json.index+1, "selected" : true }, ( tab ) => {
     display_tab_id = tab.id; 
     json.callback( tab.id ); 
   } );
@@ -445,7 +445,7 @@ chrome.runtime.onMessage.addListener( function( o, sender, res ) {
     res({});
     break;
   case "display_screenshot":
-    create_display_screenshot(o.tab.id, o.imageUrl, o.tab.url  );
+    create_display_screenshot(o.tab.id, o.tab.index, o.imageUrl, o.tab.url  );
     res({});
     break;
   }
