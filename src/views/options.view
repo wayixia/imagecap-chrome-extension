@@ -205,6 +205,7 @@
     __init__ : function(json) {
       var d = this;
       this.config = json.config;
+      document.title = json.title;
       json.width = 706;
       json.height = 480;
       json.wstyle = "w-window";
