@@ -40,11 +40,20 @@ function initialize () {
     return tmp_canvas;
   }
 
+  function get_saveformat() {
+    var f = Q.$('info_screenshot_saveformat').value;
+    if( f == "jpg" ) {
+      return "image/jpeg";
+    } else {
+      return "image/png";
+    }
+  }
+
   Q.$('wayixia-screenshot-download').onclick = function() {
     /** track event */
     wayixia.track_button_click(this);
     config.last_site( (name)=>{
-      worker.download_image( get_screenshot().toDataURL( 'image/png' ), window, name, g_pageurl );
+      worker.download_image( get_screenshot().toDataURL( get_saveformat() ), window, name, g_pageurl );
     });
   }
 
@@ -54,7 +63,7 @@ function initialize () {
     wayixia.track_button_click(this);
     event.cancelBubble = true;
     popup_save_menu( Q.$('wayixia-screenshot-download'), evt, function( folder ) {
-      worker.download_image( get_screenshot().toDataURL( 'image/png' ), window, folder.name, g_pageurl );
+      worker.download_image( get_screenshot().toDataURL( get_saveformat() ), window, folder.name, g_pageurl );
     } );
   }
 
@@ -201,7 +210,22 @@ function wa_data_image(config) { return function(item) {
 
 
 
-
+function copyCanvasToClipboard(mimetype, dataUrl) {
+  // 将Canvas内容转换为图片的DataURL
+  //const dataUrl = canvas.toDataURL('image/png'); // 可以选择'image/jpeg'或'image/png'等格式
+  var clipboarditem = null;
+  if( mimetype == "image/jpeg" ) {
+    clipboarditem = new ClipboardItem({ "image/jpeg": new Blob([dataUrl], { type: mimetype }) })
+  } else {
+    clipboarditem = new ClipboardItem({ "image/png": new Blob([dataUrl], { type: "image/png" }) })
+  }
+  // 使用Clipboard API写入剪贴板
+  navigator.clipboard.write([ clipboarditem ]).then(() => {
+      console.log('图片已复制到剪贴板');
+  }).catch(err => {
+      console.error('无法复制到剪贴板', err);
+  });
+}
 
 
 
