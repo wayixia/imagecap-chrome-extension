@@ -172,9 +172,9 @@ function on_click_open_about() {
   chrome.tabs.create({"url":chrome.runtime.getURL("pages/options/options.html#about"), "selected":true}, function(tab) {});
 } 
 
-function on_click_screenshot(tab) {
+function on_click_screenshot(tab, pageinfo ) {
   chrome.tabs.captureVisibleTab( null, {format:"png"}, function(screenshotUrl) {  
-    create_display_screenshot(tab.id, tab.index, screenshotUrl, tab.url); 
+    create_display_screenshot(tab.id, tab.index, screenshotUrl, tab.url, pageinfo); 
   });
 }
 
@@ -200,13 +200,14 @@ function create_display_page(context_tab_id, context_tab_index, res) {
   } } )( context_tab_id, res ) } ) ;
 }
 
-function create_display_screenshot(context_tab_id, context_tab_index,  res, taburl) {  
+function create_display_screenshot(context_tab_id, context_tab_index,  res, taburl, pageinfo) {  
   create_tab( { url : chrome.runtime.getURL("pages/screenshot/screenshot.html"), index: context_tab_index, callback : ( function( id, res ) { return function( tab_id ) { 
     cache_display[tab_id] = {
       ctx_tab_id : id,
       data : res,
       url : taburl,
-      type : "screenshot"
+      type : "screenshot",
+      pageinfo: pageinfo,
     };
   } } )( context_tab_id, res ) } );
 }
@@ -413,7 +414,7 @@ chrome.runtime.onMessage.addListener( function( o, sender, res ) {
     break;
 
   case "screenshot":
-    on_click_screenshot(o.tab);
+    on_click_screenshot(o.tab, o.pageinfo );
     res({});
     break;
   case "open_options":
@@ -445,7 +446,7 @@ chrome.runtime.onMessage.addListener( function( o, sender, res ) {
     res({});
     break;
   case "display_screenshot":
-    create_display_screenshot(o.tab.id, o.tab.index, o.imageUrl, o.tab.url  );
+    create_display_screenshot(o.tab.id, o.tab.index, o.imageUrl, o.tab.url, o.pageinfo  );
     res({});
     break;
   }

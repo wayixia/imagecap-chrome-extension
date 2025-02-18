@@ -7,6 +7,8 @@
 let imagecap=Module;
 
 class screenshot {
+  pageinfo = {};
+
   constructor() {
 
   }
@@ -35,6 +37,7 @@ class screenshot {
     chrome.tabs.sendMessage(tab.id, { type : "screenshot-begin"}, (res) => {
       if(!res)
         return;
+      self.pageinfo[guid] = res.info || {};
       var cols = Math.ceil(res.full_width*1.0 / res.page_width);
       var rows = Math.ceil(res.full_height*1.0 / res.page_height);
       var max_pos = { rows: rows, cols:cols };
@@ -107,6 +110,10 @@ class screenshot {
     if(fn) {
       fn();
     }
+  }
+
+  get_pageinfo(guid) {
+    return this.pageinfo[guid];
   }
 
 } // end class screenshot

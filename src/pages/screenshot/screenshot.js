@@ -716,7 +716,7 @@ Q.ready(function() {
         return;
       wayixia.source_tab_id = data.ctx_tab_id;
       if( data.type == "screenshot" ) {
-        display_screenshot(data.ctx_tab_id, data.data, data.url);
+        display_screenshot(data.ctx_tab_id, data.data, data.url, data.pageinfo);
       }
     } );
   });
@@ -766,7 +766,7 @@ function drag_screen_images_end() {
 }
 
 
-function display_screenshot(tab_id, image_data, url) {
+function display_screenshot(tab_id, image_data, url, pageinfo ) {
   wayixia.track_event("display_screenshot", "from_menu");  
   wayixia.source_tab_id = tab_id;
   wayixia.request_data.data.pageUrl = url;
@@ -808,6 +808,11 @@ function display_screenshot(tab_id, image_data, url) {
     //  id : Q.$('wayixia-canvas'),
     //  container: Q.$('wayixia-container')
     //});
+
+    // init page info
+    Q.$('info_screenshot_title').innerText = pageinfo.title;
+    Q.$('info_screenshot_url').innerText = pageinfo.url;
+    Q.$('info_screenshot_size').innerText = this.width + " X " + this.height;
   };
   img.src = image_data;
 }

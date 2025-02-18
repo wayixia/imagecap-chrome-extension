@@ -126,6 +126,13 @@ var g_fullscreen_capture = {
   fixed_elements_start: [],
   fnscroll:null,
 
+  getinfo: function() {
+    return {
+      url: location.href,
+      title: document.title
+    }
+  },
+
   start : function() {
     //this.fixed_disabled();
     this.scroll_top  = this.body_scroll_top(); //document.body.scrollTop;
@@ -149,6 +156,7 @@ var g_fullscreen_capture = {
     this.page_height = document.documentElement.clientHeight;
     this.fixed_make_elements();
   
+    var info = this.getinfo();
     return {
       full_width : document.body.scrollWidth * window.devicePixelRatio, 
       full_height: document.body.scrollHeight * window.devicePixelRatio,
@@ -156,6 +164,7 @@ var g_fullscreen_capture = {
       page_height: this.page_height * window.devicePixelRatio,
       hscrollbarwidth: get_hscrollbarwidth()*window.devicePixelRatio, 
       vscrollbarwidth: get_vscrollbarwidth()*window.devicePixelRatio, 
+      info: info
     };
   }, 
 
@@ -335,7 +344,9 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
     g_fullscreen_capture.stop(); 
     sendResponse({});
     break;
-  
+  case "get_pageinfo":
+    sendResponse( {pageinfo: g_fullscreen_capture.getinfo() } );
+    break;
   default:
     sendResponse({});
     break;

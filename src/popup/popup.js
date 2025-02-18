@@ -27,7 +27,7 @@ window.outputImage = function( guid, imageurl, len)
   var imgdata = (new TextDecoder()).decode( ptr );
   var url = "data:image/png;base64, " + imgdata;
   get_current_tab( (tab) => {
-    worker.create_display_screenshot( tab, url, (res)=>{
+    worker.create_display_screenshot( tab, url, screenshot.get_pageinfo(guid), (res)=>{
       console.log("create display screenshot end.");
     });
   });

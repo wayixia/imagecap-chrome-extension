@@ -31,8 +31,10 @@ class worker {
   }
 
   screenshot( tab, fn ) {
-    chrome.runtime.sendMessage( { action: "screenshot",  
-      tab: tab }, fn );
+    chrome.tabs.sendMessage( tab.id, { type: "get_pageinfo"}, (res)=>{
+      chrome.runtime.sendMessage( { action: "screenshot",  
+        tab: tab, pageinfo: res.pageinfo }, fn );
+    });
   }
 
   full_screenshot(tab, fn) {
@@ -40,9 +42,9 @@ class worker {
       tab: tab }, fn );
   }
 
-  create_display_screenshot( tab, imageUrl, fn ) {
+  create_display_screenshot( tab, imageUrl, pageinfo, fn ) {
     chrome.runtime.sendMessage( { action: "display_screenshot", 
-      tab:tab, imageUrl: imageUrl }, fn );
+      tab:tab, imageUrl: imageUrl, pageinfo:pageinfo }, fn );
   }
 
   userstatus(cfg, fn) {
@@ -68,6 +70,10 @@ class worker {
         fn(nickname);
       }
     });
+  }
+
+  get_tab_info(tab, fn) {
+    chrome.tabs.sendMessage()
   }
 }
 
