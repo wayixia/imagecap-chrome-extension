@@ -57,6 +57,14 @@ function initialize () {
     });
   }
 
+  Q.$('wayixia-screenshot-copy').onclick = function() {
+    /** track event */
+    wayixia.track_button_click(this);
+    const datUrl = get_screenshot().toBlob( async (newBlob)=>{
+      copyCanvasToClipboard("image/png", newBlob);
+    }, "image/png")
+  }
+
 
   Q.$('wayixia-screenshot-download-menu').onclick = function( evt ) {
     evt = evt || window.event;
@@ -215,9 +223,9 @@ function copyCanvasToClipboard(mimetype, dataUrl) {
   //const dataUrl = canvas.toDataURL('image/png'); // 可以选择'image/jpeg'或'image/png'等格式
   var clipboarditem = null;
   if( mimetype == "image/jpeg" ) {
-    clipboarditem = new ClipboardItem({ "image/jpeg": new Blob([dataUrl], { type: mimetype }) })
+    clipboarditem = new ClipboardItem({ "image/jpeg": dataUrl });
   } else {
-    clipboarditem = new ClipboardItem({ "image/png": new Blob([dataUrl], { type: "image/png" }) })
+    clipboarditem = new ClipboardItem({ "image/png": dataUrl});
   }
   // 使用Clipboard API写入剪贴板
   navigator.clipboard.write([ clipboarditem ]).then(() => {

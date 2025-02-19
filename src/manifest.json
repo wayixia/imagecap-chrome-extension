@@ -12,7 +12,8 @@
       "downloads", 
       "webRequest",
       "offscreen",
-      "storage"
+      "storage",
+      "clipboardWrite"
     ],
 
     "host_permissions":[ "<all_urls>" ],
