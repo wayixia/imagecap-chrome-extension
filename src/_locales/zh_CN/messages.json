@@ -40,9 +40,15 @@
   },
 
   "menuDigImages": {
-    "message": "挖一下",
+    "message": "全局Tab页采集图片",
     "description": ""
   },
+
+  "menuDigImagesNew": {
+    "message": "采集图片",
+    "description": ""
+  },
+
 
 
   "menuScreenshot": {

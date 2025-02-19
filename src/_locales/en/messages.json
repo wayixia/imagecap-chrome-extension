@@ -40,9 +40,15 @@
   },
 
   "menuDigImages": {
-    "message": "Dig Images",
+    "message": "Get Images-Global Tab",
     "description": ""
   },
+
+  "menuDigImagesNew": {
+    "message": "Get Images",
+    "description": ""
+  },
+
 
 
   "menuScreenshot": {

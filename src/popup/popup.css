@@ -3,19 +3,19 @@ html { margin: 0px; padding: 0px; border:none; }
 
 
 body {
-  margin:0;border:0;padding:0;width:150px;height:160px;visibility:hidden;
+  margin:0;border:0;padding:0;width:200px;height:160px;visibility:hidden;
 }
 
 .wayixia-menu {
 	height:160px;
-	width:150px; 
+	width:200px; 
 	border:0;
   padding: 0px;
 }
 
 .wayixia-menu li {
   background-color: transparent;
-	width:150px; 
+	width:200px; 
 	white-space: nowrap; 
 	height: 30px; 
 	padding: 0px; 

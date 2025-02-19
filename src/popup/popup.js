@@ -38,6 +38,14 @@ window.outputImage = function( guid, imageurl, len)
 
 function init(){
   // wayixia
+  Q.$('wayixia-all-images-new').onclick = function() {
+    get_current_tab( (currenttab) => { 
+      worker.get_all_images( "from_popup", currenttab, (res)=>{} );
+      deactive();
+    } );
+
+  }
+
   Q.$('wayixia-all-images').onclick = function() {
     get_current_tab( (currenttab) => { 
       worker.get_all_images( "from_popup", currenttab, (res)=>{} );
