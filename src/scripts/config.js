@@ -65,6 +65,22 @@ class config
     chrome.storage.local.get( key, fn );
   }
 
+
+  async async_get_globaltab() {
+    return await chrome.storage.local.get( {globaltab:-1} );
+  }
+
+  get_globaltab( fn ) {
+    var self = this;
+    this.getall2( { globaltab: -1}, (c)=>{
+      fn(c.globaltab); 
+    });
+  }
+
+  set_globaltab(tab_id) {
+    this.set('globaltab', tab_id);
+  }
+
   /*!
    * add block image
    */

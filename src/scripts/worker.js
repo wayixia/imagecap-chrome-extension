@@ -13,7 +13,6 @@ class worker {
     
   }
 
-
   download_image(url, view, folder, pageurl) {
     chrome.runtime.sendMessage( 
       { action: "download_image", url: url, view: null, folder:folder, pageurl:pageurl}, (res) => {
@@ -25,9 +24,9 @@ class worker {
     chrome.runtime.sendMessage( {action: "get_display_cache", tabid: tabid}, fn );
   }
 
-  get_all_images( track_from, tab, fn ) {
-    chrome.runtime.sendMessage( { action: "wa_all", 
-      track_from: track_from, tab: tab}, fn );
+  get_all_images( track_from, tab, globaltab, fn ) {
+    chrome.runtime.sendMessage( { action: "get_all_images", 
+      track_from: track_from, tab: tab, globaltab: globaltab}, fn );
   }
 
   screenshot( tab, fn ) {

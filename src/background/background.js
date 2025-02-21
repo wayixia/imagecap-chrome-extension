@@ -156,11 +156,11 @@ function on_click_wa_single(info, tab) {
   download_image(info.srcUrl, null, "" );
 }
 
-function on_click_wa_all(info, tab) {  
+function on_click_get_all_images(info, tab, globaltab) {  
   chrome.tabs.sendMessage(tab.id, { type : "display-all-images"}, function(res) {
     res = res || {};
     res.track_from = info.track_from;
-    create_display_page(tab.id, tab.index, res); 
+    create_display_page(tab.id, tab.index, res, globaltab); 
   });
 }
 
@@ -185,19 +185,44 @@ function on_click_screenshot(tab, pageinfo ) {
 
 var cache_display = {};
 
+
 function get_display_cache( tab_id ) {
   var obj = cache_display[tab_id];
   //delete cache_display[tab_id];
   return obj;
 }
 
-function create_display_page(context_tab_id, context_tab_index, res) {  
-  create_tab( { url: chrome.runtime.getURL("pages/display/display.html"), index: context_tab_index, callback : ( function( id, res ) { return function( tab_id ) { 
-    cache_display[tab_id] = {
-      ctx_tab_id : id,
-      data : res 
+async function create_display_page(context_tab_id, context_tab_index, res, useglobaltab) { 
+  
+  var display_tabid=-1;
+
+  if( useglobaltab ) {
+    // Get global tab id from config
+    const c = await config.async_get_globaltab();
+    if( c.globaltab >=0 ) {
+      // Check global tab exist
+      try {
+        const t = await chrome.tabs.get(c.globaltab);
+        if(t) {
+          display_tabid = c.globaltab;
+        }
+      } catch(e) {
+        
+      }
     }
-  } } )( context_tab_id, res ) } ) ;
+  }
+  
+  if( display_tabid == -1 ) {
+    create_tab( { url: chrome.runtime.getURL("pages/display/display.html"), index: context_tab_index, callback : ( function( id, res ) { return function( tab_id ) { 
+      cache_display[tab_id] = {
+        ctx_tab_id : id,
+        data : res 
+      }
+      config.set_globaltab(tab_id);
+    } } )( context_tab_id, res ) } ) ;
+  } else {
+    chrome.tabs.sendMessage(display_tabid, {type: "display_append_images", data: res}, (r)=>{});
+  }
 }
 
 function create_display_screenshot(context_tab_id, context_tab_index,  res, taburl, pageinfo) {  
@@ -408,8 +433,8 @@ chrome.runtime.onMessage.addListener( function( o, sender, res ) {
     res( cache );
     break;
 
-  case "wa_all":
-    on_click_wa_all( o, o.tab );
+  case "get_all_images":
+    on_click_get_all_images( o, o.tab, o.globaltab );
     res({});
     break;
 
@@ -482,7 +507,7 @@ chrome.commands.onCommand.addListener(function(command) {
     // Get the currently selected tab
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       // Toggle the wa all images
-      on_click_wa_all({}, tabs[0]);
+      on_click_get_all_images({}, tabs[0], true);
       //var current = tabs[0]
       //chrome.tabs.update(current.id, {'pinned': !current.pinned});
     });
@@ -500,7 +525,7 @@ chrome.contextMenus.onClicked.addListener( function(info) {
     } else {
       chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         // Toggle the wa all images
-        on_click_wa_all({}, tabs[0]);
+        on_click_get_all_images({}, tabs[0], true);
       });
     } 
     break;

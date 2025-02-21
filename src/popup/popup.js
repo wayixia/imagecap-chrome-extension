@@ -40,7 +40,7 @@ function init(){
   // wayixia
   Q.$('wayixia-all-images-new').onclick = function() {
     get_current_tab( (currenttab) => { 
-      worker.get_all_images( "from_popup", currenttab, (res)=>{} );
+      worker.get_all_images( "from_popup", currenttab, false, (res)=>{} );
       deactive();
     } );
 
@@ -48,7 +48,7 @@ function init(){
 
   Q.$('wayixia-all-images').onclick = function() {
     get_current_tab( (currenttab) => { 
-      worker.get_all_images( "from_popup", currenttab, (res)=>{} );
+      worker.get_all_images( "from_popup", currenttab, true, (res)=>{} );
       deactive();
     } );
 

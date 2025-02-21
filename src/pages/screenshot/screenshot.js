@@ -171,7 +171,6 @@ function wa_data_image(config) { return function(item) {
     var json_data = {};
     json_data.pageUrl = "https://www.wayixia.com/extension"
     json_data.srcUrl = config.src, 
-    json_data.cookie = "",
     json_data.title = "",
     json_data.width = config.width;
     json_data.height = config.height;

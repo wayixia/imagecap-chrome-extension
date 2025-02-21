@@ -528,7 +528,6 @@ function initialize () {
     var json_data = {};
     json_data.pageUrl = wayixia_request_data.data.pageUrl;
     json_data.srcUrl = config.src, 
-    json_data.cookie = wayixia_request_data.data.cookie,
     json_data.title = wayixia_request_data.data.title,
     json_data.width = config.width;
     json_data.height = config.height;
@@ -665,3 +664,14 @@ Q.ready(function() {
   } );
 });
 
+
+
+// listener
+chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
+  switch (request.type) {
+  case "display-append-images": 
+    console.log(request.data);
+    sendResponse({});
+    break;
+  }
+});
