@@ -68,7 +68,6 @@ function generate_response(imgs) {
       type : 'display-images', 
       imgs : imgs,
       data : {
-        cookie : document.cookie,  // 用于处理防盗链
         title  : document.title,   // 用于显示默认标题
         pageUrl: location.href     // 用于保存来源地址
       }
