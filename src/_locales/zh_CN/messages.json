@@ -39,13 +39,13 @@
     "description": ""
   },
 
-  "menuDigImages": {
-    "message": "全局Tab页采集图片",
+  "menuDigImagesAllTabs": {
+    "message": "所有Tab页图片",
     "description": ""
   },
 
-  "menuDigImagesNew": {
-    "message": "采集图片",
+  "menuDigImages": {
+    "message": "当前Tab页图片",
     "description": ""
   },
 

@@ -164,6 +164,38 @@ function on_click_get_all_images(info, tab, globaltab) {
   });
 }
 
+async function on_click_get_alltabs_images(info, tab, globaltab) {  
+
+  create_tab( { 
+    url: chrome.runtime.getURL("pages/display/display.html"), 
+    callback: (display_tab_id) => {
+      // send all tabs
+      chrome.tabs.query({}, (tabs) => {
+        tabs.forEach((tab) => {
+          chrome.tabs.sendMessage(tab.id, { type : "display-all-images" }, (response) => {
+            if (chrome.runtime.lastError) {
+              console.log(`Tab ${tab.id} 未响应`);
+            } else {
+              //console.log(`Tab ${tab.id} 回复:`, response);
+              res = res || {};
+              res.track_from = info.track_from;
+              create_display_page2(tab.id, tab.index, res, globaltab); 
+            }
+          });
+        });
+      });
+    }
+  });
+  
+
+  // chrome.tabs.sendMessage(tab.id, { type : "display-all-images"}, function(res) {
+  //   res = res || {};
+  //   res.track_from = info.track_from;
+  //   create_display_page(tab.id, tab.index, res, globaltab); 
+  // });
+}
+
+
 function on_click_open_options() {
   chrome.tabs.create({"url":chrome.runtime.getURL("pages/options/options.html"), "selected":true}, function(tab) {});
 } 
@@ -431,6 +463,11 @@ chrome.runtime.onMessage.addListener( function( o, sender, res ) {
   case "get_display_cache":
     var cache = get_display_cache(o.tabid);
     res( cache );
+    break;
+
+  case "get_all_images":
+    on_click_get_alltabs_images( o, o.globaltab );
+    res({});
     break;
 
   case "get_all_images":

@@ -39,13 +39,13 @@
     "description": ""
   },
 
-  "menuDigImages": {
-    "message": "Get Images-Global Tab",
+  "menuDigImagesAllTabs": {
+    "message": "All Tabs Images",
     "description": ""
   },
 
-  "menuDigImagesNew": {
-    "message": "Get Images",
+  "menuDigImages": {
+    "message": "Current Tab Images",
     "description": ""
   },
 
