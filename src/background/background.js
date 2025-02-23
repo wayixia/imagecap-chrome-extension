@@ -152,79 +152,49 @@ function wayixia_statics_images( item, pageurl ) {
 
 
 
+function on_start_get_images( tabid ) {
+  var command = pop_command(tabid);
+  if( command.cmd == "alltabs") {
+    chrome.tabs.query({}, (tabs) => {
+      tabs.forEach((tab) => {
+        chrome.tabs.sendMessage(tab.id, { type : "display-all-images" }, (response) => {
+          if (chrome.runtime.lastError) {
+            console.log(`Tab ${tab.id} 未响应`);
+          } else {
+            console.log(`Tab ${tab.id} 回复:`, response);
+            response = response || {};
+            chrome.tabs.sendMessage(tabid, {type:"display-all-images", data: response }, (r)=>{});
+          }
+        });
+      });
+    });
+  } else if(command.cmd == "currenttab" ) {
+    chrome.tabs.sendMessage(command.context_tab_id, { type : "display-all-images" }, (response) => {
+      if (chrome.runtime.lastError) {
+        console.log(`Tab ${command.context_tab_id} 未响应`);
+      } else {
+        console.log(`Tab ${command.context_tab_id} 回复:`, response);
+        response = response || {};
+        chrome.tabs.sendMessage(tabid, {type:"display-all-images", data: response }, (r)=>{});
+      }
+    });
+  }
+}
+
 function on_click_wa_single(info, tab) {
   download_image(info.srcUrl, null, "" );
 }
 
-function on_click_get_all_images(info, tab, globaltab) {  
-  chrome.tabs.sendMessage(tab.id, { type : "display-all-images"}, function(res) {
-    res = res || {};
-    res.track_from = info.track_from;
-    create_display_page(tab.id, tab.index, res, globaltab); 
-  });
-}
-
-async function on_click_get_alltabs_images(info, tab, globaltab) {  
-
-  create_tab( { 
-    url: chrome.runtime.getURL("pages/display/display.html"), 
-    callback: (display_tab_id) => {
-      // send all tabs
-      chrome.tabs.query({}, (tabs) => {
-        tabs.forEach((tab) => {
-          chrome.tabs.sendMessage(tab.id, { type : "display-all-images" }, (response) => {
-            if (chrome.runtime.lastError) {
-              console.log(`Tab ${tab.id} 未响应`);
-            } else {
-              //console.log(`Tab ${tab.id} 回复:`, response);
-              res = res || {};
-              res.track_from = info.track_from;
-              create_display_page2(tab.id, tab.index, res, globaltab); 
-            }
-          });
-        });
-      });
-    }
-  });
-  
-
+//function on_click_get_all_images(info, tab, globaltab) {  
   // chrome.tabs.sendMessage(tab.id, { type : "display-all-images"}, function(res) {
   //   res = res || {};
   //   res.track_from = info.track_from;
   //   create_display_page(tab.id, tab.index, res, globaltab); 
   // });
-}
+//}
 
 
-function on_click_open_options() {
-  chrome.tabs.create({"url":chrome.runtime.getURL("pages/options/options.html"), "selected":true}, function(tab) {});
-} 
-
-function on_click_open_about() {
-  chrome.tabs.create({"url":chrome.runtime.getURL("pages/options/options.html#about"), "selected":true}, function(tab) {});
-} 
-
-function on_click_screenshot(tab, pageinfo ) {
-  chrome.tabs.captureVisibleTab( null, {format:"png"}, function(screenshotUrl) {  
-    create_display_screenshot(tab.id, tab.index, screenshotUrl, tab.url, pageinfo); 
-  });
-}
-
-
-
-
-
-
-var cache_display = {};
-
-
-function get_display_cache( tab_id ) {
-  var obj = cache_display[tab_id];
-  //delete cache_display[tab_id];
-  return obj;
-}
-
-async function create_display_page(context_tab_id, context_tab_index, res, useglobaltab) { 
+async function create_display_page2(context_tab_index, useglobaltab, fn) { 
   
   var display_tabid=-1;
 
@@ -245,20 +215,82 @@ async function create_display_page(context_tab_id, context_tab_index, res, usegl
   }
   
   if( display_tabid == -1 ) {
-    create_tab( { url: chrome.runtime.getURL("pages/display/display.html"), index: context_tab_index, callback : ( function( id, res ) { return function( tab_id ) { 
-      cache_display[tab_id] = {
-        ctx_tab_id : id,
-        data : res 
-      }
+    create_tab( chrome.runtime.getURL("pages/display/display.html"), context_tab_index, ( tab_id ) => { 
+      fn(tab_id);
       config.set_globaltab(tab_id);
-    } } )( context_tab_id, res ) } ) ;
+    } );
   } else {
-    chrome.tabs.sendMessage(display_tabid, {type: "display_append_images", data: res}, (r)=>{});
+    fn(display_tabid);
   }
 }
 
+function on_click_get_all_images(context_tab_id, contex_tab_index, useglobaltab) {
+  // Create tab
+  create_display_page2(contex_tab_index, useglobaltab, (tab_id)=>{
+    save_display_command(tab_id, context_tab_id );
+  });
+}
+
+
+
+
+function on_click_get_alltabs_images(globaltab) {  
+  create_display_page2(-1, useglobaltab, (tab_id)=>{
+    save_display_alltabs_command(tab_id);
+  });
+}
+
+
+function on_click_open_options() {
+  chrome.tabs.create({"url":chrome.runtime.getURL("pages/options/options.html"), "selected":true}, function(tab) {});
+} 
+
+function on_click_open_about() {
+  chrome.tabs.create({"url":chrome.runtime.getURL("pages/options/options.html#about"), "selected":true}, function(tab) {});
+} 
+
+function on_click_screenshot(tab, pageinfo ) {
+  chrome.tabs.captureVisibleTab( null, {format:"png"}, function(screenshotUrl) {  
+    create_display_screenshot(tab.id, tab.index, screenshotUrl, tab.url, pageinfo); 
+  });
+}
+
+
+
+var command_cache = {};
+
+function save_display_command( tabid, context_tab_id )
+{
+  command_cache[tabid] = { context_tab_id: context_tab_id, cmd:"currenttab"};
+}
+
+function save_display_alltabs_command( tabid)
+{
+  command_cache[tabid] = {cmd:"alltabs"};
+}
+
+
+
+function pop_command( cid ) {
+  var command = command_cache[cid];
+  if( command ) {
+    //delete command_cache[cid];
+  }
+  return command;
+}
+
+
+var cache_display = {};
+
+
+function get_display_cache( tab_id ) {
+  var obj = cache_display[tab_id];
+  //delete cache_display[tab_id];
+  return obj;
+}
+
 function create_display_screenshot(context_tab_id, context_tab_index,  res, taburl, pageinfo) {  
-  create_tab( { url : chrome.runtime.getURL("pages/screenshot/screenshot.html"), index: context_tab_index, callback : ( function( id, res ) { return function( tab_id ) { 
+  create_tab( chrome.runtime.getURL("pages/screenshot/screenshot.html"), context_tab_index, ( function( id, res ) { return function( tab_id ) { 
     cache_display[tab_id] = {
       ctx_tab_id : id,
       data : res,
@@ -266,7 +298,7 @@ function create_display_screenshot(context_tab_id, context_tab_index,  res, tabu
       type : "screenshot",
       pageinfo: pageinfo,
     };
-  } } )( context_tab_id, res ) } );
+  } } )( context_tab_id, res ) );
 }
 
 /** show features of the extension */
@@ -341,7 +373,7 @@ function get_save_path( folder, fn) {
   });
 }
 
-function create_tab( json ) {
+function create_tab( url, index, fn ) {
   var display_tab_id;
   // view is not created
   chrome.tabs.onUpdated.addListener( function listener( tab_id, changed_props ) {
@@ -350,17 +382,16 @@ function create_tab( json ) {
       return;
     chrome.tabs.onUpdated.removeListener(listener);
     chrome.tabs.update(tab_id, {active: true});
-    // lookup views
-    //chrome.tabs.get( tab_id, function( tab ) {
-    //  var views = chrome.extension.getViews( { windowId: tab.windowId } );
-    //  var view = views[0];
-    //  view.focus();
-    //} ); 
   });
-  
-  chrome.tabs.create( { "url" : json.url, "index": json.index+1, "selected" : true }, ( tab ) => {
+ 
+  var createProps = { "url" : url, "selected" : true };
+  if( index >= 0 ) {
+    createProps["index"] = index+1;
+  }
+
+  chrome.tabs.create( createProps, ( tab ) => {
     display_tab_id = tab.id; 
-    json.callback( tab.id ); 
+    fn( tab.id ); 
   } );
 }
 
@@ -465,13 +496,19 @@ chrome.runtime.onMessage.addListener( function( o, sender, res ) {
     res( cache );
     break;
 
-  case "get_all_images":
-    on_click_get_alltabs_images( o, o.globaltab );
+  case "get_alltabs_images":
+    //on_click_get_alltabs_images( o, o.globaltab );
+    on_click_get_alltabs_images( o.globaltab );
     res({});
     break;
 
   case "get_all_images":
-    on_click_get_all_images( o, o.tab, o.globaltab );
+    on_click_get_all_images( o.tab.id, o.tab.index, o.globaltab );
+    res({});
+    break;
+
+  case "start_get_images":
+    on_start_get_images(o.tabid);
     res({});
     break;
 
@@ -479,6 +516,7 @@ chrome.runtime.onMessage.addListener( function( o, sender, res ) {
     on_click_screenshot(o.tab, o.pageinfo );
     res({});
     break;
+
   case "open_options":
     on_click_open_options();
     res({});
@@ -544,7 +582,7 @@ chrome.commands.onCommand.addListener(function(command) {
     // Get the currently selected tab
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       // Toggle the wa all images
-      on_click_get_all_images({}, tabs[0], true);
+      on_click_get_all_images(tabs[0].id, -1, true);
       //var current = tabs[0]
       //chrome.tabs.update(current.id, {'pinned': !current.pinned});
     });
@@ -562,7 +600,7 @@ chrome.contextMenus.onClicked.addListener( function(info) {
     } else {
       chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         // Toggle the wa all images
-        on_click_get_all_images({}, tabs[0], true);
+        on_click_get_all_images(tabs[0].id, -1, true);
       });
     } 
     break;

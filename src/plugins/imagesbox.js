@@ -199,10 +199,14 @@ getImageInfoHandler : function(data, init) {
   };
 },
 
+clear : function() {
+  this.hwnd.innerHTML = '';
+},
+
 display_images : function(accept_images, data, init) {
   var _this = this;
   init = init || function(item) {}
-  this.hwnd.innerHTML = '';
+  //this.hwnd.innerHTML = '';
   return function() {
     for(var src in accept_images) {
         var img = new Image();

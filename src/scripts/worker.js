@@ -23,17 +23,29 @@ class worker {
   get_display_cache(tabid, fn) {
     chrome.runtime.sendMessage( {action: "get_display_cache", tabid: tabid}, fn );
   }
+ 
+
   
-  get_alltabs_images( track_from, tab, fn ) {
-    chrome.runtime.sendMessage( { action: "get_alltabs_images", 
-      track_from: track_from, tab: tab, globaltab: true}, fn );
+  // get_alltabs_images( track_from, tab, fn ) {
+  //   chrome.runtime.sendMessage( { action: "get_alltabs_images", 
+  //     track_from: track_from, tab: tab, globaltab: true}, fn );
+  // }
+
+  get_alltabs_images( fn ) {
+     chrome.runtime.sendMessage( { action: "get_alltabs_images", 
+        globaltab: false}, fn );
   }
+
+
   get_all_images( track_from, tab, globaltab, fn ) {
     chrome.runtime.sendMessage( { action: "get_all_images", 
       track_from: track_from, tab: tab, globaltab: globaltab}, fn );
   }
 
-
+  start_get_images( tabid ) {
+    chrome.runtime.sendMessage( { action: "start_get_images", 
+      tabid: tabid}, (r)=>{} );
+  }
 
   screenshot( tab, fn ) {
     chrome.tabs.sendMessage( tab.id, { type: "get_pageinfo"}, (res)=>{

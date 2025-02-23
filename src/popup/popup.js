@@ -40,7 +40,7 @@ function init(){
   // wayixia
   Q.$('wayixia-all-images-alltabs').onclick = function() {
     get_current_tab( (currenttab) => { 
-      worker.get_all_images( "from_popup", currenttab, false, (res)=>{} );
+      worker.get_alltabs_images( (res)=>{} );
       deactive();
     } );
 

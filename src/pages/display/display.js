@@ -19,6 +19,7 @@ var wayixia_images_filter = null;
 var wayixia_block_images = {};
 var wayixia_selectall_button = null;
 var g_init = false;
+var g_init_config = {};
 //var wayixia_source_tab_id = 0;
 
 window.is_block_image = function(url) {
@@ -630,20 +631,38 @@ function display_all_valid_images( data, extension ) {
   var packet = data.data || {};
   packet.imgs = packet.imgs || [];
   packet.data = packet.data || {};
-  wayixia.request_data.imgs = packet.imgs;
-  wayixia.request_data.data = packet.data;
+  //wayixia.request_data.imgs = packet.imgs;
+  //wayixia.request_data.data = packet.data;
   //var filter_rules =extension.filter_rules || {rules:{}};
   //extension.filter_rule_is_enabled
-  if(wayixia.request_data.imgs) {
-    window.display_valid_images( extension, wayixia.request_data.imgs, wayixia.request_data.data)();
+  //if(wayixia.request_data.imgs) {
+  if(packet.imgs) {
+    window.display_valid_images( extension, packet.imgs, packet.data)();
   }
 }
 
 
 /** 挖图界面初始化 */
-Q.ready(function() {  
+Q.ready(async function() {  
   initialize();
+  var names = {
+    filter_rule_is_enabled: false, 
+    filter_rules:[], 
+    block_images:{}, 
+    filter_width:0, 
+    filter_height:0 
+  };
+  const extension = await config.get( names );
+  wayixia_images_filter.e_width.setValue( extension.filter_width/10  );
+  wayixia_images_filter.e_height.setValue( extension.filter_height/10 );
+  //display_all_valid_images(data, extension);
+  g_init_config = extension;
+  g_init = true;
 
+  const current_tab = await chrome.tabs.getCurrent();
+  worker.start_get_images( current_tab.id );
+
+  /*
   chrome.tabs.getCurrent( function( tab ) {
 
     worker.get_display_cache(tab.id, (data)=>{
@@ -661,7 +680,9 @@ Q.ready(function() {
         g_init = true;
       });
     });
+    
   } );
+  */
 });
 
 
@@ -669,8 +690,8 @@ Q.ready(function() {
 // listener
 chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
   switch (request.type) {
-  case "display-append-images": 
-    console.log(request.data);
+  case "display-all-images": 
+    display_all_valid_images(request, g_init_config );
     sendResponse({});
     break;
   }
