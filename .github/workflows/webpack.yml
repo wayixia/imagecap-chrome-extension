@@ -24,7 +24,7 @@ jobs:
 
     - name: Build
       run: |
-        cd deps/libq.js/webpack
+        cd ./deps/libq.js/webpack
         npm install
         #npx webpack
         npm run build
