@@ -631,11 +631,7 @@ function display_all_valid_images( data, extension ) {
   var packet = data.data || {};
   packet.imgs = packet.imgs || [];
   packet.data = packet.data || {};
-  //wayixia.request_data.imgs = packet.imgs;
-  //wayixia.request_data.data = packet.data;
-  //var filter_rules =extension.filter_rules || {rules:{}};
-  //extension.filter_rule_is_enabled
-  //if(wayixia.request_data.imgs) {
+
   if(packet.imgs) {
     window.display_valid_images( extension, packet.imgs, packet.data)();
   }
@@ -661,28 +657,6 @@ Q.ready(async function() {
 
   const current_tab = await chrome.tabs.getCurrent();
   worker.start_get_images( current_tab.id );
-
-  /*
-  chrome.tabs.getCurrent( function( tab ) {
-
-    worker.get_display_cache(tab.id, (data)=>{
-      var names = {
-        filter_rule_is_enabled: false, 
-        filter_rules:[], 
-        block_images:{}, 
-        filter_width:0, 
-        filter_height:0 
-      };
-      config.getall2( names, (extension)=>{
-        wayixia_images_filter.e_width.setValue( extension.filter_width/10  );
-        wayixia_images_filter.e_height.setValue( extension.filter_height/10 );
-        display_all_valid_images(data, extension);
-        g_init = true;
-      });
-    });
-    
-  } );
-  */
 });
 
 

@@ -185,14 +185,6 @@ function on_click_wa_single(info, tab) {
   download_image(info.srcUrl, null, "" );
 }
 
-//function on_click_get_all_images(info, tab, globaltab) {  
-  // chrome.tabs.sendMessage(tab.id, { type : "display-all-images"}, function(res) {
-  //   res = res || {};
-  //   res.track_from = info.track_from;
-  //   create_display_page(tab.id, tab.index, res, globaltab); 
-  // });
-//}
-
 
 async function create_display_page2(context_tab_index, useglobaltab, fn) { 
   
@@ -216,18 +208,21 @@ async function create_display_page2(context_tab_index, useglobaltab, fn) {
   
   if( display_tabid == -1 ) {
     create_tab( chrome.runtime.getURL("pages/display/display.html"), context_tab_index, ( tab_id ) => { 
-      fn(tab_id);
+      fn(false, tab_id);
       config.set_globaltab(tab_id);
     } );
   } else {
-    fn(display_tabid);
+    fn(true, display_tabid);
   }
 }
 
 function on_click_get_all_images(context_tab_id, contex_tab_index, useglobaltab) {
   // Create tab
-  create_display_page2(contex_tab_index, useglobaltab, (tab_id)=>{
+  create_display_page2(contex_tab_index, useglobaltab, (isnewtab, tab_id)=>{
     save_display_command(tab_id, context_tab_id );
+    if( !isnewtab ) {
+      on_start_get_images( tab_id );
+    }
   });
 }
 
@@ -235,8 +230,11 @@ function on_click_get_all_images(context_tab_id, contex_tab_index, useglobaltab)
 
 
 function on_click_get_alltabs_images(globaltab) {  
-  create_display_page2(-1, useglobaltab, (tab_id)=>{
+  create_display_page2(-1, useglobaltab, (isnewtab, tab_id)=>{
     save_display_alltabs_command(tab_id);
+    if( !isnewtab ) {
+      on_start_get_images(tab_id);
+    }
   });
 }
 
