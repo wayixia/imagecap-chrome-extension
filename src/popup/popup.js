@@ -46,9 +46,10 @@ function init(){
 
   }
 
-  Q.$('wayixia-all-images').onclick = function() {
+  Q.$('wayixia-all-images').onclick = async function() {
+    const useglobaltab = await config.useglobaltab_get();
     get_current_tab( (currenttab) => { 
-      worker.get_all_images( "from_popup", currenttab, true, (res)=>{} );
+      worker.get_all_images( "from_popup", currenttab, useglobaltab, (res)=>{} );
       deactive();
     } );
 

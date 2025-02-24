@@ -66,6 +66,7 @@ class config
   }
 
 
+
   async async_get_globaltab() {
     return await chrome.storage.local.get( {globaltab:-1} );
   }
@@ -325,6 +326,17 @@ userinfo_set(info) {
   if( info.chrome_plugin ) {
     this.chrome_plugin_sync( info.chrome_plugin );
   }
+}
+
+useglobaltab_set( useglobaltab) {
+  this.set('useglobaltab', useglobaltab);
+}
+
+async useglobaltab_get() {
+  var key = {
+    useglobaltab: 0
+  };
+  return await this.get(key);
 }
 
 

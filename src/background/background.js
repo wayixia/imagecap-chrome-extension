@@ -579,9 +579,10 @@ chrome.webRequest.onHeadersReceived.addListener(
 chrome.commands.onCommand.addListener(function(command) {
   if (command == "toggle-wa-all") {
     // Get the currently selected tab
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    chrome.tabs.query({active: true, currentWindow: true}, async function(tabs) {
       // Toggle the wa all images
-      on_click_get_all_images(tabs[0].id, -1, true);
+      const c = await config.useglobaltab_get();
+      on_click_get_all_images(tabs[0].id, tabs[0].index, c.useglobaltab);
       //var current = tabs[0]
       //chrome.tabs.update(current.id, {'pinned': !current.pinned});
     });
@@ -597,9 +598,10 @@ chrome.contextMenus.onClicked.addListener( function(info) {
         on_click_wa_single(info, tabs[0]);
       });
     } else {
-      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      chrome.tabs.query({active: true, currentWindow: true}, async function(tabs) {
         // Toggle the wa all images
-        on_click_get_all_images(tabs[0].id, -1, true);
+        const c = await config.useglobaltab_get();
+        on_click_get_all_images(tabs[0].id, tabs[0].index, c.useglobaltab);
       });
     } 
     break;

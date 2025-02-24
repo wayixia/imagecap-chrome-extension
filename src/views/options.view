@@ -130,6 +130,7 @@
     <ul>
       <li id="tab-basic"> __MSG_optBasic__ </li>
       <li id="tab-download"> __MSG_optImageDownload__ </li>
+      <li id="tab-images">__MSG_optImages__ </li>
       <!--li id="tab-screencapture" href="">__MSG_optWebCapture__ </li-->
       <li id="tab-shortcut"> __MSG_optShortcut__ </li>
     </ul>
@@ -154,8 +155,9 @@
     
     <a id="date_folder" class="q-checkbox">__MSG_saveWithDateFolder__</a> 
     <a id="save_lastconfig" class="q-checkbox">__MSG_saveLastConfig__</a> <br>
-  
-  
+  </div>
+  <div id="panel-1-3" class="q-panel">
+    <b class="q-checkbox" id="globaltab_enable">__MSG_globalTabEnable__</b>（<font color="#999">__MSG_globalTabTips__</font>）<br>
     <br>
     <b class="q-checkbox" id="filter_rules_enable">__MSG_filterRulesEnable__</b>（<font color="#999">__MSG_filterRulesWarning__</font>）<br>
     <button id="manager_filter_rules" size="50">__MSG_setting__</button> <br>
@@ -163,9 +165,7 @@
     <b>__MSG_blockImageManage__</b><br>
     <button id="manager_block_images" size="50">__MSG_setting__</button> <br>
     <br>
-  
-  </div>
-  
+  </div> 
   
   <!--div id="panel-1-3" class="q-panel">
     <b> __MSG_stringCaptureAssistant__</b>(<font color="#999">__MSG_stringLongPageCapture__</font>)<br>
@@ -186,6 +186,8 @@
     1. __MSG_digImage__（<font color="#999">Ctrl+Q</font>）<br>
     2. __MSG_closeExtensionWindow__（<font color="#999">ESC</font>）<br>
   </div>
+
+
   
   </div>
   
@@ -201,6 +203,7 @@
     date_folder: null,
     save_lastconfig: null,
     filter_rules: null,
+    useglobaltab: null,
     config: null,
     __init__ : function(json) {
       var d = this;
@@ -225,6 +228,7 @@
            d.config.set('filter_height', 0 );
          }
          d.config.filter_rule_enable(d.filter_rules.checked());
+         d.config.useglobaltab_set(d.useglobaltab.checked()?1:0);
          //extension.saveconfig();
          wayixia.message_box( {title: Q.locale_text('extShortName'), content: Q.locale_text('saveOptions'), icon: "ok" } );
          return false;
@@ -263,17 +267,23 @@
         items: [
           {tab: Q.$('tab-basic'), content: Q.$('panel-1-1')}, 
           {tab: Q.$('tab-download'), content: Q.$('panel-1-2')}, 
+          {tab: Q.$('tab-images'), content: Q.$('panel-1-3')}, 
           //{tab: Q.$('tab-screencapture'), content: Q.$('panel-1-3')}, 
           {tab: Q.$('tab-shortcut'), content: Q.$('panel-1-4')}, 
         ]  
       });
 
-      
-      d.config.getall( (extension) => {
-        d.init_view(extension);
+      var key = {
+        save_path: 'wayixia',
+        date_folder: 0,
+        save_lastconfig: 0,
+        filter_rule_is_enabled: 0,
+        nickname: '',
+        useglobaltab: 0,
+      };
+      d.config.getall2( key, (conf) => {
+        d.init_view(conf);
       });
-      //d.init_view( await config.get({}));
-
     },
 
 
@@ -295,7 +305,7 @@
       // }
 
       // save path
-      Q.$('save_path').value = extension.save_path?extension.save_path:"wayixia";
+      Q.$('save_path').value = extension.save_path;
       //new Q.PlaceHolder( { holder: "label_save_path", id: "save_path", } );
   
       // date folder 
@@ -313,6 +323,11 @@
         onchange : function(checked) { 
           Q.$('manager_filter_rules').disabled = !checked; 
         } 
+      });
+
+      d.useglobaltab = new Q.CheckBox({ 
+        id : "globaltab_enable", 
+        checked: extension.useglobaltab != 0 
       });
 
       // Account buttons 
@@ -339,7 +354,6 @@
         // block images
       Q.$('manager_block_images').onclick = function() {
         wayixia.track_button_click(this);
- 
         display_block_images();
       }
       

@@ -435,6 +435,16 @@
     "description": ""
   }, 
 
+  "globalTabEnable" : {
+    "message": "Display images in a global tab",
+    "description": ""
+  },
+
+  "globalTabTips" : {
+    "message": "Default is close, display images in a new tab",
+    "description": ""
+  },
+
   "toolSave" : {
     "message": "Save",
     "description": ""
@@ -533,7 +543,13 @@
     "message": "Download",
     "description" : ""
   },
- 
+
+  "optImages" : {
+    "message": "Images Capture",
+    "description" : ""
+  },
+
+
   "optWebCapture" : {
     "message": "Web Capture",
     "description" : ""

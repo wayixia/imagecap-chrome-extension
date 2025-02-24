@@ -434,6 +434,17 @@
     "description": ""
   }, 
 
+  "globalTabEnable" : {
+    "message": "开启全局唯一Tab页展示图片",
+    "description": ""
+  },
+
+  "globalTabTips" : {
+    "message": "默认关闭, 创建新Tab页展示图片",
+    "description": ""
+  },
+
+
   "toolSave" : {
     "message": "保存到本地",
     "description": ""
@@ -532,6 +543,11 @@
     "description" : ""
   },
  
+  "optImages" : {
+    "message": "图片采集",
+    "description" : ""
+  },
+
   "optWebCapture" : {
     "message": "截 屏",
     "description" : ""

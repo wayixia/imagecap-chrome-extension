@@ -457,6 +457,10 @@ function initialize () {
     if(!imgs)
       return;
 
+    if(  data && data.title ) {
+      document.title = data.title;
+    }
+
     //filter image duplicated
     for(var i=0; i < imgs.length ; i++) {
       var url = imgs[i].src;
