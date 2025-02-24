@@ -154,6 +154,7 @@ function wayixia_statics_images( item, pageurl ) {
 
 function on_start_get_images( tabid ) {
   var command = pop_command(tabid);
+  chrome.tabs.update(tabid, {active: true});
   if( command.cmd == "alltabs") {
     chrome.tabs.query({}, (tabs) => {
       tabs.forEach((tab) => {
@@ -208,11 +209,11 @@ async function create_display_page2(context_tab_index, useglobaltab, fn) {
   
   if( display_tabid == -1 ) {
     create_tab( chrome.runtime.getURL("pages/display/display.html"), context_tab_index, ( tab_id ) => { 
-      fn(false, tab_id);
+      fn(true, tab_id);
       config.set_globaltab(tab_id);
     } );
   } else {
-    fn(true, display_tabid);
+    fn( false, display_tabid);
   }
 }
 
@@ -229,7 +230,7 @@ function on_click_get_all_images(context_tab_id, contex_tab_index, useglobaltab)
 
 
 
-function on_click_get_alltabs_images(globaltab) {  
+function on_click_get_alltabs_images(useglobaltab) {  
   create_display_page2(-1, useglobaltab, (isnewtab, tab_id)=>{
     save_display_alltabs_command(tab_id);
     if( !isnewtab ) {
