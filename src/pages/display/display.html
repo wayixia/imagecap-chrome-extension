@@ -10,9 +10,10 @@
 <body style="-moz-user-select:none;-webkit-user-select: none;">
 <div id="wayixia-title-bar">
   <div id="logo">
-    __MSG_extShortName__     
+    __MSG_extShortName__ 
+    <a href="https://github.com/wayixia/imagecap-chrome-extension"><img id="github-stars"/></a>
   </div>
-  <div class="func-buttons" style="flex-grow: 2;display: inline-flex; align-items: center;margin-left:20px;">
+  <div class="func-buttons" style="flex-grow: 2;display: inline-flex; align-items: center;">
     <span class="iconfont-imagecap icon-imagecap-filter" id="wayixia-filter-icon"></span>
     <span class="iconfont-imagecap icon-imagecap-visible-eye" id="wayixia-show-block"></span>
     <span class="iconfont-imagecap icon-imagecap-unselect" id="wayixia-select-all"></span>
@@ -28,27 +29,26 @@
     <button id="wayixia-add-block"  class="wayixia-toolbar-button block">  屏蔽</button>
     <button id="wayixia-show-block" class="wayixia-toolbar-button showblock checked"> 显示屏蔽图片<img class="split"/> </button>
     <button id="wayixia-filter-icon" class="wayixia-toolbar-button filter">过滤</button-->
-  </div>
-
-  <div id="wayixia-view">
-    <select id="wayixia-select-view" style="width: 300px; height: 30px;display: none;">
-    <!--option value="size_1">__MSG_viewTypeSize1__(100x100)</option-->
-    <option value="size_2">__MSG_viewTypeSize2__</option>
-    <option value="size_3">__MSG_viewTypeSize3__</option>
-    </select>
-  </div> 
-  <div id="wayixia-user-menu" style="display: none;">
-    <button id="wayixia-close"> 
-      __MSG_extCloseWindow__
-    </button>
-    <!--button id="wayixia-donate">__MSG_btnDonate__</button-->
-    <button id="wayixia-help">
-      __MSG_extHelp__
-    </button>
-    <button id="wayixia-bugs">
-      &nbsp;<span id="wayixia-bugs-num"></span>
-    </button>
-  </div>
+    <span style="flex:1;">&nbsp;</span>
+      <div id="wayixia-view">
+        <select id="wayixia-select-view" style="width: 300px; height: 30px;display: none;">
+        <!--option value="size_1">__MSG_viewTypeSize1__(100x100)</option-->
+        <option value="size_2">__MSG_viewTypeSize2__</option>
+        <option value="size_3">__MSG_viewTypeSize3__</option>
+        </select>
+      </div> 
+      <div id="wayixia-user-menu">
+        
+        <!--button id="wayixia-donate">__MSG_btnDonate__</button-->
+        <button id="wayixia-help">
+          __MSG_extHelp__
+        </button>
+        <button id="wayixia-bugs">
+          &nbsp;<span id="wayixia-bugs-num"></span>
+        </button>
+        <button>__MSG_extAdSupport__</button>
+      </div>
+    </div>
 </div>
 <div id="wayixia-toolbar"></div>
 

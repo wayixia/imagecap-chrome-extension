@@ -65,6 +65,10 @@ function wayixia_ui_init()
   } // Q.$('wayixia-bugs')
 
 
+  if( Q.$('github-stars')) {
+    Q.$('github-stars').src = "https://badgen.net/github/stars/wayixia/imagecap-chrome-extension";
+  }
+
 if(Q.$('wayixia-help')) { // wayixia-help
 
 // init drop menu
@@ -89,31 +93,34 @@ var menu_help= new Q.MenuItem({
 var menu_report_a_bug = new Q.MenuItem( { 
   text : Q.locale_text( 'extReportABug' ),
   callback: function( menuitem ) {
-    report_a_bug();
+    //report_a_bug();
+    window.open("https://github.com/wayixia/imagecap-chrome-extension/issues")
   }
 } );
 
 var menu_about = new Q.MenuItem( {
-  text : Q.locale_text( 'extContact' ),
+  //text : Q.locale_text( 'extContact' ),
+  text : Q.locale_text( 'extAbout' ),
   callback : function( menuitem ) {
-    window.open( 'https://www.wayixia.com/extension/about' );
+    chrome.runtime.sendMessage( { action: 'open_about', data: {}});
+    //window.open( 'https://www.wayixia.com/extension/about' );
   }
 } );
 
 wayixia.help_menu.addMenuItem(menu_report_a_bug);
-wayixia.help_menu.addMenuItem(menu_help);
+//wayixia.help_menu.addMenuItem(menu_help);
 wayixia.help_menu.addMenuItem(menu_about);
 
-if( /^zh(-)?/ig.test( navigator.language ) ) {
-  var menu_qq_qun = new Q.MenuItem( {
-    text : '加入QQ群',
-    callback : function( menuitem ) {
-      window.open( 'http://shang.qq.com/wpa/qunwpa?idkey=3c8fbe3b139d688a48eb8d1031f8d96bc9472d41904ecb78764170f4866b6e85' );
-    }
-  } );
+// if( /^zh(-)?/ig.test( navigator.language ) ) {
+//   var menu_qq_qun = new Q.MenuItem( {
+//     text : '加入QQ群',
+//     callback : function( menuitem ) {
+//       window.open( 'http://shang.qq.com/wpa/qunwpa?idkey=3c8fbe3b139d688a48eb8d1031f8d96bc9472d41904ecb78764170f4866b6e85' );
+//     }
+//   } );
 
-  wayixia.help_menu.addMenuItem(menu_qq_qun);
-}
+//   wayixia.help_menu.addMenuItem(menu_qq_qun);
+// }
 wayixia.help_menu.hide();
 
 // init menu button

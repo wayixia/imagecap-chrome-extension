@@ -5,13 +5,14 @@
 
 import config from "../scripts/config.js"
 import Q from "./background_ajax.js"
+import worker from "../scripts/worker.js";
 
 
 //importScripts("./imagecap.js")
 //import screenshot from "./screenshot.js";
 
 
-var plugin_name  = chrome.i18n.getMessage('menuDigImages');
+
 var wayixia = {};
 wayixia.nickname = "";
 wayixia.uid = 0;
@@ -154,6 +155,9 @@ function wayixia_statics_images( item, pageurl ) {
 
 function on_start_get_images( tabid ) {
   var command = pop_command(tabid);
+  if( !command ) {
+    return;
+  }
   chrome.tabs.update(tabid, {active: true});
   if( command.cmd == "alltabs") {
     chrome.tabs.query({}, (tabs) => {
@@ -589,10 +593,10 @@ chrome.commands.onCommand.addListener(function(command) {
   }
 });
 
-chrome.contextMenus.onClicked.addListener( function(info) {
+chrome.contextMenus.onClicked.addListener( async function(info) {
   console.log( info );
   switch(info.menuItemId) {
-  case "imagecap":
+  case "getimages":
     if(info.mediaType == 'image') {
       chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         on_click_wa_single(info, tabs[0]);
@@ -605,7 +609,17 @@ chrome.contextMenus.onClicked.addListener( function(info) {
       });
     } 
     break;
-  }
+  
+
+  case "screenshot":
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      chrome.tabs.sendMessage( tabs[0].id, { type: "get_pageinfo"}, (res)=>{
+        on_click_screenshot( tabs[0], res.pageinfo );
+      });
+    });
+    break;
+
+  } // end switch
 
 });
 
@@ -614,10 +628,29 @@ chrome.runtime.onInstalled.addListener( function() {
   // create context menu
   var contexts = ["page", "image", "selection","editable","link","video","audio"];
   chrome.contextMenus.create({
-    "title": plugin_name, 
+    "title": chrome.i18n.getMessage('extShortName'), 
     "contexts":contexts,  
     "id": "imagecap"
   });
+
+  chrome.contextMenus.create( {
+    "title":chrome.i18n.getMessage('menuDigImages'),
+    "parentId": "imagecap",
+    "id": "getimages"
+  });
+
+  chrome.contextMenus.create( {
+    "title":chrome.i18n.getMessage('menuScreenshot'),
+    "parentId": "imagecap",
+    "id": "screenshot"
+  });
+
+  // chrome.contextMenus.create( {
+  //   "title":chrome.i18n.getMessage('menuFullPageScreenshot'),
+  //   "parentId": "imagecap",
+  //   "id": "fullscreenshot"
+  // });
+
 });
 
 console.log('background.js init');

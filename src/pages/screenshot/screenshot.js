@@ -228,9 +228,9 @@ function copyCanvasToClipboard(mimetype, dataUrl) {
   }
   // 使用Clipboard API写入剪贴板
   navigator.clipboard.write([ clipboarditem ]).then(() => {
-      console.log('图片已复制到剪贴板');
+    alert('Copy image ok!');
   }).catch(err => {
-      console.error('无法复制到剪贴板', err);
+    alert('Copy image failed', err);
   });
 }
 

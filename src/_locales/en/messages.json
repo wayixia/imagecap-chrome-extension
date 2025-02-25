@@ -217,6 +217,11 @@
     "description" : ""
   },
 
+  "extAdSupport": {
+    "message" : "Ads Display",
+    "description" : ""
+  },
+
   "saveOptions" : {
     "message": "Save successfully!",
     "description": ""

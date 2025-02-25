@@ -217,6 +217,11 @@
     "description" : ""
   },
 
+  "extAdSupport": {
+    "message" : "广告支持",
+    "description" : ""
+  },
+
   "saveOptions" : {
     "message": "设置保存成功!",
     "description": ""
