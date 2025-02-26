@@ -69,6 +69,10 @@ function wayixia_ui_init()
     Q.$('github-stars').src = "https://badgen.net/github/stars/wayixia/imagecap-chrome-extension";
   }
 
+  if( Q.$('wayixia-ads')) {
+    Q.$('wayixia-ads').style.display = 'none';
+  }
+
 if(Q.$('wayixia-help')) { // wayixia-help
 
 // init drop menu

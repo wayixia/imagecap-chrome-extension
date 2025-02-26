@@ -1,6 +1,6 @@
 {
    "name": "__MSG_extName__",
-   "version": "1.26",
+   "version": "3.0",
    "default_locale" : "en",
    "manifest_version": 3,
    "short_name": "__MSG_extShortName__",

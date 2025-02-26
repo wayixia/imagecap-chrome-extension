@@ -434,7 +434,7 @@ function initialize () {
       if(!is_blocked) {
         accept_length++;
         update_ui_count();
-        config.getall2( {filter_width:1000, filter_height:1000}, (c) => {
+        config.getall2( {filter_width:0, filter_height:0}, (c) => {
           wayixia_images_box.check_size( item, c.filter_width, c.filter_height );
         });
       }
@@ -474,6 +474,8 @@ function initialize () {
           blocked_images.push(url);
       }
     }
+
+    console.log( accept_images);
     //accept_length -= blocked_images.length;
     update_ui_count();
     return wayixia_images_box.display_images(accept_images, data, init_filter_image_items( blocked_images));

@@ -7,11 +7,6 @@
 import Analytics from './google-analytics.js';
 
 /**
- * Add your Analytics tracking ID here.
- */
-var _AnalyticsCode = 'UA-57909309-4';
-
-/**
  * Track a click on a button using the asynchronous tracking API.
  *
  * See http://code.google.com/apis/analytics/docs/tracking/asyncTracking.html
@@ -22,13 +17,13 @@ export function wayixia_track_button_click(e) {
 }
 
 export function wayixia_track_event(id, from) {
-  Analytics.fireEvent(from, { id: id });
+  //Analytics.fireEvent(from, { id: id });
 }
 
 
 // Fire a page view event on load
 window.addEventListener('load', () => {
-  Analytics.firePageViewEvent(document.title, document.location.href);
+  //Analytics.firePageViewEvent(document.title, document.location.href);
 });
 
 

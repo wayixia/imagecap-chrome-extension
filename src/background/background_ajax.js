@@ -88,6 +88,7 @@ json_encode(v) {
  */
 
 ajaxc(json) {
+  var self = this;
   var queue = !!json.queue;
   if( queue ) { 
     this.ajaxQueue( json, _data_handler );  
@@ -96,7 +97,7 @@ ajaxc(json) {
   }
 
   function _data_handler(data) {
-    return "postdata="+encodeURIComponent(encodeURIComponent(Q.json2str(data))); 
+    return "postdata="+encodeURIComponent(encodeURIComponent(self.json_encode(data))); 
   };
 }
 
@@ -164,9 +165,9 @@ newAjax(json, data_handler, complete_handler) {
   var request = json || {};
   var command = request.command.toString();
   if(command.indexOf('?') == -1) {
-    command = command + '?' + '&rnd=' + Q.rnd(16);
+    command = command + '?' + '&rnd=' + this.rnd(16);
   } else {
-    command = command + '&rnd=' + Q.rnd(16);
+    command = command + '&rnd=' + this.rnd(16);
   }
 
   var method = request.method || "POST";
@@ -200,6 +201,8 @@ newAjax(json, data_handler, complete_handler) {
       request.oncomplete && request.oncomplete(xmlhttp);
       complete_handler && complete_handler( false );
     }
+  }).catch((error)=>{
+    complete_handler && complete_handler( false ); 
   });
 
 
