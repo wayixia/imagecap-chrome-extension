@@ -11,7 +11,6 @@
       "contextMenus", 
       "downloads", 
       "webRequest",
-      "offscreen",
       "storage",
       "clipboardWrite"
     ],
